@@ -39,7 +39,7 @@ import java.net.Socket;
 
 /**
  * <p>
- * TODO document this type
+ * Implements a basic cross-domain policy server for Flash.
  * </p>
  * <p>
  * Started Feb 27, 2011

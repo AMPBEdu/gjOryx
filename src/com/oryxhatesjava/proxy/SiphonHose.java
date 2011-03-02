@@ -41,6 +41,17 @@ import java.nio.CharBuffer;
 
 import net.clarenceho.crypto.RC4;
 
+/**
+ * <p>
+ * Takes an InputStream and siphons it through an OutputStream after analyzing
+ * it for RotMG data.
+ * </p>
+ * <p>
+ * Started Mar 2, 2011
+ * </p>
+ * 
+ * @author Furyhunter
+ */
 public class SiphonHose implements Runnable {
     
     public static byte[] KEY = new byte[] { 0x7a, 0x43, 0x56, 0x32, 0x74, 0x73,
