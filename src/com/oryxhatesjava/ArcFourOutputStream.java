@@ -52,7 +52,7 @@ public class ArcFourOutputStream extends FilterOutputStream {
     
     private RC4 cipher;
     
-    public ArcFourOutputStream(OutputStream output) {
+    protected ArcFourOutputStream(OutputStream output) {
         this(output, (String) null);
     }
     
