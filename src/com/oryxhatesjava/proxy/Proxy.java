@@ -52,6 +52,11 @@ public class Proxy implements Runnable {
     private Socket clientSocket = null;
     private Socket serverSocket = null;
     
+    public static byte[] CLIENTKEY = new byte[] { 0x7a, 0x43, 0x56, 0x32, 0x74,
+            0x73, 0x59, 0x30, 0x5d, 0x73, 0x3b, 0x7c, 0x5d };
+    public static byte[] SERVERKEY = new byte[] { 0x68, 0x50, 0x76, 0x4a, 0x28,
+            0x52, 0x7d, 0x4d, 0x70, 0x24, 0x2d, 0x63, 0x67 };
+    
     /*
      * (non-Javadoc)
      * @see java.lang.Runnable#run()
@@ -97,10 +102,12 @@ public class Proxy implements Runnable {
                 
                 Thread clientThread = new Thread(new SiphonHose(
                         clientSocket.getInputStream(),
-                        serverSocket.getOutputStream()), "ClientDaemon");
+                        serverSocket.getOutputStream(), CLIENTKEY),
+                        "ClientDaemon");
                 Thread serverThread = new Thread(new SiphonHose(
                         serverSocket.getInputStream(),
-                        clientSocket.getOutputStream()), "ServerDaemon");
+                        clientSocket.getOutputStream(), SERVERKEY),
+                        "ServerDaemon");
                 
                 clientThread.start();
                 serverThread.start();
