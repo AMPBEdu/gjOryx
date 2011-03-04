@@ -31,6 +31,10 @@
 
 package com.oryxhatesjava.net;
 
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+
 /**
  * <p>
  * Sent by client to ensure it is up to date.
@@ -56,9 +60,33 @@ public class HelloPacket extends Packet {
         this.password = password;
     }
     
+    public HelloPacket(DataInput read) {
+        try {
+            parse(read);
+        } catch (IOException e) {
+            
+        }
+    }
+    
+    @Override
+    public void parse(DataInput read) throws IOException {
+        this.buildVersion = read.readUTF();
+        this.gameId = read.readInt();
+        this.guid = read.readUTF();
+        this.password = read.readUTF();
+    }
+    
     @Override
     public String toString() {
         return "HELLO " + buildVersion + " " + gameId + " " + guid + " "
                 + password;
+    }
+    
+    @Override
+    public void write(DataOutput write) throws IOException {
+        write.writeUTF(buildVersion);
+        write.writeInt(gameId);
+        write.writeUTF(guid);
+        write.writeUTF(password);
     }
 }

@@ -31,9 +31,10 @@
 
 package com.oryxhatesjava.net;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
-import java.nio.ByteBuffer;
+import java.lang.reflect.Array;
 
 /**
  * <p>
@@ -45,25 +46,38 @@ import java.nio.ByteBuffer;
  * 
  * @author Furyhunter
  */
-public abstract class Packet {
+public class Packet {
     
     public static final int HELLO = 17;
+    private byte[] data;
     
-    public abstract String toString();
+    protected Packet() {
+        
+    }
     
-    public static Packet parse(DataInputStream stream) throws IOException {
-        int size = stream.readInt();
-        int command = stream.readByte();
-        switch (command) {
-            case HELLO: {
-                String bv = stream.readUTF();
-                int gId = stream.readInt();
-                String guid = stream.readUTF();
-                String pw = stream.readUTF();
-                return new HelloPacket(bv, gId, guid, pw);
-            }
+    protected Packet(byte[] data) {
+        this.data = data;
+    }
+    
+    public String toString() {
+        return "Unknown " + data;
+    }
+    
+    public void write(DataOutput write) throws IOException {
+        write.write(data);
+    }
+    
+    public void parse(DataInput read) throws IOException {
+        read.readFully(data);
+    }
+    
+    public static Packet parse(int type, byte[] data) {
+        DataInput read = new ByteArrayDataInput(data);
+        switch (type) {
+            case HELLO:
+                return new HelloPacket(read);
             default:
-                return null;
+                return new Packet(data);
         }
     }
 }

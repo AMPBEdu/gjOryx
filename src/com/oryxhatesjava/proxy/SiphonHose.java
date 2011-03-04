@@ -37,8 +37,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.oryxhatesjava.ArcFourInputStream;
-import com.oryxhatesjava.ArcFourOutputStream;
+import net.clarenceho.crypto.RC4;
+
 import com.oryxhatesjava.net.Packet;
 
 /**
@@ -56,22 +56,30 @@ public class SiphonHose implements Runnable {
     
     public DataOutputStream replyTo;
     public DataInputStream recv;
-    public byte[] key;
+    public RC4 cipher;
     
     public SiphonHose(InputStream recv, OutputStream replyTo, byte[] key) {
-        this.key = key.clone();
-        this.recv = new DataInputStream(new ArcFourInputStream(recv, this.key));
-        this.replyTo = new DataOutputStream(new ArcFourOutputStream(replyTo,
-                this.key));
+        this.recv = new DataInputStream(recv);
+        this.replyTo = new DataOutputStream(replyTo);
+        this.cipher = new RC4(key);
     }
     
     @Override
     public void run() {
         try {
             while (true) {
-                Packet pkt = Packet.parse(recv);
-                System.out.println(pkt);
-                pkt.write(replyTo);
+                int length = recv.readInt();
+                int type = recv.readByte();
+                byte[] buf = new byte[length - 5];
+                recv.readFully(buf);
+                Packet pkt = Packet.parse(type, cipher.rc4(buf));
+                if (pkt instanceof com.oryxhatesjava.net.HelloPacket) {
+                    System.out.println(pkt);
+                }
+                replyTo.writeInt(length);
+                replyTo.writeByte(type);
+                replyTo.write(buf);
+                replyTo.flush();
             }
         } catch (IOException e) {
             System.err.println("Error on SiphonHose "
