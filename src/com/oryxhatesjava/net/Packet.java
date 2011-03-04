@@ -48,7 +48,52 @@ import java.lang.reflect.Array;
  */
 public class Packet {
     
+    public static final int FAILURE = 0;
+    public static final int CREATE_SUCCESS = 1;
+    public static final int CREATE = 2;
+    public static final int PLAYERSHOOT = 3;
+    public static final int MOVE = 4;
+    public static final int PLAYERTEXT = 5;
+    public static final int TEXT = 6;
+    public static final int SHOOT = 7;
+    public static final int DAMAGE = 8;
+    public static final int UNKNOWN1 = 9;
+    public static final int UPDATE = 10;
+    public static final int NOTIFICATION = 12;
+    public static final int OBJECTS = 13;
+    public static final int INVSWAP = 14;
+    public static final int USEITEM = 15;
+    public static final int EFFECT = 16;
     public static final int HELLO = 17;
+    public static final int GOTO = 18;
+    public static final int INVDROP = 19;
+    public static final int INVRESULT = 20;
+    public static final int RECONNECT = 21;
+    public static final int PING = 22;
+    public static final int PONG = 23;
+    public static final int MAPINFO = 24;
+    public static final int LOAD = 25;
+    public static final int PIC = 26;
+    public static final int SETCONDITION = 27;
+    public static final int TELEPORT = 28;
+    public static final int USEPORTAL = 30;
+    public static final int DEATH = 31;
+    public static final int BUY = 33;
+    public static final int BUYRESULT = 34;
+    public static final int AOE = 35;
+    public static final int GROUNDDAMAGE = 36;
+    public static final int PLAYERHIT = 37;
+    public static final int ENEMYHIT = 38;
+    public static final int AOEHIT = 39;
+    public static final int SHOOTACK = 40;
+    public static final int OTHERHIT = 41;
+    public static final int SQUAREHIT = 42;
+    public static final int UNKNOWN2 = 43;
+    public static final int GOTOACK = 44;
+    public static final int STAR = 45;
+    public static final int STARLIST = 46;
+    public static final int QUESTOBJID = 47;
+    
     private byte[] data;
     
     protected Packet() {
