@@ -73,9 +73,6 @@ public class SiphonHose implements Runnable {
                 byte[] buf = new byte[length - 5];
                 recv.readFully(buf);
                 Packet pkt = Packet.parse(type, cipher.rc4(buf));
-                if (pkt instanceof com.oryxhatesjava.net.HelloPacket) {
-                    System.out.println(pkt);
-                }
                 replyTo.writeInt(length);
                 replyTo.writeByte(type);
                 replyTo.write(buf);
