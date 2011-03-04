@@ -178,7 +178,7 @@ public class ByteArrayDataInput implements DataInput {
             position += 1;
             int b2 = data[position];
             position += 1;
-            return ((b1 << 8) + (b2 << 0)) & 0xFFFF;
+            return (((b1 & 0xff) << 8) | (b2 & 0xff));
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new EOFException();
         }
