@@ -31,15 +31,15 @@
 
 package com.oryxhatesjava.proxy;
 
-import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.nio.CharBuffer;
 
-import net.clarenceho.crypto.RC4;
+import com.oryxhatesjava.ArcFourInputStream;
+import com.oryxhatesjava.ArcFourOutputStream;
+import com.oryxhatesjava.net.Packet;
 
 /**
  * <p>
@@ -54,41 +54,29 @@ import net.clarenceho.crypto.RC4;
  */
 public class SiphonHose implements Runnable {
     
-    public static byte[] KEY = new byte[] { 0x7a, 0x43, 0x56, 0x32, 0x74, 0x73,
-            0x59, 0x30, 0x5d, 0x73, 0x3b, 0x7c, 0x5d };
-    // public static byte[] KEY = new byte[] { 0x68, 0x50, 0x76, 0x4a, 0x28,
-    // 0x52,
-    // 0x7d, 0x4d, 0x70, 0x24, 0x2d, 0x63, 0x67 };
-    public PrintWriter replyTo;
-    public BufferedReader recv;
+    public DataOutputStream replyTo;
+    public DataInputStream recv;
+    public byte[] key;
     
-    public SiphonHose(InputStream recv, OutputStream replyTo) {
-        this.recv = new BufferedReader(new InputStreamReader(recv));
-        this.replyTo = new PrintWriter(replyTo);
+    public SiphonHose(InputStream recv, OutputStream replyTo, byte[] key) {
+        this.key = key.clone();
+        this.recv = new DataInputStream(new ArcFourInputStream(recv, this.key));
+        this.replyTo = new DataOutputStream(new ArcFourOutputStream(replyTo,
+                this.key));
     }
     
     @Override
     public void run() {
-        int size;
-        CharBuffer buf = CharBuffer.allocate(8192);
-        RC4 rc = new RC4(KEY);
         try {
-            while ((size = recv.read(buf)) > -1) {
-                String str;
-                byte[] dec = rc.rc4((str = new String(buf.array())));
-                // Make decoded string
-                String decstr = Thread.currentThread().getName();
-                for (int i = 0; i < dec.length; i++) {
-                    decstr += Short.toString(dec[i]) + " ";
-                }
-                buf.clear();
-                System.out.println(decstr);
-                replyTo.print(str);
-                replyTo.flush();
+            while (true) {
+                Packet pkt = Packet.parse(recv);
+                System.out.println(pkt);
+                pkt.write(replyTo);
             }
         } catch (IOException e) {
             System.err.println("Error on SiphonHose "
                     + Thread.currentThread().getName() + ": " + e.getMessage());
+            e.printStackTrace();
         }
         
         System.out
