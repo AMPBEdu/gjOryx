@@ -134,6 +134,8 @@ public class Packet implements Writable, Parsable {
                 return new CreatePacket(read);
             case HELLO:
                 return new HelloPacket(read);
+            case PLAYERSHOOT:
+                return new PlayerShootPacket(read);
             default:
                 return new Packet(type, data);
         }
