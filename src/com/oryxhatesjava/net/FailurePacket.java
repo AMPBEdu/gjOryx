@@ -47,8 +47,8 @@ import java.io.IOException;
  */
 public class FailurePacket extends Packet {
     
-    private int errorId;
-    private String errorDescription;
+    public int errorId;
+    public String errorDescription;
     
     public FailurePacket(int errorId, String errorDescription) {
         this.type = Packet.FAILURE;
