@@ -51,10 +51,10 @@ import com.oryxhatesjava.data.Writable;
 public class CreatePacket extends Packet implements Parsable, Writable {
     
     public int charId;
-    public int objectType;
+    public short objectType;
     public String name;
     
-    public CreatePacket(int charId, int objectType, String name) {
+    public CreatePacket(int charId, short objectType, String name) {
         this.charId = charId;
         this.objectType = objectType;
         this.name = new String(name);
@@ -72,14 +72,14 @@ public class CreatePacket extends Packet implements Parsable, Writable {
     @Override
     public void parseFromDataInput(DataInput read) throws IOException {
         charId = read.readInt();
-        objectType = read.readInt();
+        objectType = read.readShort();
         name = read.readUTF();
     }
     
     @Override
     public void writeToDataOutput(DataOutput write) throws IOException {
         write.writeInt(charId);
-        write.writeInt(objectType);
+        write.writeShort(objectType);
         write.writeUTF(name);
     }
     

@@ -52,12 +52,12 @@ import com.oryxhatesjava.data.Writable;
 public class PlayerShootPacket extends Packet implements Writable, Parsable {
     
     public int time;
-    public long bulletId; // uint
-    public int containerType;
+    public byte bulletId; // uint
+    public short containerType;
     public Location startingPos;
     public float angle;
     
-    public PlayerShootPacket(int time, long bulletId, int containerType,
+    public PlayerShootPacket(int time, byte bulletId, short containerType,
             Location startingPos, float angle) {
         this.type = Packet.PLAYERSHOOT;
         this.time = time;
@@ -79,8 +79,8 @@ public class PlayerShootPacket extends Packet implements Writable, Parsable {
     @Override
     public void parseFromDataInput(DataInput read) throws IOException {
         time = read.readInt();
-        bulletId = read.readInt() & 0xFFFFFFFF;
-        containerType = read.readInt();
+        bulletId = read.readByte();
+        containerType = read.readShort();
         startingPos = new Location(read.readFloat(), read.readFloat());
         angle = read.readFloat();
     }
@@ -88,8 +88,8 @@ public class PlayerShootPacket extends Packet implements Writable, Parsable {
     @Override
     public void writeToDataOutput(DataOutput write) throws IOException {
         write.writeInt(time);
-        write.writeInt((int) bulletId);
-        write.writeInt(containerType);
+        write.writeByte(bulletId);
+        write.writeShort(containerType);
         startingPos.writeToDataOutput(write);
         write.writeFloat(angle);
     }
