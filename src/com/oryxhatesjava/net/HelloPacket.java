@@ -64,6 +64,7 @@ public class HelloPacket extends Packet {
     public HelloPacket(DataInput read) {
         try {
             parse(read);
+            type = Packet.HELLO;
         } catch (IOException e) {
             
         }
