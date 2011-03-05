@@ -122,6 +122,8 @@ public class Packet {
     public static Packet parse(int type, byte[] data) {
         DataInput read = new ByteArrayDataInput(data);
         switch (type) {
+            case FAILURE:
+                return new FailurePacket(read);
             case HELLO:
                 return new HelloPacket(read);
             default:
