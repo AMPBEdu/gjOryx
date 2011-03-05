@@ -102,7 +102,7 @@ public class Packet {
         
     }
     
-    protected Packet(byte[] data) {
+    protected Packet(int type, byte[] data) {
         this.data = data.clone();
     }
     
@@ -124,7 +124,7 @@ public class Packet {
             case HELLO:
                 return new HelloPacket(read);
             default:
-                return new Packet(data);
+                return new Packet(type, data);
         }
     }
 }
