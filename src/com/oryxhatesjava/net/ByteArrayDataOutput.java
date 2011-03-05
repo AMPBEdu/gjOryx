@@ -48,6 +48,7 @@ import java.nio.ByteBuffer;
 public class ByteArrayDataOutput implements DataOutput {
     
     private ByteBuffer data;
+    private int length;
     
     public ByteArrayDataOutput() {
         data = ByteBuffer.allocate(4096);
@@ -58,7 +59,12 @@ public class ByteArrayDataOutput implements DataOutput {
     }
     
     public byte[] getArray() {
-        return data.array();
+        byte[] ret = data.array();
+        byte[] pack = new byte[length];
+        for (int i = 0; i < length; i++) {
+            pack[i] = ret[i];
+        }
+        return pack;
     }
     
     /*
@@ -68,6 +74,7 @@ public class ByteArrayDataOutput implements DataOutput {
     @Override
     public void write(int b) throws IOException {
         writeByte(b);
+        length += Byte.SIZE;
     }
     
     /*
@@ -86,6 +93,8 @@ public class ByteArrayDataOutput implements DataOutput {
     @Override
     public void write(byte[] b, int off, int len) throws IOException {
         data.put(b, off, len);
+        length += len;
+        
     }
     
     /*
@@ -99,6 +108,7 @@ public class ByteArrayDataOutput implements DataOutput {
         } else {
             data.put((byte) 0x00);
         }
+        length += Byte.SIZE;
     }
     
     /*
@@ -108,6 +118,7 @@ public class ByteArrayDataOutput implements DataOutput {
     @Override
     public void writeByte(int v) throws IOException {
         data.put((byte) v);
+        length += Byte.SIZE;
     }
     
     /*
@@ -117,6 +128,7 @@ public class ByteArrayDataOutput implements DataOutput {
     @Override
     public void writeShort(int v) throws IOException {
         data.putShort((short) v);
+        length += Short.SIZE;
     }
     
     /*
@@ -126,6 +138,7 @@ public class ByteArrayDataOutput implements DataOutput {
     @Override
     public void writeChar(int v) throws IOException {
         data.putChar((char) v);
+        length += Character.SIZE;
     }
     
     /*
@@ -135,6 +148,7 @@ public class ByteArrayDataOutput implements DataOutput {
     @Override
     public void writeInt(int v) throws IOException {
         data.putInt(v);
+        length += Integer.SIZE;
     }
     
     /*
@@ -144,6 +158,7 @@ public class ByteArrayDataOutput implements DataOutput {
     @Override
     public void writeLong(long v) throws IOException {
         data.putLong(v);
+        length += Long.SIZE;
     }
     
     /*
@@ -153,6 +168,7 @@ public class ByteArrayDataOutput implements DataOutput {
     @Override
     public void writeFloat(float v) throws IOException {
         data.putFloat(v);
+        length += Float.SIZE;
     }
     
     /*
@@ -162,6 +178,7 @@ public class ByteArrayDataOutput implements DataOutput {
     @Override
     public void writeDouble(double v) throws IOException {
         data.putDouble(v);
+        length += Double.SIZE;
     }
     
     /*
@@ -171,6 +188,7 @@ public class ByteArrayDataOutput implements DataOutput {
     @Override
     public void writeBytes(String s) throws IOException {
         write(s.getBytes());
+        length += s.getBytes().length;
     }
     
     /*
@@ -183,6 +201,7 @@ public class ByteArrayDataOutput implements DataOutput {
         s.getChars(0, s.length(), c, 0);
         for (char ch : c) {
             writeChar(ch);
+            length += Character.SIZE;
         }
     }
     
@@ -194,7 +213,9 @@ public class ByteArrayDataOutput implements DataOutput {
     public void writeUTF(String s) throws IOException {
         byte[] bytes = s.getBytes("UTF-8");
         writeShort(s.length());
+        length += Short.SIZE;
         write(bytes);
+        length += bytes.length;
     }
     
 }
