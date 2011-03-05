@@ -88,9 +88,19 @@ public class PlayerShootPacket extends Packet implements Writable, Parsable {
     @Override
     public void writeToDataOutput(DataOutput write) throws IOException {
         write.writeInt(time);
-        write.writeInt((int)bulletId);
+        write.writeInt((int) bulletId);
         write.writeInt(containerType);
         startingPos.writeToDataOutput(write);
         write.writeFloat(angle);
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see com.oryxhatesjava.net.Packet#toString()
+     */
+    @Override
+    public String toString() {
+        return "PLAYERSHOOT " + time + " " + bulletId + " " + containerType
+                + " " + startingPos + " " + angle;
     }
 }
