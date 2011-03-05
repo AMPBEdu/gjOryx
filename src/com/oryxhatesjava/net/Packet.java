@@ -124,6 +124,10 @@ public class Packet {
         switch (type) {
             case FAILURE:
                 return new FailurePacket(read);
+            case CREATE_SUCCESS:
+                return new CreateSuccessPacket(read);
+            case CREATE:
+                return new CreatePacket(read);
             case HELLO:
                 return new HelloPacket(read);
             default:
