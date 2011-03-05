@@ -103,7 +103,7 @@ public class Packet {
     }
     
     protected Packet(byte[] data) {
-        this.data = data;
+        this.data = data.clone();
     }
     
     public String toString() {
