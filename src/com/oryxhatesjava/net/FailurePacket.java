@@ -35,6 +35,9 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
+import com.oryxhatesjava.data.Parsable;
+import com.oryxhatesjava.data.Writable;
+
 /**
  * <p>
  * TODO document this type
@@ -45,7 +48,7 @@ import java.io.IOException;
  * 
  * @author Furyhunter
  */
-public class FailurePacket extends Packet {
+public class FailurePacket extends Packet implements Writable, Parsable {
     
     public int errorId;
     public String errorDescription;
@@ -59,20 +62,20 @@ public class FailurePacket extends Packet {
     public FailurePacket(DataInput read) {
         try {
             this.type = Packet.FAILURE;
-            parse(read);
+            parseFromDataInput(read);
         } catch (IOException e) {
             
         }
     }
     
     @Override
-    public void parse(DataInput read) throws IOException {
+    public void parseFromDataInput(DataInput read) throws IOException {
         errorId = read.readInt();
         errorDescription = read.readUTF();
     }
     
     @Override
-    public void write(DataOutput write) throws IOException {
+    public void writeToDataOutput(DataOutput write) throws IOException {
         write.writeInt(errorId);
         write.writeUTF(errorDescription);
     }

@@ -35,6 +35,9 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
+import com.oryxhatesjava.data.Parsable;
+import com.oryxhatesjava.data.Writable;
+
 /**
  * <p>
  * Sent by client to ensure it is up to date.
@@ -45,7 +48,7 @@ import java.io.IOException;
  * 
  * @author Furyhunter
  */
-public class HelloPacket extends Packet {
+public class HelloPacket extends Packet implements Writable, Parsable {
     
     public String buildVersion;
     public int gameId;
@@ -63,7 +66,7 @@ public class HelloPacket extends Packet {
     
     public HelloPacket(DataInput read) {
         try {
-            parse(read);
+            parseFromDataInput(read);
             type = Packet.HELLO;
         } catch (IOException e) {
             
@@ -71,7 +74,7 @@ public class HelloPacket extends Packet {
     }
     
     @Override
-    public void parse(DataInput read) throws IOException {
+    public void parseFromDataInput(DataInput read) throws IOException {
         this.buildVersion = read.readUTF();
         this.gameId = read.readInt();
         this.guid = read.readUTF();
@@ -85,7 +88,7 @@ public class HelloPacket extends Packet {
     }
     
     @Override
-    public void write(DataOutput write) throws IOException {
+    public void writeToDataOutput(DataOutput write) throws IOException {
         write.writeUTF(buildVersion);
         write.writeInt(gameId);
         write.writeUTF(guid);

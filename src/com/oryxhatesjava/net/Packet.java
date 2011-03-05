@@ -34,7 +34,9 @@ package com.oryxhatesjava.net;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.lang.reflect.Array;
+
+import com.oryxhatesjava.data.Parsable;
+import com.oryxhatesjava.data.Writable;
 
 /**
  * <p>
@@ -46,7 +48,7 @@ import java.lang.reflect.Array;
  * 
  * @author Furyhunter
  */
-public class Packet {
+public class Packet implements Writable, Parsable {
     
     public static final int FAILURE = 0;
     public static final int CREATE_SUCCESS = 1;
@@ -111,11 +113,13 @@ public class Packet {
         return "Unknown " + data;
     }
     
-    public void write(DataOutput write) throws IOException {
+    @Override
+    public void writeToDataOutput(DataOutput write) throws IOException {
         write.write(data);
     }
     
-    public void parse(DataInput read) throws IOException {
+    @Override
+    public void parseFromDataInput(DataInput read) throws IOException {
         read.readFully(data);
     }
     

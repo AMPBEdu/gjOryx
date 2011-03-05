@@ -35,6 +35,9 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
+import com.oryxhatesjava.data.Parsable;
+import com.oryxhatesjava.data.Writable;
+
 /**
  * <p>
  * TODO document this type
@@ -45,7 +48,7 @@ import java.io.IOException;
  * 
  * @author Furyhunter
  */
-public class CreatePacket extends Packet {
+public class CreatePacket extends Packet implements Parsable, Writable {
     
     public int charId;
     public int objectType;
@@ -60,21 +63,21 @@ public class CreatePacket extends Packet {
     public CreatePacket(DataInput read) {
         try {
             type = Packet.CREATE;
-            parse(read);
+            parseFromDataInput(read);
         } catch (IOException e) {
             
         }
     }
     
     @Override
-    public void parse(DataInput read) throws IOException {
+    public void parseFromDataInput(DataInput read) throws IOException {
         charId = read.readInt();
         objectType = read.readInt();
         name = read.readUTF();
     }
     
     @Override
-    public void write(DataOutput write) throws IOException {
+    public void writeToDataOutput(DataOutput write) throws IOException {
         write.writeInt(charId);
         write.writeInt(objectType);
         write.writeUTF(name);
