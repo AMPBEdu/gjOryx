@@ -54,6 +54,7 @@ public class HelloPacket extends Packet {
     
     public HelloPacket(String buildVersion, int gameId, String guid,
             String password) {
+        type = Packet.HELLO;
         this.buildVersion = buildVersion;
         this.gameId = gameId;
         this.guid = guid;

@@ -94,6 +94,8 @@ public class Packet {
     public static final int STARLIST = 46;
     public static final int QUESTOBJID = 47;
     
+    public int type;
+    
     private byte[] data;
     
     protected Packet() {
