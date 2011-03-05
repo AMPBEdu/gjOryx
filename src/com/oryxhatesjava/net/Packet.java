@@ -138,6 +138,8 @@ public class Packet implements Writable, Parsable {
                 return new MovePacket(read);
             case PLAYERTEXT:
                 return new PlayerTextPacket(read);
+            case TEXT:
+                return new TextPacket(read);
             case HELLO:
                 return new HelloPacket(read);
             default:
