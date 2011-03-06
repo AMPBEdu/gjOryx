@@ -87,6 +87,7 @@ public class Proxy implements Runnable {
         // Set up flash policy server
         Thread flashPolicyServer = new Thread(new FlashPolicyServer(),
                 "FlashPolicyServer");
+        flashPolicyServer.setDaemon(true);
         flashPolicyServer.start();
         
         try {
@@ -109,9 +110,9 @@ public class Proxy implements Runnable {
                         serverSocket.getInputStream(),
                         clientSocket.getOutputStream(), SERVERKEY);
                 
-                Date current = new Date(System.currentTimeMillis());
-                clientHose.openOutputFile(new File("c2s-" + current));
-                serverHose.openOutputFile(new File("s2c-" + current));
+                long current = System.currentTimeMillis();
+                clientHose.openOutputFile("c2s-" + current + ".txt");
+                serverHose.openOutputFile("s2c-" + current + ".txt");
                 
                 Thread clientThread = new Thread(clientHose, "ClientDaemon");
                 Thread serverThread = new Thread(serverHose, "ServerDaemon");

@@ -35,6 +35,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -103,7 +104,8 @@ public class SiphonHose implements Runnable {
         }
     }
     
-    public void openOutputFile(File output) throws FileNotFoundException {
-        fileOut = new PrintWriter(output);
+    public void openOutputFile(String output) throws IOException {
+        FileWriter writ = new FileWriter(output);
+        fileOut = new PrintWriter(writ, true);
     }
 }
