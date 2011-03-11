@@ -33,9 +33,12 @@ package com.oryxhatesjava.proxy;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 
 import net.clarenceho.crypto.RC4;
 
@@ -57,6 +60,7 @@ public class SiphonHose implements Runnable {
     public DataOutputStream replyTo;
     public DataInputStream recv;
     public RC4 cipher;
+    private PrintWriter fileOut;
     
     public SiphonHose(InputStream recv, OutputStream replyTo, byte[] key) {
         this.recv = new DataInputStream(recv);
@@ -73,6 +77,9 @@ public class SiphonHose implements Runnable {
                 byte[] buf = new byte[length - 5];
                 recv.readFully(buf);
                 Packet pkt = Packet.parse(type, cipher.rc4(buf));
+                if (fileOut != null) {
+                    fileOut.println(pkt);
+                }
                 replyTo.writeInt(length);
                 replyTo.writeByte(type);
                 replyTo.write(buf);
@@ -88,10 +95,15 @@ public class SiphonHose implements Runnable {
                 .println("End SiphonHose " + Thread.currentThread().getName());
         
         try {
+            fileOut.close();
             recv.close();
             replyTo.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public void openOutputFile(File output) throws FileNotFoundException {
+        fileOut = new PrintWriter(output);
     }
 }

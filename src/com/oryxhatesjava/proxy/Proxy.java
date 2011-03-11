@@ -31,10 +31,12 @@
 
 package com.oryxhatesjava.proxy;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Date;
 
 /**
  * <p>
@@ -100,14 +102,19 @@ public class Proxy implements Runnable {
                 serverSocket = new Socket("184.72.218.199", 2050); // "Oryx"
                 System.out.println("Connected to Oryx for " + ipString);
                 
-                Thread clientThread = new Thread(new SiphonHose(
+                SiphonHose clientHose = new SiphonHose(
                         clientSocket.getInputStream(),
-                        serverSocket.getOutputStream(), CLIENTKEY),
-                        "ClientDaemon");
-                Thread serverThread = new Thread(new SiphonHose(
+                        serverSocket.getOutputStream(), CLIENTKEY);
+                SiphonHose serverHose = new SiphonHose(
                         serverSocket.getInputStream(),
-                        clientSocket.getOutputStream(), SERVERKEY),
-                        "ServerDaemon");
+                        clientSocket.getOutputStream(), SERVERKEY);
+                
+                Date current = new Date(System.currentTimeMillis());
+                clientHose.openOutputFile(new File("c2s-" + current));
+                serverHose.openOutputFile(new File("s2c-" + current));
+                
+                Thread clientThread = new Thread(clientHose, "ClientDaemon");
+                Thread serverThread = new Thread(serverHose, "ServerDaemon");
                 
                 clientThread.start();
                 serverThread.start();
