@@ -172,6 +172,8 @@ public class Packet implements Parsable {
             	return new DamagePacket(in);
             case UPDATE:
             	return new UpdatePacket(in);
+            case NOTIFICATION:
+            	return new NotificationPacket(in);
             case INVSWAP:
             	return new InvSwapPacket(in);
             case USEITEM:
