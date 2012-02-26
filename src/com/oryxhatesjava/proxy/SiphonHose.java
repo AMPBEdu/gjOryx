@@ -84,7 +84,6 @@ public class SiphonHose implements Runnable {
                 RC4State oldState = cipher.getState();
                 byte[] decr = cipher.rc4(buf);
                 Packet pkt = Packet.parse(type, decr);
-                System.out.println(Arrays.toString(cipher.getState().state));
                 cipher.setState(oldState);
                 
                 // filter
@@ -106,10 +105,10 @@ public class SiphonHose implements Runnable {
                 ByteArrayDataOutput bado = new ByteArrayDataOutput();
                 pkt.writeToDataOutput(bado);
                 recr = bado.getArray();
-                System.out.println(Arrays.toString(decr));
-                System.out.println(Arrays.toString(recr));
+                if (Arrays.hashCode(recr) != Arrays.hashCode(decr)) {
+                	throw new IllegalArgumentException("Buffers do not match");
+                }
                 recr = cipher.rc4(recr);
-                System.out.println(Arrays.toString(cipher.getState().state));
                 replyTo.writeInt(length);
                 replyTo.writeByte(type);
                 replyTo.write(recr);
