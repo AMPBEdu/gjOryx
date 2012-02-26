@@ -114,8 +114,8 @@ public class Packet implements Parsable {
     public static final int TRADEACCEPTED = 65; //TradeAcceptedPacket
     public static final int CLIENTSTAT = 66; //ClientStatPacket
     public static final int CHECKCREDITS = 67; //CheckCreditsPacket
-    public static final int UNKNOWN_68 = 68; // UNKNOWN8 guild related
-    public static final int UNKNOWN_69 = 69; // UNKNOWN9 guild related
+    public static final int ESCAPE = 68; //EscapePacket
+    public static final int FILE = 69; //FilePacket
     public static final int INVITEDTOGUILD = 74; //InvitedToGuildPacket
     public static final int JOINGUILD = 75; //JoinGuildPacket
     public static final int CHANGEGUILDRANK = 76; //ChangeGuildRankPacket
@@ -241,7 +241,7 @@ public class Packet implements Parsable {
             case CREATEGUILD:
             	return new CreateGuildPacket(in);
             case CREATEGUILDRESULT:
-            	return new CreateGuildResult(in);
+            	return new CreateGuildResultPacket(in);
             case GUILDREMOVE:
             	return new GuildRemovePacket(in);
             case GUILDINVITE:

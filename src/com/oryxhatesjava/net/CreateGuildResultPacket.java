@@ -37,12 +37,12 @@ import java.io.IOException;
 
 import com.oryxhatesjava.net.data.Parsable;
 
-public class CreateGuildResult extends Packet implements Parsable {
+public class CreateGuildResultPacket extends Packet implements Parsable {
 
 	public int result; //int
 	public String resultString; //UTF
 	
-	public CreateGuildResult(DataInput in) {
+	public CreateGuildResultPacket(DataInput in) {
 		try {
 			type = Packet.CREATEGUILDRESULT;
 			parseFromDataInput(in);
