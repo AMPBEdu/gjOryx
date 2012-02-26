@@ -38,7 +38,7 @@ import java.io.IOException;
 public class StatData implements Parsable {
 	public int type; //byte
 	public int value; //int
-	public String valueString;
+	public String valueString = "";
 	
 	public static final int UNKNOWN_1 = 1;
 	public static final int UNKNOWN_2 = 2;
@@ -67,7 +67,7 @@ public class StatData implements Parsable {
 	public static final int UNKNOWN_28 = 28;
 	public static final int UNKNOWN_29 = 29;
 	public static final int UNKNOWN_30 = 30;
-	public static final int UNKNOWN_31 = 31;
+	public static final int NAME = 31;
 	public static final int TEX1_STAT = 32;
 	public static final int TEX2_STAT = 33;
 	public static final int UNKNOWN_34 = 34;
@@ -102,28 +102,38 @@ public class StatData implements Parsable {
 	public static final int UNKNOWN_63 = 63;
 	public static final int UNKNOWN_64 = 64;
 	
+	public static final int[] STRINGS = {NAME, UNKNOWN_62};
+	
 	public StatData(DataInput in) {
 		try {
 			parseFromDataInput(in);
 		} catch (IOException e) {
-			type = 0;
-			value = 0;
-			valueString = "";
+			
 		}
 	}
 	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		type = in.readUnsignedByte();
-		type = in.readInt();
-		valueString = in.readUTF();
+		for (int i : STRINGS) {
+			if (type == i) {
+				valueString = in.readUTF();
+				return;
+			}
+		}
+		value = in.readInt();
 	}
 
 	@Override
 	public void writeToDataOutput(DataOutput out) throws IOException {
 		out.writeByte(type);
+		for (int i : STRINGS) {
+			if (type == i) {
+				out.writeUTF(valueString);
+				return;
+			}
+		}
 		out.writeInt(value);
-		out.writeUTF(valueString);
 	}
 	
 	@Override

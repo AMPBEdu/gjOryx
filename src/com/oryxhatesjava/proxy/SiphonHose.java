@@ -102,11 +102,16 @@ public class SiphonHose implements Runnable {
                 }
                 
                 byte[] recr;
-                ByteArrayDataOutput bado = new ByteArrayDataOutput();
+                ByteArrayDataOutput bado = new ByteArrayDataOutput(buf.length);
                 pkt.writeToDataOutput(bado);
                 recr = bado.getArray();
                 if (Arrays.hashCode(recr) != Arrays.hashCode(decr)) {
-                	throw new IllegalArgumentException("Buffers do not match");
+                	System.err.println(Arrays.toString(decr));
+                	System.err.println(Arrays.toString(recr));
+                	System.err.println(decr.length);
+                	System.err.println(recr.length);
+                	System.err.println("they don't match");
+                	return;
                 }
                 recr = cipher.rc4(recr);
                 replyTo.writeInt(length);

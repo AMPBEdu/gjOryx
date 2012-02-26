@@ -53,35 +53,61 @@ public class UpdatePacket extends Packet implements Parsable {
 			this.type = Packet.UPDATE;
 			parseFromDataInput(in);
 		} catch (IOException e) {
-			
+			e.printStackTrace();
 		}
 	}
 	
 	@Override
 	public void writeToDataOutput(DataOutput out) throws IOException {
-		Serializer.writeArray(out, tiles.toArray(new Parsable[tiles.size()]));
-		Serializer.writeArray(out, newobjs.toArray(new Parsable[newobjs.size()]));
-		Serializer.writeArray(out, drops, Serializer.AS_INT);
+		if (tiles != null && tiles.size() > 0) {
+			Serializer.writeArray(out, tiles.toArray(new Parsable[tiles.size()]));
+		} else {
+			out.writeShort(0);
+		}
+		
+		if (newobjs != null && newobjs.size() > 0) {
+			Serializer.writeArray(out, newobjs.toArray(new Parsable[newobjs.size()]));
+		} else {
+			out.writeShort(0);
+		}
+		
+		if (drops != null) {
+			Serializer.writeArray(out, drops, Serializer.AS_INT);
+		} else {
+			out.writeShort(0);
+		}
 	}
 
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
-		int size = in.readUnsignedShort();
-		tiles = new Vector<Tile>(size);
-		for (int i = 0; i < size; i++) {
-			tiles.add(new Tile(in));
+		int size = in.readShort();
+		if (size > 0) {
+			tiles = new Vector<Tile>();
+			for (int i = 0; i < size; i++) {
+				tiles.add(new Tile(in));
+			}
+		} else {
+			tiles = null;
 		}
 		
-		size = in.readUnsignedShort();
-		newobjs = new Vector<GameObject>(size);
-		for (int i = 0; i < size; i++) {
-			newobjs.add(new GameObject(in));
+		size = in.readShort();
+		if (size > 0) {
+			newobjs = new Vector<GameObject>(size);
+			for (int i = 0; i < size; i++) {
+				newobjs.add(new GameObject(in));
+			}
+		} else {
+			newobjs = null;
 		}
 		
-		size = in.readUnsignedShort();
-		drops = new int[size];
-		for (int i = 0; i < size; i++) {
-			drops[i] = in.readInt();
+		size = in.readShort();
+		if (size > 0) {
+			drops = new int[size];
+			for (int i = 0; i < size; i++) {
+				drops[i] = in.readInt();
+			}
+		} else {
+			drops = null;
 		}
 	}
 	

@@ -54,7 +54,9 @@ public class GameObject implements Parsable {
 		try {
 			parseFromDataInput(in);
 		} catch (IOException e) {
+			e.printStackTrace();
 			objectType = 0;
+			data = new ObjectStatusData();
 		}
 	}
 	
