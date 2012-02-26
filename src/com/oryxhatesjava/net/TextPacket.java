@@ -52,11 +52,12 @@ public class TextPacket extends Packet implements Parsable {
     public String name;
     public int objectId;
     public int numStars;
-    public byte bubbleTime;
+    public int bubbleTime;
     public String recipient;
     public String text;
+    public String cleanText;
     
-    public TextPacket(String name, int objectId, int numStars, byte bubbleTime, String recipient, String text) {
+    public TextPacket(String name, int objectId, int numStars, int bubbleTime, String recipient, String text) {
         this.name = new String(name);
         this.objectId = objectId;
         this.numStars = numStars;
@@ -83,9 +84,10 @@ public class TextPacket extends Packet implements Parsable {
         name = read.readUTF();
         objectId = read.readInt();
         numStars = read.readInt();
-        bubbleTime = read.readByte();
+        bubbleTime = read.readUnsignedByte();
         recipient = read.readUTF();
         text = read.readUTF();
+        cleanText = read.readUTF();
     }
     
     /*
@@ -100,6 +102,7 @@ public class TextPacket extends Packet implements Parsable {
         write.writeByte(bubbleTime);
         write.writeUTF(recipient);
         write.writeUTF(text);
+        write.writeUTF(cleanText);
     }
     
     /*
@@ -109,6 +112,6 @@ public class TextPacket extends Packet implements Parsable {
     @Override
     public String toString() {
         return "TEXT " + name + " " + objectId + " " + numStars + " "
-                + bubbleTime + " " + recipient + " " + text;
+                + bubbleTime + " " + recipient + " " + text + " " + cleanText;
     }
 }
