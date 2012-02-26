@@ -34,6 +34,8 @@ package com.oryxhatesjava.net;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.Arrays;
 
 import com.oryxhatesjava.net.data.Parsable;
 
@@ -50,18 +52,13 @@ import com.oryxhatesjava.net.data.Parsable;
 public class HelloPacket extends Packet implements Parsable {
     
     public String buildVersion;
-    public int gameId;
+    public int gameId; //int
     public String guid;
     public String password;
-    
-    public HelloPacket(String buildVersion, int gameId, String guid,
-            String password) {
-        type = Packet.HELLO;
-        this.buildVersion = buildVersion;
-        this.gameId = gameId;
-        this.guid = guid;
-        this.password = password;
-    }
+    public String secret;
+    public int keyTime; //int
+    public byte[] key;
+    public String unkStr;
     
     public HelloPacket(DataInput read) {
         try {
@@ -78,12 +75,23 @@ public class HelloPacket extends Packet implements Parsable {
         this.gameId = read.readInt();
         this.guid = read.readUTF();
         this.password = read.readUTF();
+        secret = read.readUTF();
+        keyTime = read.readInt();
+        int size = read.readUnsignedShort();
+        key = new byte[size];
+        read.readFully(key);
+        
+        size = read.readInt();
+        byte[] buf = new byte[size];
+        read.readFully(buf);
+        unkStr = new String(buf, Charset.forName("UTF-8"));
+        
     }
     
     @Override
     public String toString() {
         return "HELLO " + buildVersion + " " + gameId + " " + guid + " "
-                + password;
+                + password + " " + secret + " " + keyTime + " " + Arrays.toString(key) + " " + unkStr;
     }
     
     @Override
@@ -92,5 +100,13 @@ public class HelloPacket extends Packet implements Parsable {
         write.writeInt(gameId);
         write.writeUTF(guid);
         write.writeUTF(password);
+        write.writeUTF(secret);
+        write.writeInt(keyTime);
+        write.writeShort(key.length);
+        write.write(key);
+        
+        byte[] buf = unkStr.getBytes("UTF-8");
+        write.writeInt(buf.length);
+        write.write(buf);
     }
 }
