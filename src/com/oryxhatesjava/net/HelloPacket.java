@@ -78,13 +78,17 @@ public class HelloPacket extends Packet implements Parsable {
         secret = read.readUTF();
         keyTime = read.readInt();
         int size = read.readUnsignedShort();
-        key = new byte[size];
-        read.readFully(key);
+        if (size > 0) {
+        	key = new byte[size];
+        	read.readFully(key);
+        }
         
         size = read.readInt();
-        byte[] buf = new byte[size];
-        read.readFully(buf);
-        unkStr = new String(buf, Charset.forName("UTF-8"));
+        if (size > 0) {
+        	byte[] buf = new byte[size];
+        	read.readFully(buf);
+        	unkStr = new String(buf, Charset.forName("UTF-8"));
+        }
         
     }
     
@@ -102,11 +106,20 @@ public class HelloPacket extends Packet implements Parsable {
         write.writeUTF(password);
         write.writeUTF(secret);
         write.writeInt(keyTime);
-        write.writeShort(key.length);
-        write.write(key);
         
-        byte[] buf = unkStr.getBytes("UTF-8");
-        write.writeInt(buf.length);
-        write.write(buf);
+        if (key != null) {
+            write.writeShort(key.length);
+            write.write(key);
+        } else {
+        	write.writeShort(0);
+        }
+        
+        if (unkStr != null) {
+        	byte[] buf = unkStr.getBytes("UTF-8");
+        	write.writeInt(buf.length);
+        	write.write(buf);
+        } else {
+        	write.writeInt(0);
+        }
     }
 }
