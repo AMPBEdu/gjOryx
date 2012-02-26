@@ -57,10 +57,13 @@ public class Serializer {
 			switch (cast) {
 			case AS_INT:
 				out.writeInt(i);
+				break;
 			case AS_BYTE:
 				out.writeByte(i);
+				break;
 			case AS_SHORT:
 				out.writeShort(i);
+				break;
 			default:
 				throw new IllegalArgumentException("invalid cast operation");
 			}
