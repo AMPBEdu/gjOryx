@@ -60,7 +60,7 @@ public class Packet implements Parsable {
     public static final int SHOOT = 8; //ShootPacket
     public static final int DAMAGE = 9; //DamagePacket
     public static final int UPDATE = 10; //UpdatePacket
-    public static final int UNKNOWN_11 = 11; // -- ??
+    public static final int UNK_UPDATEME = 11; //UpdateMePacket
     public static final int NOTIFICATION = 12; //NotificationPacket
     public static final int NEW_TICK = 13; //NewTickPacket
     public static final int INVSWAP = 14; //InvSwapPacket
@@ -172,6 +172,8 @@ public class Packet implements Parsable {
             	return new DamagePacket(in);
             case UPDATE:
             	return new UpdatePacket(in);
+            case UNK_UPDATEME:
+            	return new UpdateMePacket(in);
             case NOTIFICATION:
             	return new NotificationPacket(in);
             case NEW_TICK:
