@@ -75,7 +75,7 @@ public class Packet implements Parsable {
     public static final int PONG = 23; //PongPacket
     public static final int MAPINFO = 24; //MapInfoPacket
     public static final int LOAD = 25; //LoadPacket
-    public static final int PIC = 26; 
+    public static final int PIC = 26; //PicPacket
     public static final int SETCONDITION = 27; //SetConditionPacket
     public static final int TELEPORT = 28; //TeleportPacket
     public static final int USEPORTAL = 30; //UsePortalPacket
@@ -192,6 +192,8 @@ public class Packet implements Parsable {
             	return new MapInfoPacket(in);
             case LOAD:
             	return new LoadPacket(in);
+            case PIC:
+            	return new PicPacket(in);
             case SETCONDITION:
             	return new SetConditionPacket(in);
             case TELEPORT:
