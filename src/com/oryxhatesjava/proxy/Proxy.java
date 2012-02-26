@@ -121,8 +121,6 @@ public class Proxy implements Runnable {
                         clientSocket.getOutputStream(), SERVERKEY, "s2c");
                 
                 long current = System.currentTimeMillis();
-                clientHose.openOutputFile("c2s-" + current + ".txt");
-                serverHose.openOutputFile("s2c-" + current + ".txt");
                 
                 Thread clientThread = new Thread(clientHose, "ClientDaemon");
                 Thread serverThread = new Thread(serverHose, "ServerDaemon");
