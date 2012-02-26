@@ -32,6 +32,7 @@
 package com.oryxhatesjava.net;
 
 import java.io.DataOutput;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
@@ -74,7 +75,7 @@ public class ByteArrayDataOutput implements DataOutput {
     @Override
     public void write(int b) throws IOException {
         writeByte(b);
-        length += Byte.SIZE;
+        length += 1;
     }
     
     /*
@@ -108,7 +109,7 @@ public class ByteArrayDataOutput implements DataOutput {
         } else {
             data.put((byte) 0x00);
         }
-        length += Byte.SIZE;
+        length += 1;
     }
     
     /*
@@ -118,7 +119,7 @@ public class ByteArrayDataOutput implements DataOutput {
     @Override
     public void writeByte(int v) throws IOException {
         data.put((byte) v);
-        length += Byte.SIZE;
+        length += 1;
     }
     
     /*
@@ -128,7 +129,7 @@ public class ByteArrayDataOutput implements DataOutput {
     @Override
     public void writeShort(int v) throws IOException {
         data.putShort((short) v);
-        length += Short.SIZE;
+        length += 2;
     }
     
     /*
@@ -138,7 +139,7 @@ public class ByteArrayDataOutput implements DataOutput {
     @Override
     public void writeChar(int v) throws IOException {
         data.putChar((char) v);
-        length += Character.SIZE;
+        length += 2;
     }
     
     /*
@@ -148,7 +149,7 @@ public class ByteArrayDataOutput implements DataOutput {
     @Override
     public void writeInt(int v) throws IOException {
         data.putInt(v);
-        length += Integer.SIZE;
+        length += 4;
     }
     
     /*
@@ -158,7 +159,7 @@ public class ByteArrayDataOutput implements DataOutput {
     @Override
     public void writeLong(long v) throws IOException {
         data.putLong(v);
-        length += Long.SIZE;
+        length += 8;
     }
     
     /*
@@ -168,7 +169,7 @@ public class ByteArrayDataOutput implements DataOutput {
     @Override
     public void writeFloat(float v) throws IOException {
         data.putFloat(v);
-        length += Float.SIZE;
+        length += 4;
     }
     
     /*
@@ -178,7 +179,7 @@ public class ByteArrayDataOutput implements DataOutput {
     @Override
     public void writeDouble(double v) throws IOException {
         data.putDouble(v);
-        length += Double.SIZE;
+        length += 8;
     }
     
     /*
@@ -187,8 +188,13 @@ public class ByteArrayDataOutput implements DataOutput {
      */
     @Override
     public void writeBytes(String s) throws IOException {
-        write(s.getBytes());
-        length += s.getBytes().length;
+    	if (s.length() == 0) {
+    		return;
+    	}
+    	char[] c = s.toCharArray();
+    	for (char cc : c) {
+    		writeByte(cc);
+    	}
     }
     
     /*
@@ -197,11 +203,12 @@ public class ByteArrayDataOutput implements DataOutput {
      */
     @Override
     public void writeChars(String s) throws IOException {
-        char[] c = new char[s.length()];
-        s.getChars(0, s.length(), c, 0);
+    	if (s.length() == 0) {
+    		return;
+    	}
+        char[] c = s.toCharArray();
         for (char ch : c) {
             writeChar(ch);
-            length += Character.SIZE;
         }
     }
     
@@ -212,10 +219,8 @@ public class ByteArrayDataOutput implements DataOutput {
     @Override
     public void writeUTF(String s) throws IOException {
         byte[] bytes = s.getBytes("UTF-8");
-        writeShort(s.length());
-        length += Short.SIZE;
+        writeShort(bytes.length);
         write(bytes);
-        length += bytes.length;
     }
     
 }
