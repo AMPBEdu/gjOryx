@@ -98,7 +98,7 @@ public class Packet implements Parsable {
     public static final int CHOOSENAME = 48; //ChooseNamePacket
     public static final int NAMERESULT = 49; //NameResultPacket
     public static final int CREATEGUILD = 50; //CreateGuildPacket
-    public static final int UNKNOWN_51 = 51; // UNKNOWN6
+    public static final int UNK_GUILDACK = 51; //GuildAckPacket
     public static final int GUILDREMOVE = 52; //GuildRemovePacket
     public static final int GUILDINVITE = 53; //GuildInvitePacket
     public static final int ALLYSHOOT = 55; //AllyShootPacket
@@ -240,6 +240,8 @@ public class Packet implements Parsable {
             	return new NameResultPacket(in);
             case CREATEGUILD:
             	return new CreateGuildPacket(in);
+            case UNK_GUILDACK:
+            	return new GuildAckPacket(in);
             case GUILDREMOVE:
             	return new GuildRemovePacket(in);
             case GUILDINVITE:
