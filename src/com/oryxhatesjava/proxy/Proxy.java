@@ -54,11 +54,20 @@ public class Proxy implements Runnable {
     private Socket clientSocket = null;
     private Socket serverSocket = null;
     
-    public static byte[] CLIENTKEY = new byte[] { 0x7a, 0x43, 0x56, 0x32, 0x74,
-            0x73, 0x59, 0x30, 0x5d, 0x73, 0x3b, 0x7c, 0x5d };
-    public static byte[] SERVERKEY = new byte[] { 0x68, 0x50, 0x76, 0x4a, 0x28,
-            0x52, 0x7d, 0x4d, 0x70, 0x24, 0x2d, 0x63, 0x67 };
-    
+    //public static byte[] CLIENTKEY = new byte[] { 0x7a, 0x43, 0x56, 0x32, 0x74,
+    //        0x73, 0x59, 0x30, 0x5d, 0x73, 0x3b, 0x7c, 0x5d };
+    //public static byte[] SERVERKEY = new byte[] { 0x68, 0x50, 0x76, 0x4a, 0x28,
+    //        0x52, 0x7d, 0x4d, 0x70, 0x24, 0x2d, 0x63, 0x67 };
+    //86d344c1fad4baf1f5cdd103d1
+	public static byte[] CLIENTKEY = new byte[] { (byte) 0x86, (byte) 0xd3,
+			0x44, (byte) 0xc1, (byte) 0xfa, (byte) 0xd4, (byte) 0xba,
+			(byte) 0xf1, (byte) 0xf5, (byte) 0xcd, (byte) 0xd1, 0x03,
+			(byte) 0xd1 };
+	// 10c5dc7a8cf87bb18feab6c71f
+	public static byte[] SERVERKEY = new byte[] { 0x10, (byte) 0xc5,
+			(byte) 0xdc, 0x7a, (byte) 0x8c, (byte) 0xf8, 0x7b, (byte) 0xb1,
+			(byte) 0x8f, (byte) 0xea, (byte) 0xb6, (byte) 0xc7, 0x1f };
+
     /*
      * (non-Javadoc)
      * @see java.lang.Runnable#run()
@@ -99,16 +108,17 @@ public class Proxy implements Runnable {
                         .getHostAddress();
                 System.out.println("Client connected to proxy: " + ipString);
                 
-                System.out.println("Connecting to Oryx for " + ipString);
-                serverSocket = new Socket("184.72.218.199", 2050); // "Oryx"
-                System.out.println("Connected to Oryx for " + ipString);
+                System.out.println("Connecting to USEast3 for " + ipString);
+                //serverSocket = new Socket("ec2-50-19-47-160.compute-1.amazonaws.com", 2050); // "USEast3"
+                serverSocket = new Socket("50.19.47.160", 2050); //use ip instead of host due to hosts block
+                System.out.println("Connected to USEast3 for " + ipString);
                 
                 SiphonHose clientHose = new SiphonHose(
                         clientSocket.getInputStream(),
-                        serverSocket.getOutputStream(), CLIENTKEY);
+                        serverSocket.getOutputStream(), CLIENTKEY, "c2s");
                 SiphonHose serverHose = new SiphonHose(
                         serverSocket.getInputStream(),
-                        clientSocket.getOutputStream(), SERVERKEY);
+                        clientSocket.getOutputStream(), SERVERKEY, "s2c");
                 
                 long current = System.currentTimeMillis();
                 clientHose.openOutputFile("c2s-" + current + ".txt");

@@ -31,6 +31,10 @@
 
 package com.oryxhatesjava;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+
 /**
  * <p>
  * TODO document this type
@@ -43,12 +47,30 @@ package com.oryxhatesjava;
  */
 public class Client implements Runnable {
     
+	public static final int PORT = 2050;
+	private InetAddress address;
+	private Socket socket;
+	
+	
+	
+	public Client(InetAddress address) {
+		this.address = address;
+	}
+	
     /*
      * (non-Javadoc)
      * @see java.lang.Runnable#run()
      */
     @Override
     public void run() {
-        
+        // Connect to the server
+    	try {
+			socket = new Socket(address, PORT);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+    	
+    	
     }
 }

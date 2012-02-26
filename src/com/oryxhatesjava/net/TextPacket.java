@@ -35,8 +35,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import com.oryxhatesjava.data.Parsable;
-import com.oryxhatesjava.data.Writable;
+import com.oryxhatesjava.net.data.Parsable;
 
 /**
  * <p>
@@ -48,24 +47,21 @@ import com.oryxhatesjava.data.Writable;
  * 
  * @author Furyhunter
  */
-public class TextPacket extends Packet implements Writable, Parsable {
+public class TextPacket extends Packet implements Parsable {
     
     public String name;
     public int objectId;
-    public short objectType;
-    public int tex1ld;
-    public int tex2ld;
-    public int totalFame;
+    public int numStars;
+    public byte bubbleTime;
+    public String recipient;
     public String text;
     
-    public TextPacket(String name, int objectId, short objectType, int tex1ld,
-            int tex2ld, int totalFame, String text) {
+    public TextPacket(String name, int objectId, int numStars, byte bubbleTime, String recipient, String text) {
         this.name = new String(name);
         this.objectId = objectId;
-        this.objectType = objectType;
-        this.tex1ld = tex1ld;
-        this.tex2ld = tex2ld;
-        this.totalFame = totalFame;
+        this.numStars = numStars;
+        this.bubbleTime = bubbleTime;
+        this.recipient = new String(recipient);
         this.text = new String(text);
     }
     
@@ -86,10 +82,9 @@ public class TextPacket extends Packet implements Writable, Parsable {
     public void parseFromDataInput(DataInput read) throws IOException {
         name = read.readUTF();
         objectId = read.readInt();
-        objectType = read.readShort();
-        tex1ld = read.readInt();
-        tex2ld = read.readInt();
-        totalFame = read.readInt();
+        numStars = read.readInt();
+        bubbleTime = read.readByte();
+        recipient = read.readUTF();
         text = read.readUTF();
     }
     
@@ -101,10 +96,9 @@ public class TextPacket extends Packet implements Writable, Parsable {
     public void writeToDataOutput(DataOutput write) throws IOException {
         write.writeUTF(name);
         write.writeInt(objectId);
-        write.writeShort(objectType);
-        write.writeInt(tex1ld);
-        write.writeInt(tex2ld);
-        write.writeInt(totalFame);
+        write.writeInt(numStars);
+        write.writeByte(bubbleTime);
+        write.writeUTF(recipient);
         write.writeUTF(text);
     }
     
@@ -114,7 +108,7 @@ public class TextPacket extends Packet implements Writable, Parsable {
      */
     @Override
     public String toString() {
-        return "TEXT " + name + " " + objectId + " " + objectType + " "
-                + tex1ld + " " + tex2ld + " " + totalFame + " " + text;
+        return "TEXT " + name + " " + objectId + " " + numStars + " "
+                + bubbleTime + " " + recipient + " " + text;
     }
 }

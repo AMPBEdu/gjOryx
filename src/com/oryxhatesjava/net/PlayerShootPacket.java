@@ -35,9 +35,8 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import com.oryxhatesjava.data.Location;
-import com.oryxhatesjava.data.Parsable;
-import com.oryxhatesjava.data.Writable;
+import com.oryxhatesjava.net.data.Location;
+import com.oryxhatesjava.net.data.Parsable;
 
 /**
  * <p>
@@ -49,7 +48,7 @@ import com.oryxhatesjava.data.Writable;
  * 
  * @author Furyhunter
  */
-public class PlayerShootPacket extends Packet implements Writable, Parsable {
+public class PlayerShootPacket extends Packet implements Parsable {
     
     public int time;
     public byte bulletId; // uint

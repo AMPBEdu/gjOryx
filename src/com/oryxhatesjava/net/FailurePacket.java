@@ -35,8 +35,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import com.oryxhatesjava.data.Parsable;
-import com.oryxhatesjava.data.Writable;
+import com.oryxhatesjava.net.data.Parsable;
 
 /**
  * <p>
@@ -48,7 +47,7 @@ import com.oryxhatesjava.data.Writable;
  * 
  * @author Furyhunter
  */
-public class FailurePacket extends Packet implements Writable, Parsable {
+public class FailurePacket extends Packet implements Parsable {
     
     public int errorId;
     public String errorDescription;

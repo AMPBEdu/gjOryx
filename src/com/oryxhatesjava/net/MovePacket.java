@@ -34,10 +34,13 @@ package com.oryxhatesjava.net;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.util.List;
+import java.util.Vector;
 
-import com.oryxhatesjava.data.Location;
-import com.oryxhatesjava.data.Parsable;
-import com.oryxhatesjava.data.Writable;
+import com.oryxhatesjava.net.data.HistoricalLocation;
+import com.oryxhatesjava.net.data.Location;
+import com.oryxhatesjava.net.data.Parsable;
+import com.oryxhatesjava.util.Serializer;
 
 /**
  * <p>
@@ -49,14 +52,17 @@ import com.oryxhatesjava.data.Writable;
  * 
  * @author Furyhunter
  */
-public class MovePacket extends Packet implements Writable, Parsable {
+public class MovePacket extends Packet implements Parsable {
     
     public int messageId;
+    public int tickId;
     public int time;
     public Location newPosition;
+    public List<HistoricalLocation> records;
     
     public MovePacket(int messageId, int time, Location newPosition) {
         this.type = Packet.MOVE;
+        
         this.messageId = messageId;
         this.time = time;
         this.newPosition = newPosition.clone();
@@ -81,6 +87,13 @@ public class MovePacket extends Packet implements Writable, Parsable {
         time = read.readInt();
         newPosition = new Location();
         newPosition.parseFromDataInput(read);
+        records = new Vector<HistoricalLocation>();
+        int recs = read.readShort();
+        while (records.size() < recs) {
+        	HistoricalLocation p = new HistoricalLocation();
+        	p.parseFromDataInput(read);
+        	records.add(p);
+        }
     }
     
     /*
@@ -92,6 +105,7 @@ public class MovePacket extends Packet implements Writable, Parsable {
         write.writeInt(messageId);
         write.writeInt(time);
         newPosition.writeToDataOutput(write);
+        Serializer.writeArray(write, records.toArray(new Parsable[records.size()]));
     }
     
     /*
@@ -100,6 +114,6 @@ public class MovePacket extends Packet implements Writable, Parsable {
      */
     @Override
     public String toString() {
-        return "MOVE " + messageId + " " + time + " " + newPosition;
+        return "MOVE " + messageId + " " + time + " " + newPosition + " (" + records.size() + " records)";
     }
 }

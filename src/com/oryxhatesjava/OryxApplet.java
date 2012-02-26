@@ -33,6 +33,8 @@ package com.oryxhatesjava;
 
 import java.applet.Applet;
 import java.awt.Dimension;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import javax.swing.JFrame;
 
@@ -56,8 +58,8 @@ public class OryxApplet extends Applet {
         setPreferredSize(new Dimension(800, 600));
     }
     
-    public OryxApplet() {
-        this(new Client());
+    public OryxApplet() throws UnknownHostException {
+        this(new Client(InetAddress.getByName("localhost")));
     }
     
     /**
@@ -67,7 +69,7 @@ public class OryxApplet extends Applet {
      * 
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         OryxApplet app = new OryxApplet();
         JFrame frame = new JFrame("Realm of the Mad God");
     }

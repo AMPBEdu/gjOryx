@@ -62,11 +62,13 @@ public class SiphonHose implements Runnable {
     public DataInputStream recv;
     public RC4 cipher;
     private PrintWriter fileOut;
+    private String name;
     
-    public SiphonHose(InputStream recv, OutputStream replyTo, byte[] key) {
+    public SiphonHose(InputStream recv, OutputStream replyTo, byte[] key, String name) {
         this.recv = new DataInputStream(recv);
         this.replyTo = new DataOutputStream(replyTo);
         this.cipher = new RC4(key);
+        this.name = name;
     }
     
     @Override
@@ -81,6 +83,7 @@ public class SiphonHose implements Runnable {
                 if (fileOut != null) {
                     fileOut.println(pkt);
                 }
+                System.out.println(name + ": " + pkt);
                 replyTo.writeInt(length);
                 replyTo.writeByte(type);
                 replyTo.write(buf);
