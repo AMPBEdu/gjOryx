@@ -71,7 +71,7 @@ public class MapInfoPacket extends Packet implements Parsable {
 		allowPlayerTeleport = in.readBoolean();
 		showDisplays = in.readBoolean();
 		
-		int lines = in.readShort();
+		int lines = in.readUnsignedShort();
 		clientXML = new Vector<String>();
 		for (int i = 0; i < lines; i++) {
 			int size = in.readInt();
@@ -81,7 +81,8 @@ public class MapInfoPacket extends Packet implements Parsable {
 			clientXML.add(line);
 		}
 		
-		lines = in.readShort();
+		lines = in.readUnsignedShort();
+		extraXML = new Vector<String>();
 		for (int i = 0; i < lines; i++) {
 			int size = in.readInt();
 			byte[] buf = new byte[size];
