@@ -66,19 +66,19 @@ public class UpdatePacket extends Packet implements Parsable {
 
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
-		int size = in.readShort();
+		int size = in.readUnsignedShort();
 		tiles = new Vector<Tile>(size);
 		for (int i = 0; i < size; i++) {
 			tiles.add(new Tile(in));
 		}
 		
-		size = in.readShort();
+		size = in.readUnsignedShort();
 		newobjs = new Vector<GameObject>(size);
 		for (int i = 0; i < size; i++) {
 			newobjs.add(new GameObject(in));
 		}
 		
-		size = in.readShort();
+		size = in.readUnsignedShort();
 		drops = new int[size];
 		for (int i = 0; i < size; i++) {
 			drops[i] = in.readInt();
