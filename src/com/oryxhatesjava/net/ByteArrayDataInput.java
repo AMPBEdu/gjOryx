@@ -35,6 +35,8 @@ import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
+import java.nio.BufferUnderflowException;
+import java.nio.ByteBuffer;
 
 /**
  * <p>
@@ -50,6 +52,7 @@ public class ByteArrayDataInput implements DataInput {
     
     private int position;
     private byte[] data;
+    private ByteBuffer buffer;
     
     public ByteArrayDataInput(byte[] src) {
         if (src == null) {
@@ -57,6 +60,7 @@ public class ByteArrayDataInput implements DataInput {
         }
         data = src;
         position = 0;
+        buffer = ByteBuffer.wrap(data);
     }
     
     /*
@@ -74,19 +78,28 @@ public class ByteArrayDataInput implements DataInput {
      */
     @Override
     public void readFully(byte[] b, int off, int len) throws IOException {
-        if (b == null) {
-            throw new NullPointerException();
-        }
-        if (off < 0 || len < 0 || b.length < off+len) {
-            throw new ArrayIndexOutOfBoundsException();
-        }
+//        if (b == null) {
+//            throw new NullPointerException();
+//        }
+//        if (off < 0 || len < 0 || b.length < off+len) {
+//            throw new ArrayIndexOutOfBoundsException();
+//        }
+//        try {
+//            for (int i = 0; i < len; i++) {
+//                b[off+i] = data[position];
+//                position += 1;
+//            }
+//            buffer.get(b, 0, len);
+//        } catch (ArrayIndexOutOfBoundsException e) {
+//            throw new EOFException();
+//        }
+        
         try {
-            for (int i = 0; i < len; i++) {
-                b[off+i] = data[position];
-                position += 1;
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new EOFException();
+        	buffer.get(b, 0, len);
+        } catch (BufferUnderflowException e) {
+        	throw new EOFException();
+        } catch (IndexOutOfBoundsException e) {
+        	throw new IllegalArgumentException();
         }
     }
     
@@ -96,11 +109,12 @@ public class ByteArrayDataInput implements DataInput {
      */
     @Override
     public int skipBytes(int n) throws EOFException {
-        if (position + n > data.length - 1) {
-            int overage = -(data.length - (position + n));
-            position = data.length - 1;
-            return n - overage;
-        }
+//        if (position + n > data.length - 1) {
+//            int overage = -(data.length - (position + n));
+//            position = data.length - 1;
+//            return n - overage;
+//        }
+        buffer.position(buffer.position() + n);
         return n;
     }
     
@@ -110,15 +124,25 @@ public class ByteArrayDataInput implements DataInput {
      */
     @Override
     public boolean readBoolean() throws EOFException {
+//        try {
+//            int value = data[position] & 0xFF;
+//            position += 1;
+//            if (value > 0)
+//                return true;
+//            else
+//                return false;
+//        } catch (ArrayIndexOutOfBoundsException e) {
+//            throw new EOFException();
+//        }
+        
         try {
-            int value = data[position] & 0xFF;
-            position += 1;
-            if (value > 0)
-                return true;
-            else
-                return false;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new EOFException();
+        	int value = buffer.get();
+        	if (value > 0)
+        		return true;
+        	else
+        		return false;
+        } catch (BufferUnderflowException e) {
+        	throw new EOFException();
         }
     }
     
@@ -128,11 +152,17 @@ public class ByteArrayDataInput implements DataInput {
      */
     @Override
     public byte readByte() throws EOFException {
-        position += 1;
+//        position += 1;
+//        try {
+//            return data[position - 1];
+//        } catch (ArrayIndexOutOfBoundsException e) {
+//            throw new EOFException();
+//        }
+        
         try {
-            return data[position - 1];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new EOFException();
+        	return buffer.get();
+        } catch (BufferUnderflowException e) {
+        	throw new EOFException();
         }
     }
     
@@ -142,11 +172,18 @@ public class ByteArrayDataInput implements DataInput {
      */
     @Override
     public int readUnsignedByte() throws EOFException {
+//        try {
+//            position += 1;
+//            return data[position - 1] & 0xFF;
+//        } catch (ArrayIndexOutOfBoundsException e) {
+//            throw new EOFException();
+//        }
+        
         try {
-            position += 1;
-            return data[position - 1] & 0xFF;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new EOFException();
+        	int value = buffer.get();
+        	return value & 0xFF;
+        } catch (BufferUnderflowException e) {
+        	throw new EOFException();
         }
     }
     
@@ -156,14 +193,20 @@ public class ByteArrayDataInput implements DataInput {
      */
     @Override
     public short readShort() throws EOFException {
+//        try {
+//            int b1 = data[position];
+//            position += 1;
+//            int b2 = data[position];
+//            position += 1;
+//            return (short) ((b1 << 8) + (b2 << 0));
+//        } catch (ArrayIndexOutOfBoundsException e) {
+//            throw new EOFException();
+//        }
+        
         try {
-            int b1 = data[position];
-            position += 1;
-            int b2 = data[position];
-            position += 1;
-            return (short) ((b1 << 8) + (b2 << 0));
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new EOFException();
+        	return buffer.getShort();
+        } catch (BufferUnderflowException e) {
+        	throw new EOFException();
         }
     }
     
@@ -173,14 +216,21 @@ public class ByteArrayDataInput implements DataInput {
      */
     @Override
     public int readUnsignedShort() throws EOFException {
+//        try {
+//            int b1 = data[position];
+//            position += 1;
+//            int b2 = data[position];
+//            position += 1;
+//            return (((b1 & 0xff) << 8) | (b2 & 0xff));
+//        } catch (ArrayIndexOutOfBoundsException e) {
+//            throw new EOFException();
+//        }
+        
         try {
-            int b1 = data[position];
-            position += 1;
-            int b2 = data[position];
-            position += 1;
-            return (((b1 & 0xff) << 8) | (b2 & 0xff));
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new EOFException();
+        	int value = buffer.getShort();
+        	return value & 0xFFFF;
+        } catch (BufferUnderflowException e) {
+        	throw new EOFException();
         }
     }
     
@@ -190,14 +240,20 @@ public class ByteArrayDataInput implements DataInput {
      */
     @Override
     public char readChar() throws EOFException {
+//        try {
+//            int b1 = data[position];
+//            position += 1;
+//            int b2 = data[position];
+//            position += 1;
+//            return (char) ((b1 << 8) + (b2 << 0));
+//        } catch (ArrayIndexOutOfBoundsException e) {
+//            throw new EOFException();
+//        }
+        
         try {
-            int b1 = data[position];
-            position += 1;
-            int b2 = data[position];
-            position += 1;
-            return (char) ((b1 << 8) + (b2 << 0));
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new EOFException();
+        	return buffer.getChar();
+        } catch (BufferUnderflowException e) {
+        	throw new EOFException();
         }
     }
     
@@ -207,18 +263,24 @@ public class ByteArrayDataInput implements DataInput {
      */
     @Override
     public int readInt() throws EOFException {
+//        try {
+//            int b1 = data[position];
+//            position += 1;
+//            int b2 = data[position];
+//            position += 1;
+//            int b3 = data[position];
+//            position += 1;
+//            int b4 = data[position];
+//            position += 1;
+//            return ((b1 << 24) + (b2 << 16) + (b3 << 8) + (b4 << 0));
+//        } catch (ArrayIndexOutOfBoundsException e) {
+//            throw new EOFException();
+//        }
+        
         try {
-            int b1 = data[position];
-            position += 1;
-            int b2 = data[position];
-            position += 1;
-            int b3 = data[position];
-            position += 1;
-            int b4 = data[position];
-            position += 1;
-            return ((b1 << 24) + (b2 << 16) + (b3 << 8) + (b4 << 0));
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new EOFException();
+        	return buffer.getInt();
+        } catch (BufferUnderflowException e) {
+        	throw new EOFException();
         }
     }
     
@@ -228,28 +290,34 @@ public class ByteArrayDataInput implements DataInput {
      */
     @Override
     public long readLong() throws EOFException {
+//        try {
+//            // TODO this is the ugliest code I've ever read in my life. fix it.
+//            int b1 = data[position];
+//            position += 1;
+//            int b2 = data[position];
+//            position += 1;
+//            int b3 = data[position];
+//            position += 1;
+//            int b4 = data[position];
+//            position += 1;
+//            int b5 = data[position];
+//            position += 1;
+//            int b6 = data[position];
+//            position += 1;
+//            int b7 = data[position];
+//            position += 1;
+//            int b8 = data[position];
+//            position += 1;
+//            return ((b1 << 56) + (b2 << 48) + (b3 << 40) + (b4 << 32)
+//                    + (b5 << 24) + (b6 << 16) + (b7 << 8) + (b8 << 0));
+//        } catch (ArrayIndexOutOfBoundsException e) {
+//            throw new EOFException();
+//        }
+        
         try {
-            // TODO this is the ugliest code I've ever read in my life. fix it.
-            int b1 = data[position];
-            position += 1;
-            int b2 = data[position];
-            position += 1;
-            int b3 = data[position];
-            position += 1;
-            int b4 = data[position];
-            position += 1;
-            int b5 = data[position];
-            position += 1;
-            int b6 = data[position];
-            position += 1;
-            int b7 = data[position];
-            position += 1;
-            int b8 = data[position];
-            position += 1;
-            return ((b1 << 56) + (b2 << 48) + (b3 << 40) + (b4 << 32)
-                    + (b5 << 24) + (b6 << 16) + (b7 << 8) + (b8 << 0));
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new EOFException();
+        	return buffer.getLong();
+        } catch (BufferUnderflowException e) {
+        	throw new EOFException();
         }
     }
     

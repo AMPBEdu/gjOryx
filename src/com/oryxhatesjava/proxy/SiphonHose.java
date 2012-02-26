@@ -33,16 +33,17 @@ package com.oryxhatesjava.proxy;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 import net.clarenceho.crypto.RC4;
+import net.clarenceho.crypto.RC4State;
 
+import com.oryxhatesjava.net.ByteArrayDataOutput;
 import com.oryxhatesjava.net.Packet;
 
 /**
@@ -80,7 +81,11 @@ public class SiphonHose implements Runnable {
                 int type = recv.readByte();
                 byte[] buf = new byte[length - 5];
                 recv.readFully(buf);
-                Packet pkt = Packet.parse(type, cipher.rc4(buf));
+                RC4State oldState = cipher.getState();
+                byte[] decr = cipher.rc4(buf);
+                Packet pkt = Packet.parse(type, decr);
+                System.out.println(Arrays.toString(cipher.getState().state));
+                cipher.setState(oldState);
                 
                 // filter
                 boolean print = true;
@@ -97,9 +102,17 @@ public class SiphonHose implements Runnable {
                 	System.out.println(name + ": " + pkt);
                 }
                 
+                byte[] recr;
+                ByteArrayDataOutput bado = new ByteArrayDataOutput();
+                pkt.writeToDataOutput(bado);
+                recr = bado.getArray();
+                System.out.println(Arrays.toString(decr));
+                System.out.println(Arrays.toString(recr));
+                recr = cipher.rc4(recr);
+                System.out.println(Arrays.toString(cipher.getState().state));
                 replyTo.writeInt(length);
                 replyTo.writeByte(type);
-                replyTo.write(buf);
+                replyTo.write(recr);
                 replyTo.flush();
             }
         } catch (IOException e) {
@@ -112,7 +125,9 @@ public class SiphonHose implements Runnable {
                 .println("End SiphonHose " + Thread.currentThread().getName());
         
         try {
-            fileOut.close();
+        	if (fileOut != null) {
+        		fileOut.close();
+        	}
             recv.close();
             replyTo.close();
         } catch (IOException e) {

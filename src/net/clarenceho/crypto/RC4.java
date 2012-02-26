@@ -177,10 +177,10 @@ public class RC4 {
      * Gets the current cipher state.
      * </p>
      * 
-     * @return cipher state as a byte array of 256 length
+     * @return cipher state object
      */
-    public byte[] getState() {
-        return state.clone();
+    public RC4State getState() {
+        return new RC4State(state.clone(), x, y);
     }
     
     /**
@@ -192,8 +192,10 @@ public class RC4 {
      * @param newState
      *            state in a byte array to clone to
      */
-    public void setState(byte[] newState) {
-        state = newState.clone();
+    public void setState(RC4State newState) {
+        state = newState.state;
+        x = newState.x;
+        y = newState.y;
     }
     
 }
