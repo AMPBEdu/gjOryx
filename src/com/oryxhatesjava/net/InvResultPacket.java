@@ -53,7 +53,7 @@ public class InvResultPacket extends Packet implements Parsable {
 	
 	@Override
 	public void writeToDataOutput(DataOutput out) throws IOException {
-		out.write(result);
+		out.writeInt(result);
 	}
 	
 	@Override
