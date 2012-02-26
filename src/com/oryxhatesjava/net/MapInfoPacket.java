@@ -45,7 +45,7 @@ public class MapInfoPacket extends Packet implements Parsable {
 	public int width; //int
 	public int height; //int
 	public String name; //UTF
-	public long fp; //uint
+	public int fp; //uint
 	public int background; //int
 	public boolean allowPlayerTeleport;
 	public boolean showDisplays;
@@ -97,7 +97,8 @@ public class MapInfoPacket extends Packet implements Parsable {
 		out.writeInt(width);
 		out.writeInt(height);
 		out.writeUTF(name);
-		out.writeInt((int) fp);
+		out.writeInt(fp);
+		out.writeInt(background);
 		out.writeBoolean(allowPlayerTeleport);
 		out.writeBoolean(showDisplays);
 		
