@@ -37,14 +37,14 @@ import java.io.IOException;
 
 import com.oryxhatesjava.net.data.Parsable;
 
-public class GuildAckPacket extends Packet implements Parsable {
+public class CreateGuildResult extends Packet implements Parsable {
 
 	public int result; //int
 	public String resultString; //UTF
 	
-	public GuildAckPacket(DataInput in) {
+	public CreateGuildResult(DataInput in) {
 		try {
-			type = Packet.UNK_GUILDACK;
+			type = Packet.CREATEGUILDRESULT;
 			parseFromDataInput(in);
 		} catch (IOException e) {
 			
@@ -65,6 +65,6 @@ public class GuildAckPacket extends Packet implements Parsable {
 	
 	@Override
 	public String toString() {
-		return "UNK_GUILDACK " + result + " " + resultString;
+		return "CREATEGUILDRESULT " + result + " " + resultString;
 	}
 }
