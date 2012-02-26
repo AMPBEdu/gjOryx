@@ -270,6 +270,10 @@ public class Packet implements Parsable {
             	return new ClientStatPacket(in);
             case CHECKCREDITS:
             	return new CheckCreditsPacket(in);
+            case ESCAPE:
+            	return new EscapePacket(in);
+            case FILE:
+            	return new FilePacket(in);
             case INVITEDTOGUILD:
             	return new InvitedToGuildPacket(in);
             case JOINGUILD:
