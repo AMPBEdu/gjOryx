@@ -62,10 +62,10 @@ public class Packet implements Parsable {
     public static final int UPDATE = 10; //UpdatePacket
     public static final int UNKNOWN_11 = 11; // -- ??
     public static final int NOTIFICATION = 12; //NotificationPacket
-    public static final int OBJECTS = 13; // -- UNKNOWN3
+    public static final int UNKNOWN_13 = 13; // -- UNKNOWN3
     public static final int INVSWAP = 14; //InvSwapPacket
     public static final int USEITEM = 15; //UseItemPacket
-    public static final int EFFECT = 16; // UNKNOWN4
+    public static final int SHOW_EFFECT = 16; //ShowEffectPacket
     public static final int HELLO = 17; //HelloPacket
     public static final int GOTO = 18; //GotoPacket
     public static final int INVDROP = 19; //InvDropPacket
@@ -178,6 +178,8 @@ public class Packet implements Parsable {
             	return new InvSwapPacket(in);
             case USEITEM:
             	return new UseItemPacket(in);
+            case SHOW_EFFECT:
+            	return new ShowEffectPacket(in);
             case GOTO:
             	return new GotoPacket(in);
             case INVDROP:
