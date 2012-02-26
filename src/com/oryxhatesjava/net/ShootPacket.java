@@ -49,17 +49,15 @@ public class ShootPacket extends Packet implements Parsable {
     
     public int bulletId;
     public int ownerId;
-    public int bulletType;
     public int containerType;
     public Location startingPos;
     public float angle;
     public int damage;
     
-    public ShootPacket(int bulletId, int ownerId, int bulletType, int containerType,
+    public ShootPacket(int bulletId, int ownerId, int containerType,
             Location startingPos, float angle, int damage) {
         this.bulletId = bulletId;
         this.ownerId = ownerId;
-        this.bulletType = bulletType;
         this.containerType = containerType;
         this.startingPos = startingPos.clone();
         this.angle = angle;
@@ -79,15 +77,16 @@ public class ShootPacket extends Packet implements Parsable {
     public void parseFromDataInput(DataInput read) throws IOException {
         bulletId = read.readUnsignedByte();
         ownerId = read.readInt();
-        bulletType = read.readUnsignedByte();
         containerType = read.readShort();
+        startingPos = new Location(read);
+        angle = read.readFloat();
+        damage = read.readShort();
     }
     
     @Override
     public void writeToDataOutput(DataOutput write) throws IOException {
         write.writeByte(bulletId);
         write.writeInt(ownerId);
-        write.writeByte(bulletType);
         write.writeShort(containerType);
         startingPos.writeToDataOutput(write);
         write.writeFloat(angle);
@@ -96,6 +95,6 @@ public class ShootPacket extends Packet implements Parsable {
     
     @Override
     public String toString() {
-        return "SHOOT " + bulletId + " " + ownerId + " " + bulletType + " " + containerType + " " + startingPos + " " + angle + " " + damage;
+        return "SHOOT " + bulletId + " " + ownerId + " " + containerType + " " + startingPos + " " + angle + " " + damage;
     }
 }
