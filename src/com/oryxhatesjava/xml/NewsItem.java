@@ -59,4 +59,9 @@ public class NewsItem {
 		link = e.getChildText("Link");
 		date = Integer.parseInt(e.getChildText("Date"));
 	}
+	
+	@Override
+	public String toString() {
+		return "News: " + title + " - " + tagLine;
+	}
 }

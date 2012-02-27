@@ -61,4 +61,9 @@ public class Server {
 		lon = Float.parseFloat(e.getChildText("Long"));
 		usage = Float.parseFloat(e.getChildText("Usage"));
 	}
+	
+	@Override
+	public String toString() {
+		return "Server " + name;
+	}
 }

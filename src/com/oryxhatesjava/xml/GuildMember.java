@@ -56,4 +56,9 @@ public class GuildMember {
 		rank = Integer.parseInt(e.getChildText("Rank"));
 		fame = Integer.parseInt(e.getChildText("Fame"));
 	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
 }

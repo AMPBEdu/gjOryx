@@ -97,4 +97,9 @@ public class CharFame {
 		prevTotalFame = Integer.parseInt(e.getChildText("PreviousAccountTotalFame"));
 		killedBy = e.getChildText("KilledBy");
 	}
+	
+	@Override
+	public String toString() {
+		return chara.accountName + " was killed by " + killedBy + " at " + chara.level + ". Bonuses: " + bonuses;
+	}
 }

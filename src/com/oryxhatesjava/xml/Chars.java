@@ -91,4 +91,9 @@ public class Chars {
 		}
 		
 	}
+	
+	@Override
+	public String toString() {
+		return "Chars max " + maxNumChars + ": " + chars;
+	}
 }

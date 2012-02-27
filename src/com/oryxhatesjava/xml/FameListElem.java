@@ -81,4 +81,9 @@ public class FameListElem {
 		
 		totalFame = Integer.parseInt(e.getChildText("TotalFame"));
 	}
+	
+	@Override
+	public String toString() {
+		return name + ": " + totalFame;
+	}
 }

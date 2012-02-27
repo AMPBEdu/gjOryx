@@ -74,4 +74,9 @@ public class GuildMembers {
 			members.add(m);
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return "Guild " + name + ": " + members;
+	}
 }

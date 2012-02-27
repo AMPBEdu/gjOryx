@@ -68,4 +68,9 @@ public class FameList {
 		mine = new FameListElem(e.getChild("MyFameListElem"));
 		chars.add(mine);
 	}
+	
+	@Override
+	public String toString() {
+		return "Legends of the " + timespan + ": " + chars;
+	}
 }

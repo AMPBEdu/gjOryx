@@ -56,4 +56,9 @@ public class FameBonus {
 		desc = e.getAttributeValue("desc");
 		fame = Integer.parseInt(e.getText());
 	}
+	
+	@Override
+	public String toString() {
+		return "Bonus: " + name + " (" + desc +") = " + fame;
+	}
 }
