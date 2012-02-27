@@ -45,15 +45,20 @@ public class AppEngineConnector implements Runnable {
 	private String urlbase;
 	private BlockingQueue<Request> reqs;
 	
+	enum RequestType {
+		PlainText,
+		XML,
+		Account
+	}
 	class Request {
-		public boolean isPlainText = false;
+		public RequestType type = RequestType.XML;
 		public URL url;
 		public RequestListener listener;
 		public String fullRequest;
 		
-		public Request(URL url, String fullRequest, boolean plain, RequestListener listener) {
+		public Request(URL url, String fullRequest, RequestType type, RequestListener listener) {
 			this.url = url;
-			isPlainText = plain;
+			this.type = type;
 			this.listener = listener;
 			this.fullRequest = fullRequest;
 		}
@@ -70,7 +75,7 @@ public class AppEngineConnector implements Runnable {
 	public synchronized void getXMLRequest(String service, String request, String postdata, RequestListener callback) {
 		try {
 			URL url = new URL(urlbase + service + request + "?" + URLEncoder.encode(postdata, "UTF-8"));
-			reqs.add(new Request(url, service+request, false, callback));
+			reqs.add(new Request(url, service+request, RequestType.XML, callback));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -79,7 +84,16 @@ public class AppEngineConnector implements Runnable {
 	public synchronized void getTextRequest(String service, String request, String postdata, RequestListener callback) {
 		try {
 			URL url = new URL(urlbase + service + request + "?" + URLEncoder.encode(postdata, "UTF-8"));
-			reqs.add(new Request(url, service+request, true, callback));
+			reqs.add(new Request(url, service+request, RequestType.PlainText, callback));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public synchronized void getAccount(String guid, String password, RequestListener callback) {
+		try {
+			URL url = new URL(urlbase + "/account/verify?" + URLEncoder.encode("guid=" + guid + "&password=" + password, "UTF-8"));
+			reqs.add(new Request(url, "/account/verify", RequestType.Account, callback));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -90,10 +104,13 @@ public class AppEngineConnector implements Runnable {
 		Request r;
 		while ((r = reqs.poll()) != null) {
 			try {
-				if (!r.isPlainText) {
-					Document d = new SAXBuilder().build(r.url);
-					r.listener.xmlReceived(r.fullRequest, d);
-				} else {
+				Document d;
+				switch (r.type) {
+				case Account:
+					d = new SAXBuilder().build(r.url);
+					r.listener.accountReceived(r.fullRequest, new Account(d));
+					break;
+				case PlainText:
 					BufferedReader br = new BufferedReader(new InputStreamReader(r.url.openStream()));
 					String line;
 					StringBuilder full = new StringBuilder();
@@ -101,6 +118,11 @@ public class AppEngineConnector implements Runnable {
 						full.append(line+"\n");
 					}
 					r.listener.textReceived(r.fullRequest, full.toString());
+					break;
+				case XML:
+					d = new SAXBuilder().build(r.url);
+					r.listener.xmlReceived(r.fullRequest, d);
+					break;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
