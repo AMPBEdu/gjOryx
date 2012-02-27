@@ -52,6 +52,8 @@ public class FameBonus {
 			return;
 		}
 		
-		
+		name = e.getAttributeValue("id");
+		desc = e.getAttributeValue("desc");
+		fame = Integer.parseInt(e.getText());
 	}
 }
