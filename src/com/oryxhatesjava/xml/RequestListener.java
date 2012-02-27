@@ -38,4 +38,5 @@ public interface RequestListener {
 	public void textReceived(String fullRequest, String text);
 	public void accountReceived(String fullRequest, Account account);
 	public void charsReceived(String fullRequest, Chars chars);
+	public void guildMemberListReceived(String fullRequest, GuildMembers members);
 }

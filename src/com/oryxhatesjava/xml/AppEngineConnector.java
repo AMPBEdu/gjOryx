@@ -50,7 +50,8 @@ public class AppEngineConnector implements Runnable {
 		PlainText,
 		XML,
 		Account,
-		CharList
+		CharList,
+		GuildMemberList
 	}
 	class Request {
 		public RequestType type = RequestType.XML;
@@ -111,6 +112,15 @@ public class AppEngineConnector implements Runnable {
 		}
 	}
 	
+	public synchronized void getGuildMemberList(int num, int offset, String guid, String password, RequestListener callback) {
+		try {
+			URL url = new URL(urlbase + "/guild/listMembers?num=" + num + "&offset=" + offset + "&guid=" + guid + "&password=" + password);
+			reqs.add(new Request(url, "/guild/list", RequestType.GuildMemberList, callback));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void run() {
 		Request r;
@@ -139,6 +149,10 @@ public class AppEngineConnector implements Runnable {
 					case CharList:
 						d = new SAXBuilder().build(r.url);
 						r.listener.charsReceived(r.fullRequest, new Chars(d.getRootElement()));
+						break;
+					case GuildMemberList:
+						d = new SAXBuilder().build(r.url);
+						r.listener.guildMemberListReceived(r.fullRequest, new GuildMembers(d.getRootElement()));
 						break;
 					}
 				} catch (Exception e) {
