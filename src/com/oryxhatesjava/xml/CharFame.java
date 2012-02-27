@@ -35,60 +35,66 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.jdom.Document;
 import org.jdom.Element;
 
-public class Chars {
+public class CharFame {
 
-	public int nextCharId;
-	public int maxNumChars;
-	public Account account;
-	public List<Char> chars;
-	public List<NewsItem> news;
-	public List<Server> servers;
+	public Char chara;
+	public int baseFame;
+	public int totalFame;
+	public int shots;
+	public int hitShots;
+	public int specialUse;
+	public int tiles;
+	public int teleports;
+	public int potions;
+	public int monsterKills;
+	public int monsterAssists;
+	public int quests;
+	public int levelAssists;
+	public int minutes;
+	public List<FameBonus> bonuses;
+	public int createdOn;
+	public int prevTotalFame;
+	public String killedBy;
 	
-	public Chars() {
+	public CharFame() {
 		
 	}
 	
-	public Chars(Element e) {
-		parseElement(e);
+	public CharFame(Element e) {
+		
 	}
 	
 	@SuppressWarnings("unchecked")
 	public void parseElement(Element e) {
-		if (!e.getName().equals("Chars")) {
+		if (!e.getName().equals("Fame")) {
 			return;
 		}
 		
-		nextCharId = Integer.parseInt(e.getAttributeValue("nextCharId"));
-		maxNumChars = Integer.parseInt(e.getAttributeValue("maxNumChars"));
+		chara = new Char(e.getChild("Char"));
+		baseFame = Integer.parseInt(e.getChildText("BaseFame"));
+		totalFame = Integer.parseInt(e.getChildText("TotalFame"));
+		shots = Integer.parseInt(e.getChildText("Shots"));
+		hitShots = Integer.parseInt(e.getChildText("ShotsThatDamage"));
+		specialUse = Integer.parseInt(e.getChildText("SpecialAbilityUses"));
+		tiles = Integer.parseInt(e.getChildText("TilesUncovered"));
+		teleports = Integer.parseInt(e.getChildText("Teleports"));
+		potions = Integer.parseInt(e.getChildText("PotionsDrunk"));
+		monsterKills = Integer.parseInt(e.getChildText("MonsterKills"));
+		monsterAssists = Integer.parseInt(e.getChildText("MonsterAssists"));
+		quests = Integer.parseInt(e.getChildText("QuestsCompleted"));
+		levelAssists = Integer.parseInt(e.getChildText("LevelUpAssists"));
+		minutes = Integer.parseInt(e.getChildText("MinutesActive"));
 		
-		chars = new LinkedList<Char>();
-		Iterator<Element> itr = e.getChildren("Char").iterator();
+		bonuses = new LinkedList<FameBonus>();
+		Iterator<Element> itr = e.getChildren("Bonus").iterator();
 		while (itr.hasNext()) {
-			Element ce = itr.next();
-			Char c = new Char(ce);
-			chars.add(c);
+			bonuses.add(new FameBonus(itr.next()));
 		}
 		
-		account = new Account(e.getChild("Account"));
-		
-		news = new LinkedList<NewsItem>();
-		itr = e.getChild("News").getChildren("Item").iterator();
-		while (itr.hasNext()) {
-			Element ie = itr.next();
-			NewsItem i = new NewsItem(ie);
-			news.add(i);
-		}
-		
-		servers = new LinkedList<Server>();
-		itr = e.getChild("Servers").getChildren("Server").iterator();
-		while (itr.hasNext()) {
-			Element se = itr.next();
-			Server s = new Server(se);
-			servers.add(s);
-		}
-		
+		createdOn = Integer.parseInt(e.getChildText("CreatedOn"));
+		prevTotalFame = Integer.parseInt(e.getChildText("PreviousAccountTotalFame"));
+		killedBy = e.getChildText("KilledBy");
 	}
 }

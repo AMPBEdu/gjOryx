@@ -52,7 +52,8 @@ public class AppEngineConnector implements Runnable {
 		Account,
 		CharList,
 		GuildMemberList,
-		FameList
+		FameList,
+		CharFame
 	}
 	class Request {
 		public RequestType type = RequestType.XML;
@@ -131,6 +132,15 @@ public class AppEngineConnector implements Runnable {
 		}
 	}
 	
+	public synchronized void getCharFame(int accountId, int charId, RequestListener callback) {
+		try {
+			URL url = new URL(urlbase + "/char/fame?accountId=" + accountId + "&charId=" + charId);
+			reqs.add(new Request(url, "/char/fame", RequestType.CharFame, callback));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void run() {
 		Request r;
@@ -167,6 +177,10 @@ public class AppEngineConnector implements Runnable {
 					case FameList:
 						d = new SAXBuilder().build(r.url);
 						r.listener.fameListReceived(r.fullRequest, new FameList(d.getRootElement()));
+						break;
+					case CharFame:
+						d = new SAXBuilder().build(r.url);
+						r.listener.charFameReceived(r.fullRequest, new CharFame(d.getRootElement()));
 						break;
 					}
 				} catch (Exception e) {
