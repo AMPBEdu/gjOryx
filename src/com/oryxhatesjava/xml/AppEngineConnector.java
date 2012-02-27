@@ -34,7 +34,6 @@ package com.oryxhatesjava.xml;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -53,7 +52,8 @@ public class AppEngineConnector implements Runnable {
 		CharList,
 		GuildMemberList,
 		FameList,
-		CharFame
+		CharFame,
+		SuccessFail
 	}
 	class Request {
 		public RequestType type = RequestType.XML;
@@ -141,6 +141,15 @@ public class AppEngineConnector implements Runnable {
 		}
 	}
 	
+	public synchronized void getBoolean(String service, String request, String postdata, RequestListener callback) {
+		try {
+			URL url = new URL(urlbase + service + request + "?" + postdata);
+			reqs.add(new Request(url, service+request, RequestType.SuccessFail, callback));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void run() {
 		Request r;
@@ -182,6 +191,13 @@ public class AppEngineConnector implements Runnable {
 						d = new SAXBuilder().build(r.url);
 						r.listener.charFameReceived(r.fullRequest, new CharFame(d.getRootElement()));
 						break;
+					case SuccessFail:
+					{
+						d = new SAXBuilder().build(r.url);
+						boolean success = (d.getRootElement().getChild("Success") != null ? true : false);
+						r.listener.booleanReceived(r.fullRequest, success);
+						break;
+					}
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

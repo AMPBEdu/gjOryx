@@ -41,4 +41,5 @@ public interface RequestListener {
 	public void guildMemberListReceived(String fullRequest, GuildMembers members);
 	public void fameListReceived(String fullRequest, FameList list);
 	public void charFameReceived(String fullRequest, CharFame fame);
+	public void booleanReceived(String fullRequest, boolean success);
 }
