@@ -31,9 +31,21 @@
 
 package com.oryxhatesjava;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
+
+import net.clarenceho.crypto.RC4;
+
+import com.oryxhatesjava.net.ByteArrayDataOutput;
+import com.oryxhatesjava.net.Packet;
+import com.oryxhatesjava.proxy.Proxy;
 
 /**
  * <p>
@@ -50,11 +62,20 @@ public class Client implements Runnable {
 	public static final int PORT = 2050;
 	private InetAddress address;
 	private Socket socket;
+	private RC4 cipherOut;
+	private RC4 cipherIn;
+	private DataOutputStream write;
+	private DataInputStream read;
 	
-	
+	private List<ClientListener> listeners;
+	private Map<ClientListener, PacketFilter> filters;
 	
 	public Client(InetAddress address) {
 		this.address = address;
+		listeners = new Vector<ClientListener>();
+		filters = new HashMap<ClientListener, PacketFilter>();
+		cipherOut = new RC4(Proxy.CLIENTKEY);
+		cipherIn = new RC4(Proxy.SERVERKEY);
 	}
 	
     /*
@@ -66,11 +87,57 @@ public class Client implements Runnable {
         // Connect to the server
     	try {
 			socket = new Socket(address, PORT);
+			write = new DataOutputStream(socket.getOutputStream());
+			read = new DataInputStream(socket.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;
 		}
     	
-    	
+    	while (true) {
+    		Packet pkt = null;
+    		try {
+    			int length = read.readInt();
+    			int type = read.readByte();
+    			byte[] buf = new byte[length-5];
+    			read.readFully(buf);
+    			pkt = Packet.parse(type, cipherIn.rc4(buf));
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    			break;
+    		} finally {
+    			for (ClientListener l : listeners) {
+    				PacketFilter f = filters.get(l);
+    				if (f.select(pkt)) {
+    					l.packetReceived(pkt);
+    				}
+    			}
+    		}
+    	}
+    }
+    
+    public synchronized void addListener(ClientListener l, PacketFilter filter) {
+    	listeners.add(l);
+    	filters.put(l, filter);
+    }
+    
+    public synchronized void addListener(ClientListener l, boolean accept, int ... filter) {
+    	listeners.add(l);
+    	PacketFilter f = new PacketFilter(accept, filter);
+    	filters.put(l, f);
+    }
+    
+    public synchronized void removeListener(ClientListener l) {
+    	listeners.remove(l);
+    	filters.remove(l);
+    }
+    
+    public synchronized void sendPacket(Packet pkt) throws IOException {
+    	ByteArrayDataOutput b = new ByteArrayDataOutput(4096);
+    	pkt.writeToDataOutput(b);
+    	byte[] buf = b.getArray();
+    	write.writeInt(buf.length+5);
+    	write.writeByte(pkt.type);
+    	write.write(cipherOut.rc4(buf));
     }
 }
