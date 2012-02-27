@@ -105,9 +105,9 @@ public class Account {
 			return;
 		}
 		
-		credits = Integer.parseInt(accountRoot.getChild("Credits").getValue());
-		nextSlotPrice = Integer.parseInt(accountRoot.getChild("NextCharSlotPrice").getValue());
-		accountId = Integer.parseInt(accountRoot.getChild("AccountId").getValue());
+		credits = Integer.parseInt(accountRoot.getChildText("Credits"));
+		nextSlotPrice = Integer.parseInt(accountRoot.getChildText("NextCharSlotPrice"));
+		accountId = Integer.parseInt(accountRoot.getChildText("AccountId"));
 		if (accountRoot.getChild("VerifiedEmail") != null) {
 			verifiedEmail = true;
 		} else {
@@ -115,7 +115,7 @@ public class Account {
 		}
 		
 		starredAccounts = new Vector<Integer>();
-		Scanner scan = new Scanner(accountRoot.getChild("StarredAccounts").getValue());
+		Scanner scan = new Scanner(accountRoot.getChildText("StarredAccounts"));
 		scan.useDelimiter(",");
 		while (scan.hasNextInt()) {
 			starredAccounts.add(scan.nextInt());
@@ -123,7 +123,7 @@ public class Account {
 		scan.close();
 		
 		ignoredAccounts = new Vector<Integer>();
-		scan = new Scanner(accountRoot.getChild("IgnoredAccounts").getValue());
+		scan = new Scanner(accountRoot.getChildText("IgnoredAccounts"));
 		scan.useDelimiter(",");
 		while (scan.hasNextInt()) {
 			ignoredAccounts.add(scan.nextInt());
@@ -139,7 +139,7 @@ public class Account {
 		while (itr.hasNext()) {
 			Element e = itr.next();
 			LinkedList<Integer> chest = new LinkedList<Integer>();
-			scan = new Scanner(e.getValue());
+			scan = new Scanner(e.getText());
 			scan.useDelimiter(",");
 			while (scan.hasNextInt()) {
 				chest.add(scan.nextInt());
@@ -147,30 +147,34 @@ public class Account {
 			scan.close();
 		}
 		
-		name = accountRoot.getChild("Name").getValue();
+		name = accountRoot.getChildText("Name");
 		if (accountRoot.getChild("NameChosen") != null) {
 			nameChosen = true;
 		} else {
 			nameChosen = false;
 		}
 		
-		bestCharFame = Integer.parseInt(accountRoot.getChild("BestCharFame").getValue());
-		totalFame = Integer.parseInt(accountRoot.getChild("TotalFame").getValue());
-		currentFame = Integer.parseInt(accountRoot.getChild("Fame").getValue());
+		Element stats = accountRoot.getChild("Stats");
+		
+		bestCharFame = Integer.parseInt(stats.getChildText("BestCharFame"));
+		totalFame = Integer.parseInt(stats.getChildText("TotalFame"));
+		currentFame = Integer.parseInt(stats.getChildText("Fame"));
 		
 		Element guildElement = accountRoot.getChild("Guild");
 		
-		guildId = Integer.parseInt(guildElement.getAttributeValue("id"));
-		guildName = guildElement.getChild("Name").getValue();
-		guildRank = Integer.parseInt(guildElement.getChild("Rank").getValue());
+		if (guildElement != null) {
+			guildId = Integer.parseInt(guildElement.getAttributeValue("id"));
+			guildName = guildElement.getChildText("Name");
+			guildRank = Integer.parseInt(guildElement.getChildText("Rank"));
+		}
 		
-		itr = accountRoot.getChildren("ClassStats").iterator();
+		itr = stats.getChildren("ClassStats").iterator();
 		
 		while (itr.hasNext()) {
 			Element e = itr.next();
 			int classId = Integer.parseInt(e.getAttributeValue("objectType").substring(2), 16);
-			int bestLevel = Integer.parseInt(e.getChild("BestLevel").getValue());
-			int bestFame = Integer.parseInt(e.getChild("BestFame").getValue());
+			int bestLevel = Integer.parseInt(e.getChildText("BestLevel"));
+			int bestFame = Integer.parseInt(e.getChildText("BestFame"));
 			switch (classId) {
 			case ARCHER:
 				archerBestLevel = bestLevel;
@@ -191,6 +195,6 @@ public class Account {
 	
 	@Override
 	public String toString() {
-		return "Account [accountId=" + accountId + ", guildName=" + guildName + "]";
+		return "Account [accountId=" + accountId + ", name=" + name + "]";
 	}
 }

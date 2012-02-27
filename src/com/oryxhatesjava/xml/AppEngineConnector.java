@@ -36,6 +36,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.jdom.Document;
 import org.jdom.input.SAXBuilder;
@@ -70,11 +71,12 @@ public class AppEngineConnector implements Runnable {
 	
 	public AppEngineConnector(String urlBase) {
 		urlbase = urlBase;
+		reqs = new LinkedBlockingQueue<Request>();
 	}
 	
 	public synchronized void getXMLRequest(String service, String request, String postdata, RequestListener callback) {
 		try {
-			URL url = new URL(urlbase + service + request + "?" + URLEncoder.encode(postdata, "UTF-8"));
+			URL url = new URL(urlbase + service + request + "?" + postdata);
 			reqs.add(new Request(url, service+request, RequestType.XML, callback));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -83,7 +85,7 @@ public class AppEngineConnector implements Runnable {
 	
 	public synchronized void getTextRequest(String service, String request, String postdata, RequestListener callback) {
 		try {
-			URL url = new URL(urlbase + service + request + "?" + URLEncoder.encode(postdata, "UTF-8"));
+			URL url = new URL(urlbase + service + request + "?" + postdata);
 			reqs.add(new Request(url, service+request, RequestType.PlainText, callback));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -92,7 +94,7 @@ public class AppEngineConnector implements Runnable {
 	
 	public synchronized void getAccount(String guid, String password, RequestListener callback) {
 		try {
-			URL url = new URL(urlbase + "/account/verify?" + URLEncoder.encode("guid=" + guid + "&password=" + password, "UTF-8"));
+			URL url = new URL(urlbase + "/account/verify?" + "guid=" + guid + "&password=" + password);
 			reqs.add(new Request(url, "/account/verify", RequestType.Account, callback));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -102,31 +104,35 @@ public class AppEngineConnector implements Runnable {
 	@Override
 	public void run() {
 		Request r;
-		while ((r = reqs.poll()) != null) {
-			try {
-				Document d;
-				switch (r.type) {
-				case Account:
-					d = new SAXBuilder().build(r.url);
-					r.listener.accountReceived(r.fullRequest, new Account(d));
-					break;
-				case PlainText:
-					BufferedReader br = new BufferedReader(new InputStreamReader(r.url.openStream()));
-					String line;
-					StringBuilder full = new StringBuilder();
-					while ((line = br.readLine()) != null) {
-						full.append(line+"\n");
+		try {
+			while ((r = reqs.take()) != null) {
+				try {
+					Document d;
+					switch (r.type) {
+					case Account:
+						d = new SAXBuilder().build(r.url);
+						r.listener.accountReceived(r.fullRequest, new Account(d));
+						break;
+					case PlainText:
+						BufferedReader br = new BufferedReader(new InputStreamReader(r.url.openStream()));
+						String line;
+						StringBuilder full = new StringBuilder();
+						while ((line = br.readLine()) != null) {
+							full.append(line+"\n");
+						}
+						r.listener.textReceived(r.fullRequest, full.toString());
+						break;
+					case XML:
+						d = new SAXBuilder().build(r.url);
+						r.listener.xmlReceived(r.fullRequest, d);
+						break;
 					}
-					r.listener.textReceived(r.fullRequest, full.toString());
-					break;
-				case XML:
-					d = new SAXBuilder().build(r.url);
-					r.listener.xmlReceived(r.fullRequest, d);
-					break;
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 }
