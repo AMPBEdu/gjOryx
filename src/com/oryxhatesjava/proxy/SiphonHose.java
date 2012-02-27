@@ -64,7 +64,7 @@ public class SiphonHose implements Runnable {
     public RC4 cipher;
     private PrintWriter fileOut;
     private String name;
-    public static final int[] FILTER = {Packet.MOVE, Packet.UPDATE, Packet.UNK_UPDATEME, Packet.NEW_TICK, Packet.PING, Packet.PONG, Packet.ALLYSHOOT};
+    public static final int[] FILTER = {Packet.MOVE, Packet.UNK_UPDATEME, Packet.NEW_TICK, Packet.PING, Packet.PONG, Packet.ALLYSHOOT};
     
     public SiphonHose(InputStream recv, OutputStream replyTo, byte[] key, String name) {
         this.recv = new DataInputStream(recv);
