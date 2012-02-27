@@ -95,8 +95,8 @@ public class Account {
 		
 	}
 	
-	public Account(Document d) {
-		parseElement(d.getRootElement());
+	public Account(Element e) {
+		parseElement(e);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -115,20 +115,25 @@ public class Account {
 		}
 		
 		starredAccounts = new Vector<Integer>();
-		Scanner scan = new Scanner(accountRoot.getChildText("StarredAccounts"));
-		scan.useDelimiter(",");
-		while (scan.hasNextInt()) {
-			starredAccounts.add(scan.nextInt());
+		Scanner scan;
+		if (accountRoot.getChild("StarredAccounts") != null) {
+			scan = new Scanner(accountRoot.getChildText("StarredAccounts"));
+			scan.useDelimiter(",");
+			while (scan.hasNextInt()) {
+				starredAccounts.add(scan.nextInt());
+			}
+			scan.close();
 		}
-		scan.close();
-		
+
 		ignoredAccounts = new Vector<Integer>();
-		scan = new Scanner(accountRoot.getChildText("IgnoredAccounts"));
-		scan.useDelimiter(",");
-		while (scan.hasNextInt()) {
-			ignoredAccounts.add(scan.nextInt());
+		if (accountRoot.getChild("IgnoredAccounts") != null) {
+			scan = new Scanner(accountRoot.getChildText("IgnoredAccounts"));
+			scan.useDelimiter(",");
+			while (scan.hasNextInt()) {
+				ignoredAccounts.add(scan.nextInt());
+			}
+			scan.close();
 		}
-		scan.close();
 		
 		chests = new Vector<List<Integer>>();
 		

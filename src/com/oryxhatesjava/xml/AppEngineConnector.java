@@ -49,7 +49,8 @@ public class AppEngineConnector implements Runnable {
 	enum RequestType {
 		PlainText,
 		XML,
-		Account
+		Account,
+		CharList
 	}
 	class Request {
 		public RequestType type = RequestType.XML;
@@ -101,6 +102,15 @@ public class AppEngineConnector implements Runnable {
 		}
 	}
 	
+	public synchronized void getChars(String guid, String password, RequestListener callback) {
+		try {
+			URL url = new URL(urlbase + "/char/list?guid=" + guid + "&password=" + password);
+			reqs.add(new Request(url, "/char/list", RequestType.CharList, callback));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void run() {
 		Request r;
@@ -111,7 +121,7 @@ public class AppEngineConnector implements Runnable {
 					switch (r.type) {
 					case Account:
 						d = new SAXBuilder().build(r.url);
-						r.listener.accountReceived(r.fullRequest, new Account(d));
+						r.listener.accountReceived(r.fullRequest, new Account(d.getRootElement()));
 						break;
 					case PlainText:
 						BufferedReader br = new BufferedReader(new InputStreamReader(r.url.openStream()));
@@ -125,6 +135,10 @@ public class AppEngineConnector implements Runnable {
 					case XML:
 						d = new SAXBuilder().build(r.url);
 						r.listener.xmlReceived(r.fullRequest, d);
+						break;
+					case CharList:
+						d = new SAXBuilder().build(r.url);
+						r.listener.charsReceived(r.fullRequest, new Chars(d.getRootElement()));
 						break;
 					}
 				} catch (Exception e) {

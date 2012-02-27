@@ -36,5 +36,6 @@ import org.jdom.Document;
 public interface RequestListener {
 	public void xmlReceived(String fullRequest, Document doc);
 	public void textReceived(String fullRequest, String text);
-	public void accountReceived(String fullReqest, Account account);
+	public void accountReceived(String fullRequest, Account account);
+	public void charsReceived(String fullRequest, Chars chars);
 }
