@@ -45,27 +45,31 @@ public class Serializer {
 	public static void writeArray(DataOutput out, Parsable[] array) throws IOException {
 		int size = array.length;
 		out.writeShort(size);
-		for (Parsable w : array) {
-			w.writeToDataOutput(out);
+		if (size != 0) {
+			for (Parsable w : array) {
+				w.writeToDataOutput(out);
+			}
 		}
 	}
 	
 	public static void writeArray(DataOutput out, int[] array, int cast) throws IOException {
 		int size = array.length;
 		out.writeShort(size);
-		for (int i : array) {
-			switch (cast) {
-			case AS_INT:
-				out.writeInt(i);
-				break;
-			case AS_BYTE:
-				out.writeByte(i);
-				break;
-			case AS_SHORT:
-				out.writeShort(i);
-				break;
-			default:
-				throw new IllegalArgumentException("invalid cast operation");
+		if (size != 0) {
+			for (int i : array) {
+				switch (cast) {
+				case AS_INT:
+					out.writeInt(i);
+					break;
+				case AS_BYTE:
+					out.writeByte(i);
+					break;
+				case AS_SHORT:
+					out.writeShort(i);
+					break;
+				default:
+					throw new IllegalArgumentException("invalid cast operation");
+				}
 			}
 		}
 	}
@@ -73,8 +77,10 @@ public class Serializer {
 	public static void writeArray(DataOutput out, boolean[] array) throws IOException {
 		int size = array.length;
 		out.writeShort(size);
-		for (boolean i : array) {
-			out.writeBoolean(i);
+		if (size != 0) {
+			for (boolean i : array) {
+				out.writeBoolean(i);
+			}
 		}
 	}
 }
