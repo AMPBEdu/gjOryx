@@ -37,19 +37,19 @@ import java.io.IOException;
 
 import com.oryxhatesjava.net.data.Parsable;
 
-public class UpdateMePacket extends Packet implements Parsable {
+public class UpdateAckPacket extends Packet implements Parsable {
 
-	public UpdateMePacket(DataInput in) {
+	public UpdateAckPacket(DataInput in) {
 		try {
-			type = Packet.UNK_UPDATEME;
+			type = Packet.UPDATEACK;
 			parseFromDataInput(in);
 		} catch (IOException e ) {
 			
 		}
 	}
 	
-	public UpdateMePacket() {
-		type = Packet.UNK_UPDATEME;
+	public UpdateAckPacket() {
+		type = Packet.UPDATEACK;
 	}
 
 	@Override

@@ -53,7 +53,7 @@ import com.oryxhatesjava.net.GotoPacket;
 import com.oryxhatesjava.net.Packet;
 import com.oryxhatesjava.net.PingPacket;
 import com.oryxhatesjava.net.PongPacket;
-import com.oryxhatesjava.net.UpdateMePacket;
+import com.oryxhatesjava.net.UpdateAckPacket;
 import com.oryxhatesjava.net.UpdatePacket;
 import com.oryxhatesjava.net.data.GameObject;
 import com.oryxhatesjava.proxy.Proxy;
@@ -177,7 +177,7 @@ public class Client implements Runnable {
     					}
     				}
     				
-    				UpdateMePacket ump = new UpdateMePacket();
+    				UpdateAckPacket ump = new UpdateAckPacket();
     				sendPacket(ump);
     			}
     			
