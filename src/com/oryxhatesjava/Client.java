@@ -88,6 +88,8 @@ public class Client implements Runnable {
 	private int playerCharId;
 	private List<ObjectStatus> gameObjects;
 	
+	private boolean automaticallyHandling = true;
+	
 	public Client(InetAddress address) {
 		this.address = address;
 		packetListeners = new Vector<PacketListener>();
@@ -132,75 +134,8 @@ public class Client implements Runnable {
     			byte[] buf = new byte[length-5];
     			read.readFully(buf);
     			pkt = Packet.parse(type, cipherIn.rc4(buf));
-    			
-    			// Catch ping/pong because this should be same across any client
-    			if (pkt instanceof PingPacket) {
-    				PingPacket pp = (PingPacket)pkt;
-    				PongPacket pop = new PongPacket();
-    				pop.serial = pp.serial;
-    				pop.time = (int) (System.currentTimeMillis() - startTime);
-    				sendPacket(pop);
-    			}
-    			// Catch UPDATE since you ALWAYS need to respond with an ack
-    			if (pkt instanceof UpdatePacket) {
-    				UpdatePacket up = (UpdatePacket)pkt;
-    				
-    				// Remove objects dropped
-    				if (up.drops != null) {
-    					for (int i : up.drops) {
-    						ObjectStatus del = null;
-    						for (ObjectStatus lo : gameObjects) {
-    							if (lo.data.objectId == i) {
-    								del = lo;
-    							}
-    						}
-    						if (del != null) {
-    							gameObjects.remove(del);
-    							for (DataListener dl : dataListeners) {
-    								dl.objectRemoved(this, del);
-    							}
-    						}
-    					}
-    				}
-    				
-    				// Add and update new objects
-    				if (up.newobjs != null) {
-    					for (ObjectStatus o : up.newobjs) {
-    						Iterator<ObjectStatus> itr = gameObjects.iterator();
-    						ObjectStatus existing = null;
-    						while (itr.hasNext()) {
-    							ObjectStatus lo = itr.next();
-    							if (lo.data.objectId == o.data.objectId) {
-    								existing = lo;
-    							}
-    							if (existing != null) {
-        							existing.update(o);
-        							for (DataListener dl : dataListeners) {
-        								dl.objectUpdated(this, lo);
-        							}
-        						} else {
-        							gameObjects.add(o);
-        							for (DataListener dl : dataListeners) {
-        								dl.objectAdded(this, o);
-        							}
-        						}
-    						}
-    					}
-    				}
-    				
-    				UpdateAckPacket ump = new UpdateAckPacket();
-    				sendPacket(ump);
-    			}
-    			
-    			if (pkt instanceof CreateSuccessPacket) {
-    				CreateSuccessPacket csp = (CreateSuccessPacket)pkt;
-    				playerCharId = csp.objectId;
-    			}
-    			
-    			if (pkt instanceof GotoPacket) {
-    				GotoAckPacket gtap = new GotoAckPacket();
-    				gtap.time = getTime(); // TODO update goto'd object
-    				sendPacket(gtap);
+    			if (isAutomaticallyHandling()) {
+    				automaticHandling(pkt);
     			}
     		} catch (IOException e) {
     			e.printStackTrace();
@@ -283,4 +218,84 @@ public class Client implements Runnable {
     	}
     	return null;
     }
+    
+    private void automaticHandling(Packet pkt) throws IOException {
+		// Catch ping/pong because this should be same across any client
+		if (pkt instanceof PingPacket) {
+			PingPacket pp = (PingPacket)pkt;
+			PongPacket pop = new PongPacket();
+			pop.serial = pp.serial;
+			pop.time = (int) (System.currentTimeMillis() - startTime);
+			sendPacket(pop);
+		}
+		// Catch UPDATE since you ALWAYS need to respond with an ack
+		if (pkt instanceof UpdatePacket) {
+			UpdatePacket up = (UpdatePacket)pkt;
+			
+			// Remove objects dropped
+			if (up.drops != null) {
+				for (int i : up.drops) {
+					ObjectStatus del = null;
+					for (ObjectStatus lo : gameObjects) {
+						if (lo.data.objectId == i) {
+							del = lo;
+						}
+					}
+					if (del != null) {
+						gameObjects.remove(del);
+						for (DataListener dl : dataListeners) {
+							dl.objectRemoved(this, del);
+						}
+					}
+				}
+			}
+			
+			// Add and update new objects
+			if (up.newobjs != null) {
+				for (ObjectStatus o : up.newobjs) {
+					Iterator<ObjectStatus> itr = gameObjects.iterator();
+					ObjectStatus existing = null;
+					while (itr.hasNext()) {
+						ObjectStatus lo = itr.next();
+						if (lo.data.objectId == o.data.objectId) {
+							existing = lo;
+						}
+						if (existing != null) {
+							existing.update(o);
+							for (DataListener dl : dataListeners) {
+								dl.objectUpdated(this, lo);
+							}
+						} else {
+							gameObjects.add(o);
+							for (DataListener dl : dataListeners) {
+								dl.objectAdded(this, o);
+							}
+						}
+					}
+				}
+			}
+			
+			UpdateAckPacket ump = new UpdateAckPacket();
+			sendPacket(ump);
+		}
+		
+		if (pkt instanceof CreateSuccessPacket) {
+			CreateSuccessPacket csp = (CreateSuccessPacket)pkt;
+			playerCharId = csp.objectId;
+		}
+		
+		if (pkt instanceof GotoPacket) {
+			GotoAckPacket gtap = new GotoAckPacket();
+			gtap.time = getTime(); // TODO update goto'd object
+			sendPacket(gtap);
+		}
+    }
+
+	public boolean isAutomaticallyHandling() {
+		return automaticallyHandling;
+	}
+
+	public void setAutomaticallyHandling(boolean automaticallyHandling) {
+		this.automaticallyHandling = automaticallyHandling;
+	}
 }
