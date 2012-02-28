@@ -1,0 +1,91 @@
+<Regions>
+   
+  <Region id="Spawn" type="0x01">
+     
+    <Color>
+      0x00FF00
+    </Color>
+     
+  </Region>
+   
+  <Region id="Realm Portals" type="0x02">
+     
+    <Color>
+      0xFF0000
+    </Color>
+     
+  </Region>
+   
+  <Region id="Store 1" type="0x03">
+     
+    <Color>
+      0xFFDCF3
+    </Color>
+     
+  </Region>
+   
+  <Region id="Store 2" type="0x04">
+     
+    <Color>
+      0xD9FFF3
+    </Color>
+     
+  </Region>
+   
+  <Region id="Store 3" type="0x05">
+     
+    <Color>
+      0xC6B1FF
+    </Color>
+     
+  </Region>
+   
+  <Region id="Store 4" type="0x06">
+     
+    <Color>
+      0xB1DAFF
+    </Color>
+     
+  </Region>
+   
+  <Region id="Store 5" type="0x07">
+     
+    <Color>
+      0xFCFFB1
+    </Color>
+     
+  </Region>
+   
+  <Region id="Store 6" type="0x08">
+     
+    <Color>
+      0xD5FFB9
+    </Color>
+     
+  </Region>
+   
+  <Region id="Vault" type="0x09">
+     
+    <Color>
+      0x828492
+    </Color>
+     
+  </Region>
+   
+  <Region id="Loot" type="0x0a">
+     
+    <Color>
+      0x7E2BCB
+    </Color>
+     
+  </Region>
+   
+  <Region id="Defender" type="0x0b">
+     
+    <Color>
+      0xFF7919
+    </Color>
+     
+  </Region>
+   
+</Regions>
