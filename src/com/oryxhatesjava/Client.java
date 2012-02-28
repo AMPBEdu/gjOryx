@@ -47,7 +47,6 @@ import net.clarenceho.crypto.RC4;
 
 import com.oryxhatesjava.net.ByteArrayDataOutput;
 import com.oryxhatesjava.net.CreateSuccessPacket;
-import com.oryxhatesjava.net.FailurePacket;
 import com.oryxhatesjava.net.GotoAckPacket;
 import com.oryxhatesjava.net.GotoPacket;
 import com.oryxhatesjava.net.Packet;
@@ -81,18 +80,20 @@ public class Client implements Runnable {
 	
 	private boolean running = true;
 	
-	private List<ClientListener> listeners;
-	private Map<ClientListener, PacketFilter> filters;
-	private Packet lastRecv;
-	private Packet lastSent;
+	private List<PacketListener> packetListeners;
+	private List<ClientListener> clientListeners;
+	private List<DataListener> dataListeners;
+	private Map<PacketListener, PacketFilter> packetFilters;
 	
 	private int playerCharId;
 	private List<GameObject> gameObjects;
 	
 	public Client(InetAddress address) {
 		this.address = address;
-		listeners = new Vector<ClientListener>();
-		filters = new HashMap<ClientListener, PacketFilter>();
+		packetListeners = new Vector<PacketListener>();
+		clientListeners = new Vector<ClientListener>();
+		dataListeners = new Vector<DataListener>();
+		packetFilters = new HashMap<PacketListener, PacketFilter>();
 		cipherOut = new RC4(Proxy.CLIENTKEY);
 		cipherIn = new RC4(Proxy.SERVERKEY);
 	}
@@ -111,7 +112,7 @@ public class Client implements Runnable {
 			read = new DataInputStream(socket.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
-			for (ClientListener l : listeners) {
+			for (ClientListener l : clientListeners) {
     			l.disconnected(this);
     		}
 			return;
@@ -119,7 +120,7 @@ public class Client implements Runnable {
     	
     	gameObjects = new LinkedList<GameObject>();
     	
-    	for (ClientListener l : listeners) {
+    	for (ClientListener l : clientListeners) {
     		l.connected(this);
     	}
     	
@@ -156,6 +157,9 @@ public class Client implements Runnable {
     						}
     						if (del != null) {
     							gameObjects.remove(del);
+    							for (DataListener dl : dataListeners) {
+    								dl.objectRemoved(this, del);
+    							}
     						}
     					}
     				}
@@ -169,10 +173,18 @@ public class Client implements Runnable {
     							if (lo.data.objectId == o.data.objectId) {
     								del = lo;
     							}
+    							if (del != null) {
+        							gameObjects.remove(del);
+        							for (DataListener dl : dataListeners) {
+        								dl.objectUpdated(this, lo);
+        							}
+        						} else {
+        							for (DataListener dl : dataListeners) {
+        								dl.objectAdded(this, lo);
+        							}
+        						}
     						}
-    						if (del != null) {
-    							gameObjects.remove(del);
-    						}
+    						
     						gameObjects.add(o);
     					}
     				}
@@ -187,7 +199,6 @@ public class Client implements Runnable {
     			}
     			
     			if (pkt instanceof GotoPacket) {
-    				GotoPacket gtp = (GotoPacket)pkt;
     				GotoAckPacket gtap = new GotoAckPacket();
     				gtap.time = getTime(); // TODO update goto'd object
     				sendPacket(gtap);
@@ -196,14 +207,12 @@ public class Client implements Runnable {
     			e.printStackTrace();
     			break;
     		} finally {
-    			for (ClientListener l : listeners) {
-    				PacketFilter f = filters.get(l);
+    			for (PacketListener l : packetListeners) {
+    				PacketFilter f = packetFilters.get(l);
     				if (pkt.type == Packet.FAILURE) {
-    					l.failure(this, (FailurePacket)pkt, lastRecv, lastSent);
     					running = false;
     				} else if (f.select(pkt)) {
     					l.packetReceived(this, pkt);
-    					lastRecv = pkt;
     				}
     			}
     		}
@@ -214,7 +223,7 @@ public class Client implements Runnable {
     		read.close();
     		socket.close();
     		
-    		for (ClientListener l : listeners) {
+    		for (ClientListener l : clientListeners) {
     			l.disconnected(this);
     		}
     	} catch (Exception e) {
@@ -222,20 +231,36 @@ public class Client implements Runnable {
     	}
     }
     
-    public synchronized void addListener(ClientListener l, PacketFilter filter) {
-    	listeners.add(l);
-    	filters.put(l, filter);
+    public synchronized void addPacketListener(PacketListener l, PacketFilter filter) {
+    	packetListeners.add(l);
+    	packetFilters.put(l, filter);
     }
     
-    public synchronized void addListener(ClientListener l, boolean accept, int ... filter) {
-    	listeners.add(l);
+    public synchronized void addPacketListener(PacketListener l, boolean accept, int ... filter) {
+    	packetListeners.add(l);
     	PacketFilter f = new PacketFilter(accept, filter);
-    	filters.put(l, f);
+    	packetFilters.put(l, f);
     }
     
-    public synchronized void removeListener(ClientListener l) {
-    	listeners.remove(l);
-    	filters.remove(l);
+    public synchronized void removePacketListener(PacketListener l) {
+    	packetListeners.remove(l);
+    	packetFilters.remove(l);
+    }
+    
+    public synchronized void addClientListener(ClientListener l) {
+    	clientListeners.add(l);
+    }
+    
+    public synchronized void removeClientListener(ClientListener l) {
+    	clientListeners.remove(l);
+    }
+    
+    public synchronized void addDataListener(DataListener l) {
+    	dataListeners.add(l);
+    }
+    
+    public synchronized void removeDataListener(DataListener l) {
+    	dataListeners.remove(l);
     }
     
     public void sendPacket(Packet pkt) throws IOException {
@@ -245,7 +270,6 @@ public class Client implements Runnable {
     	write.writeInt(buf.length+5);
     	write.writeByte(pkt.type);
     	write.write(cipherOut.rc4(buf));
-    	lastSent = pkt;
     }
     
     public int getTime() {

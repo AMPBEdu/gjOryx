@@ -31,8 +31,11 @@
 
 package com.oryxhatesjava;
 
+import com.oryxhatesjava.net.data.GameObject;
 
-public interface ClientListener {
-	public void connected(Client client);
-	public void disconnected(Client client);
+public interface DataListener {
+
+	public void objectAdded(Client client, GameObject object);
+	public void objectRemoved(Client client, GameObject object);
+	public void objectUpdated(Client client, GameObject object);
 }

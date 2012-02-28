@@ -31,8 +31,8 @@
 
 package com.oryxhatesjava;
 
+import com.oryxhatesjava.net.Packet;
 
-public interface ClientListener {
-	public void connected(Client client);
-	public void disconnected(Client client);
+public interface PacketListener {
+	public void packetReceived(Client client, Packet pkt);
 }
