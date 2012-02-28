@@ -1,6 +1,16 @@
 # Oryx Hates Java
 
-An API for programming a client for Realm of the Mad God.
+**Version 0.1**
+
+An API for programming a client for Realm of the Mad God. _API is not finalized
+and subject to major changes, especially after client updates._
+
+## How to use
+
+Compile the code into some usable form.
+
+Start a new thread with a new Client object to connect to a server. Use
+ClientListeners to hook certain packets and react on the client where needed.
 
 ## Licenses
 
