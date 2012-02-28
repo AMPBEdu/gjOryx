@@ -285,6 +285,18 @@ public class Client implements Runnable {
 		}
 		
 		if (pkt instanceof GotoPacket) {
+			GotoPacket gtp = (GotoPacket)pkt;
+			ObjectStatus o = null;
+			for (ObjectStatus ob : gameObjects) {
+				if (ob.data.objectId == gtp.objectId) {
+					o = ob;
+					o.data.pos = gtp.pos;
+					break;
+				}
+			}
+			for (DataListener dl : dataListeners) {
+				dl.objectUpdated(this, o);
+			}
 			GotoAckPacket gtap = new GotoAckPacket();
 			gtap.time = getTime(); // TODO update goto'd object
 			sendPacket(gtap);
