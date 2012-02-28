@@ -72,6 +72,15 @@ public class ObjectStatus implements Parsable {
 		data = new ObjectStatusData(in);
 	}
 	
+	public void update(ObjectStatus status) {
+		// Updating our data with data from status
+		objectType = status.objectType;
+		data.pos = status.data.pos;
+		for (StatData stat : status.data.stats) {
+			data.updateStat(stat);
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return "GameObject {" + objectType + " " + data + "}";

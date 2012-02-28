@@ -145,8 +145,7 @@ public class Client implements Runnable {
     			if (pkt instanceof UpdatePacket) {
     				UpdatePacket up = (UpdatePacket)pkt;
     				
-    				// Add and update objects
-    				
+    				// Remove objects dropped
     				if (up.drops != null) {
     					for (int i : up.drops) {
     						ObjectStatus del = null;
@@ -164,28 +163,28 @@ public class Client implements Runnable {
     					}
     				}
     				
+    				// Add and update new objects
     				if (up.newobjs != null) {
     					for (ObjectStatus o : up.newobjs) {
     						Iterator<ObjectStatus> itr = gameObjects.iterator();
-    						ObjectStatus del = null;
+    						ObjectStatus existing = null;
     						while (itr.hasNext()) {
     							ObjectStatus lo = itr.next();
     							if (lo.data.objectId == o.data.objectId) {
-    								del = lo;
+    								existing = lo;
     							}
-    							if (del != null) {
-        							gameObjects.remove(del);
+    							if (existing != null) {
+        							existing.update(o);
         							for (DataListener dl : dataListeners) {
         								dl.objectUpdated(this, lo);
         							}
         						} else {
+        							gameObjects.add(o);
         							for (DataListener dl : dataListeners) {
-        								dl.objectAdded(this, lo);
+        								dl.objectAdded(this, o);
         							}
         						}
     						}
-    						
-    						gameObjects.add(o);
     					}
     				}
     				

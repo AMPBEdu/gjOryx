@@ -85,6 +85,17 @@ public class ObjectStatusData implements Parsable {
 		}
 	}
 	
+	public void updateStat(StatData in) {
+		for (StatData myStat : stats) {
+			if (in.type == myStat.type) {
+				myStat.value = in.value;
+				myStat.valueString = in.valueString;
+				return;
+			}
+		}
+		stats.add(in);
+	}
+	
 	@Override
 	public String toString() {
 		return "ObjectStatusData {" + objectId + " " + pos + " " + stats + "}";
