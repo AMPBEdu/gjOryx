@@ -38,7 +38,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
-import com.oryxhatesjava.net.data.GameObject;
+import com.oryxhatesjava.net.data.ObjectStatus;
 import com.oryxhatesjava.net.data.Parsable;
 import com.oryxhatesjava.net.data.Tile;
 import com.oryxhatesjava.util.Serializer;
@@ -46,7 +46,7 @@ import com.oryxhatesjava.util.Serializer;
 public class UpdatePacket extends Packet implements Parsable {
 
 	public List<Tile> tiles;
-	public List<GameObject> newobjs;
+	public List<ObjectStatus> newobjs;
 	public int[] drops; //int array
 	
 	public UpdatePacket(DataInput in) {
@@ -97,9 +97,9 @@ public class UpdatePacket extends Packet implements Parsable {
 		
 		size = in.readShort();
 		if (size > 0) {
-			newobjs = new Vector<GameObject>(size);
+			newobjs = new Vector<ObjectStatus>(size);
 			for (int i = 0; i < size; i++) {
-				newobjs.add(new GameObject(in));
+				newobjs.add(new ObjectStatus(in));
 			}
 		} else {
 			newobjs = null;

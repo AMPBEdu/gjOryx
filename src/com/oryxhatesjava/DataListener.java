@@ -31,11 +31,11 @@
 
 package com.oryxhatesjava;
 
-import com.oryxhatesjava.net.data.GameObject;
+import com.oryxhatesjava.net.data.ObjectStatus;
 
 public interface DataListener {
 
-	public void objectAdded(Client client, GameObject object);
-	public void objectRemoved(Client client, GameObject object);
-	public void objectUpdated(Client client, GameObject object);
+	public void objectAdded(Client client, ObjectStatus object);
+	public void objectRemoved(Client client, ObjectStatus object);
+	public void objectUpdated(Client client, ObjectStatus object);
 }

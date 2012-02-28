@@ -54,7 +54,7 @@ import com.oryxhatesjava.net.PingPacket;
 import com.oryxhatesjava.net.PongPacket;
 import com.oryxhatesjava.net.UpdateAckPacket;
 import com.oryxhatesjava.net.UpdatePacket;
-import com.oryxhatesjava.net.data.GameObject;
+import com.oryxhatesjava.net.data.ObjectStatus;
 import com.oryxhatesjava.proxy.Proxy;
 
 /**
@@ -86,7 +86,7 @@ public class Client implements Runnable {
 	private Map<PacketListener, PacketFilter> packetFilters;
 	
 	private int playerCharId;
-	private List<GameObject> gameObjects;
+	private List<ObjectStatus> gameObjects;
 	
 	public Client(InetAddress address) {
 		this.address = address;
@@ -118,7 +118,7 @@ public class Client implements Runnable {
 			return;
 		}
     	
-    	gameObjects = new LinkedList<GameObject>();
+    	gameObjects = new LinkedList<ObjectStatus>();
     	
     	for (ClientListener l : clientListeners) {
     		l.connected(this);
@@ -149,8 +149,8 @@ public class Client implements Runnable {
     				
     				if (up.drops != null) {
     					for (int i : up.drops) {
-    						GameObject del = null;
-    						for (GameObject lo : gameObjects) {
+    						ObjectStatus del = null;
+    						for (ObjectStatus lo : gameObjects) {
     							if (lo.data.objectId == i) {
     								del = lo;
     							}
@@ -165,11 +165,11 @@ public class Client implements Runnable {
     				}
     				
     				if (up.newobjs != null) {
-    					for (GameObject o : up.newobjs) {
-    						Iterator<GameObject> itr = gameObjects.iterator();
-    						GameObject del = null;
+    					for (ObjectStatus o : up.newobjs) {
+    						Iterator<ObjectStatus> itr = gameObjects.iterator();
+    						ObjectStatus del = null;
     						while (itr.hasNext()) {
-    							GameObject lo = itr.next();
+    							ObjectStatus lo = itr.next();
     							if (lo.data.objectId == o.data.objectId) {
     								del = lo;
     							}
@@ -276,8 +276,8 @@ public class Client implements Runnable {
     	return (int) (System.currentTimeMillis() - startTime);
     }
     
-    public GameObject getPlayerObject() {
-    	for (GameObject o : gameObjects) {
+    public ObjectStatus getPlayerObject() {
+    	for (ObjectStatus o : gameObjects) {
     		if (o.data.objectId == playerCharId) {
     			return o;
     		}

@@ -35,22 +35,22 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-public class GameObject implements Parsable {
+public class ObjectStatus implements Parsable {
 
 	public int objectType; //short
 	public ObjectStatusData data;
 	
-	public GameObject() {
+	public ObjectStatus() {
 		this(0, new ObjectStatusData());
 	}
 	
-	public GameObject(int type, ObjectStatusData data) {
+	public ObjectStatus(int type, ObjectStatusData data) {
 		objectType = type;
 		this.data = data;
 		
 	}
 	
-	public GameObject(DataInput in) {
+	public ObjectStatus(DataInput in) {
 		try {
 			parseFromDataInput(in);
 		} catch (IOException e) {
