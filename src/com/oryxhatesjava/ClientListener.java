@@ -31,8 +31,15 @@
 
 package com.oryxhatesjava;
 
+import com.oryxhatesjava.net.FailurePacket;
 import com.oryxhatesjava.net.Packet;
+import com.oryxhatesjava.net.data.GameObject;
 
 public interface ClientListener {
-	public void packetReceived(Packet pkt);
+	public void packetReceived(Client client, Packet pkt);
+	public void connected(Client client);
+	public void failure(Client client, FailurePacket p, Packet lastRecv, Packet lastSent);
+	public void disconnected(Client client);
+	public void gameObjectAdded(Client client, GameObject o);
+	public void gameObjectRemoved(Client client, GameObject o);
 }

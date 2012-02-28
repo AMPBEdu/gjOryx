@@ -37,6 +37,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -44,7 +46,16 @@ import java.util.Vector;
 import net.clarenceho.crypto.RC4;
 
 import com.oryxhatesjava.net.ByteArrayDataOutput;
+import com.oryxhatesjava.net.CreateSuccessPacket;
+import com.oryxhatesjava.net.FailurePacket;
+import com.oryxhatesjava.net.GotoAckPacket;
+import com.oryxhatesjava.net.GotoPacket;
 import com.oryxhatesjava.net.Packet;
+import com.oryxhatesjava.net.PingPacket;
+import com.oryxhatesjava.net.PongPacket;
+import com.oryxhatesjava.net.UpdateMePacket;
+import com.oryxhatesjava.net.UpdatePacket;
+import com.oryxhatesjava.net.data.GameObject;
 import com.oryxhatesjava.proxy.Proxy;
 
 /**
@@ -66,9 +77,17 @@ public class Client implements Runnable {
 	private RC4 cipherIn;
 	private DataOutputStream write;
 	private DataInputStream read;
+	private long startTime;
+	
+	private boolean running = true;
 	
 	private List<ClientListener> listeners;
 	private Map<ClientListener, PacketFilter> filters;
+	private Packet lastRecv;
+	private Packet lastSent;
+	
+	private int playerCharId;
+	private List<GameObject> gameObjects;
 	
 	public Client(InetAddress address) {
 		this.address = address;
@@ -87,14 +106,24 @@ public class Client implements Runnable {
         // Connect to the server
     	try {
 			socket = new Socket(address, PORT);
+    		startTime = System.currentTimeMillis();
 			write = new DataOutputStream(socket.getOutputStream());
 			read = new DataInputStream(socket.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
+			for (ClientListener l : listeners) {
+    			l.disconnected(this);
+    		}
 			return;
 		}
     	
-    	while (true) {
+    	gameObjects = new LinkedList<GameObject>();
+    	
+    	for (ClientListener l : listeners) {
+    		l.connected(this);
+    	}
+    	
+    	while (running) {
     		Packet pkt = null;
     		try {
     			int length = read.readInt();
@@ -102,17 +131,94 @@ public class Client implements Runnable {
     			byte[] buf = new byte[length-5];
     			read.readFully(buf);
     			pkt = Packet.parse(type, cipherIn.rc4(buf));
+    			
+    			// Catch ping/pong because this should be same across any client
+    			if (pkt instanceof PingPacket) {
+    				PingPacket pp = (PingPacket)pkt;
+    				PongPacket pop = new PongPacket();
+    				pop.serial = pp.serial;
+    				pop.time = (int) (System.currentTimeMillis() - startTime);
+    				sendPacket(pop);
+    			}
+    			// Catch UPDATE since you ALWAYS need to respond with an ack
+    			if (pkt instanceof UpdatePacket) {
+    				UpdatePacket up = (UpdatePacket)pkt;
+    				
+    				// Add and update objects
+    				
+    				if (up.drops != null) {
+    					for (int i : up.drops) {
+    						GameObject del = null;
+    						for (GameObject lo : gameObjects) {
+    							if (lo.data.objectId == i) {
+    								del = lo;
+    							}
+    						}
+    						if (del != null) {
+    							gameObjects.remove(del);
+    						}
+    					}
+    				}
+    				
+    				if (up.newobjs != null) {
+    					for (GameObject o : up.newobjs) {
+    						Iterator<GameObject> itr = gameObjects.iterator();
+    						GameObject del = null;
+    						while (itr.hasNext()) {
+    							GameObject lo = itr.next();
+    							if (lo.data.objectId == o.data.objectId) {
+    								del = lo;
+    							}
+    						}
+    						if (del != null) {
+    							gameObjects.remove(del);
+    						}
+    						gameObjects.add(o);
+    					}
+    				}
+    				
+    				UpdateMePacket ump = new UpdateMePacket();
+    				sendPacket(ump);
+    			}
+    			
+    			if (pkt instanceof CreateSuccessPacket) {
+    				CreateSuccessPacket csp = (CreateSuccessPacket)pkt;
+    				playerCharId = csp.objectId;
+    			}
+    			
+    			if (pkt instanceof GotoPacket) {
+    				GotoPacket gtp = (GotoPacket)pkt;
+    				GotoAckPacket gtap = new GotoAckPacket();
+    				gtap.time = getTime(); // TODO update goto'd object
+    				sendPacket(gtap);
+    			}
     		} catch (IOException e) {
     			e.printStackTrace();
     			break;
     		} finally {
     			for (ClientListener l : listeners) {
     				PacketFilter f = filters.get(l);
-    				if (f.select(pkt)) {
-    					l.packetReceived(pkt);
+    				if (pkt.type == Packet.FAILURE) {
+    					l.failure(this, (FailurePacket)pkt, lastRecv, lastSent);
+    					running = false;
+    				} else if (f.select(pkt)) {
+    					l.packetReceived(this, pkt);
+    					lastRecv = pkt;
     				}
     			}
     		}
+    	}
+    	
+    	try {
+    		write.close();
+    		read.close();
+    		socket.close();
+    		
+    		for (ClientListener l : listeners) {
+    			l.disconnected(this);
+    		}
+    	} catch (Exception e) {
+    		
     	}
     }
     
@@ -132,12 +238,26 @@ public class Client implements Runnable {
     	filters.remove(l);
     }
     
-    public synchronized void sendPacket(Packet pkt) throws IOException {
-    	ByteArrayDataOutput b = new ByteArrayDataOutput(4096);
+    public void sendPacket(Packet pkt) throws IOException {
+    	ByteArrayDataOutput b = new ByteArrayDataOutput(20000);
     	pkt.writeToDataOutput(b);
     	byte[] buf = b.getArray();
     	write.writeInt(buf.length+5);
     	write.writeByte(pkt.type);
     	write.write(cipherOut.rc4(buf));
+    	lastSent = pkt;
+    }
+    
+    public int getTime() {
+    	return (int) (System.currentTimeMillis() - startTime);
+    }
+    
+    public GameObject getPlayerObject() {
+    	for (GameObject o : gameObjects) {
+    		if (o.data.objectId == playerCharId) {
+    			return o;
+    		}
+    	}
+    	return null;
     }
 }
