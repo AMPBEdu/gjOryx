@@ -48,6 +48,10 @@ public class FlashBitmapData implements Parsable {
 			
 		}
 	}
+	
+	public FlashBitmapData() {
+		
+	}
 
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {

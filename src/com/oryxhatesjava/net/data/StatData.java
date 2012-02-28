@@ -112,6 +112,10 @@ public class StatData implements Parsable {
 		}
 	}
 	
+	public StatData() {
+		
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		type = in.readUnsignedByte();
