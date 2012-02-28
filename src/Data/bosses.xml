@@ -302,7 +302,7 @@
     <Behavior childId="Realm Portal" prob="1">
       MetamorphoseAtDeath
     </Behavior>
-    e 
+    
   </Object>
   	
   <Object id="Malphas Flamer" type="0x090b">
