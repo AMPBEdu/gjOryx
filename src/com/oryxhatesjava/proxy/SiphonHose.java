@@ -64,7 +64,7 @@ public class SiphonHose implements Runnable {
     public RC4 cipher;
     private PrintWriter fileOut;
     private String name;
-    public static final int[] FILTER = {Packet.MOVE, Packet.UNK_UPDATEME, Packet.NEW_TICK, Packet.PING, Packet.PONG, Packet.ALLYSHOOT};
+    public static final int[] FILTER = {Packet.PING, Packet.PONG, Packet.UPDATE, Packet.ALLYSHOOT, Packet.NOTIFICATION, Packet.SHOW_EFFECT};
     
     public SiphonHose(InputStream recv, OutputStream replyTo, byte[] key, String name) {
         this.recv = new DataInputStream(recv);
@@ -95,11 +95,11 @@ public class SiphonHose implements Runnable {
                 	}
                 }
                 if (print) {
-                	if (fileOut != null) {
-                    	fileOut.println(pkt);
-                	}
                 	System.out.println(name + ": " + pkt);
                 }
+            	if (fileOut != null) {
+                	fileOut.println(pkt);
+            	}
                 
                 byte[] recr;
                 ByteArrayDataOutput bado = new ByteArrayDataOutput(buf.length);
