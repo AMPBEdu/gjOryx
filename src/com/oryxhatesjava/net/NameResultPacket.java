@@ -51,6 +51,10 @@ public class NameResultPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public NameResultPacket() {
+		type = Packet.NAMERESULT;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		result = in.readBoolean();

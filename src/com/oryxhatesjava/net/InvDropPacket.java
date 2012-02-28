@@ -51,6 +51,10 @@ public class InvDropPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public InvDropPacket() {
+		type = Packet.INVDROP;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		item = new Item(in);

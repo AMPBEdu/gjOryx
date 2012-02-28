@@ -53,6 +53,10 @@ public class EnemyHitPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public EnemyHitPacket() {
+		type = Packet.ENEMYHIT;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		time = in.readInt();

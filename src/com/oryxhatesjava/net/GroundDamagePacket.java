@@ -52,6 +52,10 @@ public class GroundDamagePacket extends Packet implements Parsable {
 		}
 	}
 	
+	public GroundDamagePacket() {
+		type = Packet.GROUNDDAMAGE;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		time = in.readInt();

@@ -52,6 +52,10 @@ public class EditAccountListPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public EditAccountListPacket() {
+		type = Packet.EDITACCOUNTLIST;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		accountListId = in.readInt();

@@ -55,6 +55,10 @@ public class ReconnectPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public ReconnectPacket() {
+		type = Packet.RECONNECT;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		name = in.readUTF();

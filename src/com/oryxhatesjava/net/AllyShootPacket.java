@@ -58,6 +58,10 @@ public class AllyShootPacket extends Packet implements Parsable {
         }
     }
     
+    public AllyShootPacket() {
+    	type = Packet.ALLYSHOOT;
+    }
+    
     @Override
     public void parseFromDataInput(DataInput in) throws IOException {
         bulletId = in.readUnsignedByte();

@@ -56,6 +56,10 @@ public class TradeStartPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public TradeStartPacket() {
+		type = Packet.TRADESTART;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		int size = in.readShort();

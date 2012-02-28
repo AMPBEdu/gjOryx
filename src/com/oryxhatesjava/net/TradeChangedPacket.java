@@ -52,6 +52,10 @@ public class TradeChangedPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public TradeChangedPacket() {
+		type = Packet.TRADECHANGED;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		int size = in.readShort();

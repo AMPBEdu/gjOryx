@@ -51,6 +51,10 @@ public class PlayerHitPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public PlayerHitPacket() {
+		type = Packet.PLAYERHIT;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		bulletId = in.readByte();

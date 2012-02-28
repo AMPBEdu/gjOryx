@@ -72,6 +72,10 @@ public class ShowEffectPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public ShowEffectPacket() {
+		type = Packet.SHOW_EFFECT;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		effectType = in.readUnsignedByte();

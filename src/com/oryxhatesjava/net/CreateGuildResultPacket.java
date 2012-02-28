@@ -51,6 +51,10 @@ public class CreateGuildResultPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public CreateGuildResultPacket() {
+		type = Packet.CREATEGUILDRESULT;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		result = in.readInt();

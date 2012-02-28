@@ -52,6 +52,10 @@ public class SquareHitPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public SquareHitPacket() {
+		type = Packet.SQUAREHIT;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		time = in.readInt();

@@ -61,6 +61,10 @@ public class MapInfoPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public MapInfoPacket() {
+		type = Packet.MAPINFO;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		width = in.readInt();

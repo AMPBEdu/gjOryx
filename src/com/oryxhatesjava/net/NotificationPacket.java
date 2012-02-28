@@ -48,6 +48,7 @@ public class NotificationPacket extends Packet implements Parsable {
 	}
 	
 	public NotificationPacket(int id, String txt, int col) {
+		type = Packet.NOTIFICATION;
 		objectId = id;
 		text = new String(txt);
 		color = col;

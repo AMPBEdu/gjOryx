@@ -50,6 +50,10 @@ public class PingPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public PingPacket() {
+		type = Packet.PING;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		serial = in.readInt();

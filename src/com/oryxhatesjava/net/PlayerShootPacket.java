@@ -75,6 +75,10 @@ public class PlayerShootPacket extends Packet implements Parsable {
         }
     }
     
+    public PlayerShootPacket() {
+    	type = Packet.PLAYERSHOOT;
+    }
+    
     @Override
     public void parseFromDataInput(DataInput read) throws IOException {
         time = read.readInt();

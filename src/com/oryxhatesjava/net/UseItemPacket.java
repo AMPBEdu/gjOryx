@@ -47,10 +47,15 @@ public class UseItemPacket extends Packet implements Parsable {
 	
 	public UseItemPacket(DataInput in) {
 		try {
+			type = Packet.USEITEM;
 			parseFromDataInput(in);
 		} catch (IOException e) {
 			
 		}
+	}
+	
+	public UseItemPacket() {
+		type = Packet.USEITEM;
 	}
 	
 	@Override

@@ -52,6 +52,10 @@ public class AccountListPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public AccountListPacket() {
+		type = Packet.ACCOUNTLIST;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		accountListId = in.readInt();

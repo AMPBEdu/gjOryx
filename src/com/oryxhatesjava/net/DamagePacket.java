@@ -56,6 +56,10 @@ public class DamagePacket extends Packet implements Parsable {
 		}
 	}
 	
+	public DamagePacket() {
+		type = Packet.DAMAGE;
+	}
+	
 	@Override
 	public void writeToDataOutput(DataOutput out) throws IOException {
 		out.writeInt(targetId);

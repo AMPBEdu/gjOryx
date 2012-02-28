@@ -48,6 +48,10 @@ public class EscapePacket extends Packet implements Parsable {
 		}
 	}
 	
+	public EscapePacket() {
+		type = Packet.ESCAPE;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		

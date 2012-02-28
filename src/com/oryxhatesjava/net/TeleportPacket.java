@@ -50,6 +50,10 @@ public class TeleportPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public TeleportPacket() {
+		type = Packet.TELEPORT;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		objectId = in.readInt();

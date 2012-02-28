@@ -53,6 +53,10 @@ public class AOEAckPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public AOEAckPacket() {
+		type = Packet.AOEACK;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		time = in.readInt();

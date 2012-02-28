@@ -51,6 +51,10 @@ public class SetConditionPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public SetConditionPacket() {
+		type = Packet.SETCONDITION;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		conditionEffect = in.readByte();

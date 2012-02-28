@@ -54,6 +54,10 @@ public class TradeDonePacket extends Packet implements Parsable {
 		}
 	}
 	
+	public TradeDonePacket() {
+		type = Packet.TRADEDONE;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		code = in.readInt();

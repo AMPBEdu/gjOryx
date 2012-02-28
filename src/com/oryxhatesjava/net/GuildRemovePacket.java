@@ -50,6 +50,10 @@ public class GuildRemovePacket extends Packet implements Parsable {
 		}
 	}
 	
+	public GuildRemovePacket() {
+		type = Packet.GUILDREMOVE;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		name = in.readUTF();

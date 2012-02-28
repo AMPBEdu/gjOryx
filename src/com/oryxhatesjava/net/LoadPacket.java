@@ -50,6 +50,10 @@ public class LoadPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public LoadPacket() {
+		type = Packet.LOAD;
+	}
+
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		charId = in.readInt();

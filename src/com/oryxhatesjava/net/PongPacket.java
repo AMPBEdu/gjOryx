@@ -51,6 +51,10 @@ public class PongPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public PongPacket() {
+		type = Packet.PONG;
+	}
+
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		serial = in.readInt();

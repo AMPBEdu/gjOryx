@@ -60,6 +60,10 @@ public class BuyResultPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public BuyResultPacket() {
+		type = Packet.BUYRESULT;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		result = in.readInt();

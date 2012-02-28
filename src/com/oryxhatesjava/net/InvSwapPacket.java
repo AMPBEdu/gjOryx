@@ -55,6 +55,10 @@ public class InvSwapPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public InvSwapPacket() {
+		type = Packet.INVSWAP;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		time = in.readInt();

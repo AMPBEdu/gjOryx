@@ -60,7 +60,11 @@ public class PlayerTextPacket extends Packet implements Parsable {
         }
     }
     
-    /* (non-Javadoc)
+    public PlayerTextPacket() {
+		type = Packet.PLAYERTEXT;
+	}
+
+	/* (non-Javadoc)
      * @see com.oryxhatesjava.net.Packet#parseFromDataInput(java.io.DataInput)
      */
     @Override

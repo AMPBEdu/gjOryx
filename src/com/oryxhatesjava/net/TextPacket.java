@@ -58,6 +58,7 @@ public class TextPacket extends Packet implements Parsable {
     public String cleanText;
     
     public TextPacket(String name, int objectId, int numStars, int bubbleTime, String recipient, String text) {
+    	type = Packet.TEXT;
         this.name = new String(name);
         this.objectId = objectId;
         this.numStars = numStars;
@@ -73,6 +74,10 @@ public class TextPacket extends Packet implements Parsable {
         } catch (IOException e) {
             
         }
+    }
+    
+    public TextPacket() { 
+    	type = Packet.TEXT;
     }
     
     /*

@@ -50,6 +50,10 @@ public class CancelTradePacket extends Packet implements Parsable {
 		}
 	}
 	
+	public CancelTradePacket() {
+		type = Packet.CANCELTRADE;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		objectId = in.readInt();

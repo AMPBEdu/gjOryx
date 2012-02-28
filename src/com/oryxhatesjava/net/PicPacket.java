@@ -51,6 +51,10 @@ public class PicPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public PicPacket() {
+		type = Packet.PIC;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		pic = new FlashBitmapData(in);

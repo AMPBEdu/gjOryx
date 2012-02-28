@@ -67,6 +67,10 @@ public class FailurePacket extends Packet implements Parsable {
         }
     }
     
+    public FailurePacket() {
+    	type = Packet.FAILURE;
+    }
+    
     @Override
     public void parseFromDataInput(DataInput read) throws IOException {
         errorId = read.readInt();

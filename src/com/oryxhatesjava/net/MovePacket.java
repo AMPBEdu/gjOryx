@@ -54,16 +54,15 @@ import com.oryxhatesjava.util.Serializer;
  */
 public class MovePacket extends Packet implements Parsable {
     
-    public int messageId;
     public int tickId;
     public int time;
-    public Location newPosition;
-    public List<HistoricalLocation> records;
+    public Location newPosition = new Location();
+    public List<HistoricalLocation> records = new Vector<HistoricalLocation>();
     
     public MovePacket(int messageId, int time, Location newPosition) {
         this.type = Packet.MOVE;
         
-        this.messageId = messageId;
+        this.tickId = messageId;
         this.time = time;
         this.newPosition = newPosition.clone();
     }
@@ -77,13 +76,17 @@ public class MovePacket extends Packet implements Parsable {
         }
     }
     
-    /*
+    public MovePacket() {
+		this.type = Packet.MOVE;
+	}
+
+	/*
      * (non-Javadoc)
      * @see com.oryxhatesjava.net.Packet#parseFromDataInput(java.io.DataInput)
      */
     @Override
     public void parseFromDataInput(DataInput read) throws IOException {
-        messageId = read.readInt();
+        tickId = read.readInt();
         time = read.readInt();
         newPosition = new Location();
         newPosition.parseFromDataInput(read);
@@ -102,7 +105,7 @@ public class MovePacket extends Packet implements Parsable {
      */
     @Override
     public void writeToDataOutput(DataOutput write) throws IOException {
-        write.writeInt(messageId);
+        write.writeInt(tickId);
         write.writeInt(time);
         newPosition.writeToDataOutput(write);
         Serializer.writeArray(write, records.toArray(new Parsable[records.size()]));
@@ -114,6 +117,6 @@ public class MovePacket extends Packet implements Parsable {
      */
     @Override
     public String toString() {
-        return "MOVE " + messageId + " " + time + " " + newPosition + " (" + records.size() + " records)";
+        return "MOVE " + tickId + " " + time + " " + newPosition + " (" + records.size() + " records)";
     }
 }

@@ -50,6 +50,10 @@ public class ShootAckPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public ShootAckPacket() {
+		type = Packet.SHOOTACK;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		time = in.readInt();

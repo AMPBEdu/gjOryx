@@ -50,6 +50,10 @@ public class UsePortalPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public UsePortalPacket() {
+		type = Packet.USEPORTAL;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		objectId = in.readInt();

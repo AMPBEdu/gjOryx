@@ -52,6 +52,10 @@ public class FilePacket extends Packet implements Parsable {
 		}
 	}
 	
+	public FilePacket() {
+		type = Packet.FILE;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		filename = in.readUTF();

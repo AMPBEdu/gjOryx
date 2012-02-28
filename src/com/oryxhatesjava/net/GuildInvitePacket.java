@@ -50,6 +50,10 @@ public class GuildInvitePacket extends Packet implements Parsable {
 		}
 	}
 	
+	public GuildInvitePacket() {
+		type = Packet.GUILDINVITE;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		name = in.readUTF();

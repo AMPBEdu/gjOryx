@@ -56,6 +56,7 @@ public class ShootPacket extends Packet implements Parsable {
     
     public ShootPacket(int bulletId, int ownerId, int containerType,
             Location startingPos, float angle, int damage) {
+    	type = Packet.SHOOT;
         this.bulletId = bulletId;
         this.ownerId = ownerId;
         this.containerType = containerType;
@@ -71,6 +72,10 @@ public class ShootPacket extends Packet implements Parsable {
         } catch (IOException e) {
             
         }
+    }
+    
+    public ShootPacket() {
+    	type = Packet.SHOOT;
     }
     
     @Override

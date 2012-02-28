@@ -67,6 +67,10 @@ public class CreateSuccessPacket extends Packet implements Parsable {
         }
     }
     
+    public CreateSuccessPacket() {
+    	type = Packet.CREATE_SUCCESS;
+    }
+    
     @Override
     public void parseFromDataInput(DataInput read) throws IOException {
         objectId = read.readInt();

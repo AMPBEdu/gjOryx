@@ -52,6 +52,10 @@ public class ClientStatPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public ClientStatPacket() {
+		type = Packet.CLIENTSTAT;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		name = in.readUTF();

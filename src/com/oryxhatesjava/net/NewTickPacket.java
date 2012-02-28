@@ -55,6 +55,10 @@ public class NewTickPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public NewTickPacket() {
+		type = Packet.NEW_TICK;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		tickId = in.readInt();

@@ -50,6 +50,10 @@ public class RequestTradePacket extends Packet implements Parsable {
 		}
 	}
 	
+	public RequestTradePacket() {
+		type = Packet.REQUESTTRADE;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		name = in.readUTF();

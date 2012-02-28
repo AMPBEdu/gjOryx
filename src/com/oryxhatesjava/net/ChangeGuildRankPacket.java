@@ -51,6 +51,10 @@ public class ChangeGuildRankPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public ChangeGuildRankPacket() {
+		type = Packet.CHANGEGUILDRANK;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		name = in.readUTF();

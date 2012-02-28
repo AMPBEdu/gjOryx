@@ -50,6 +50,10 @@ public class JoinGuildPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public JoinGuildPacket() {
+		type = Packet.JOINGUILD;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		guildName = in.readUTF();

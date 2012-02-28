@@ -48,6 +48,10 @@ public class UpdateMePacket extends Packet implements Parsable {
 		}
 	}
 	
+	public UpdateMePacket() {
+		type = Packet.UNK_UPDATEME;
+	}
+
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		

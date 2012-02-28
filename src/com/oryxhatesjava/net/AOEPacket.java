@@ -54,6 +54,10 @@ public class AOEPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public AOEPacket() {
+		type = Packet.AOE;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		pos = new Location(in);

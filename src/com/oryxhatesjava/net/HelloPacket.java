@@ -69,7 +69,11 @@ public class HelloPacket extends Packet implements Parsable {
         }
     }
     
-    @Override
+    public HelloPacket() {
+    	type = Packet.HELLO;
+	}
+
+	@Override
     public void parseFromDataInput(DataInput read) throws IOException {
         this.buildVersion = read.readUTF();
         this.gameId = read.readInt();
@@ -94,8 +98,8 @@ public class HelloPacket extends Packet implements Parsable {
     
     @Override
     public String toString() {
-        return "HELLO " + buildVersion + " " + gameId + " " + guid + " "
-                + password + " " + secret + " " + keyTime + " " + Arrays.toString(key) + " " + unkStr;
+        return "HELLO " + buildVersion + " " + gameId + " guid=" + guid + " pw="
+                + password + " secret=" + secret + " " + keyTime + " " + Arrays.toString(key) + " " + unkStr;
     }
     
     @Override

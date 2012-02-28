@@ -48,6 +48,10 @@ public class CheckCreditsPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public CheckCreditsPacket() {
+		type = Packet.CHECKCREDITS;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		

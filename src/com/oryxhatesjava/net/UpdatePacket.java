@@ -34,6 +34,7 @@ package com.oryxhatesjava.net;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
@@ -55,6 +56,10 @@ public class UpdatePacket extends Packet implements Parsable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public UpdatePacket() {
+		type = Packet.UPDATE;
 	}
 	
 	@Override
@@ -113,7 +118,7 @@ public class UpdatePacket extends Packet implements Parsable {
 	
 	@Override
 	public String toString() {
-		return "UPDATE " + tiles + " " + newobjs + " " + drops;
+		return "UPDATE " + tiles + " " + newobjs + " " + Arrays.toString(drops);
 	}
 
 }

@@ -50,6 +50,10 @@ public class QuestObjIDPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public QuestObjIDPacket() {
+		type = Packet.QUESTOBJID;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		objectId = in.readInt();

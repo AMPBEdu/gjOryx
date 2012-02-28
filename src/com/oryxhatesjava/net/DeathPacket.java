@@ -52,6 +52,10 @@ public class DeathPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public DeathPacket() {
+		type = Packet.DEATH;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		accountId = in.readInt();

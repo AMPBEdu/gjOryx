@@ -51,6 +51,10 @@ public class GotoPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public GotoPacket() {
+		type = Packet.GOTO;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		objectId = in.readInt();

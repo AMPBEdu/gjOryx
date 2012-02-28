@@ -54,6 +54,7 @@ public class CreatePacket extends Packet implements Parsable {
     public String name;
     
     public CreatePacket(int charId, short objectType, String name) {
+    	type = Packet.CREATE;
         this.charId = charId;
         this.objectType = objectType;
         this.name = new String(name);
@@ -66,6 +67,10 @@ public class CreatePacket extends Packet implements Parsable {
         } catch (IOException e) {
             
         }
+    }
+    
+    public CreatePacket() {
+    	type = Packet.CREATE;
     }
     
     @Override

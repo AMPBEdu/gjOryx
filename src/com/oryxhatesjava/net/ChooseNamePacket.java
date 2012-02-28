@@ -50,6 +50,10 @@ public class ChooseNamePacket extends Packet implements Parsable {
 		}
 	}
 	
+	public ChooseNamePacket() {
+		type = Packet.CHOOSENAME;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		name = in.readUTF();

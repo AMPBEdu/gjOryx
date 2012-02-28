@@ -50,6 +50,9 @@ public class InvResultPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public InvResultPacket() {
+		type = Packet.INVRESULT;
+	}
 	
 	@Override
 	public void writeToDataOutput(DataOutput out) throws IOException {

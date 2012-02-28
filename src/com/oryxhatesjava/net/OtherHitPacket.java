@@ -53,6 +53,10 @@ public class OtherHitPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public OtherHitPacket() {
+		type = Packet.OTHERHIT;
+	}
+	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		time = in.readInt();

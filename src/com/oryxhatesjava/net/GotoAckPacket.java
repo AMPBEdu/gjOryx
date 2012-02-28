@@ -50,6 +50,10 @@ public class GotoAckPacket extends Packet implements Parsable {
 		}
 	}
 	
+	public GotoAckPacket() {
+		type = Packet.GOTOACK;
+	}
+
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
 		time = in.readInt();
