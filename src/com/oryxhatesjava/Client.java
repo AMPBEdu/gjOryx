@@ -85,10 +85,12 @@ public class Client implements Runnable {
 	private List<DataListener> dataListeners;
 	private Map<PacketListener, PacketFilter> packetFilters;
 	
-	private int playerCharId;
 	private List<ObjectStatus> gameObjects;
 	
 	private boolean automaticallyHandling = true;
+	
+	private ObjectStatus playerObject;
+	private int playerObjectId;
 	
 	public Client(InetAddress address) {
 		this.address = address;
@@ -210,15 +212,6 @@ public class Client implements Runnable {
     	return (int) (System.currentTimeMillis() - startTime);
     }
     
-    public ObjectStatus getPlayerObject() {
-    	for (ObjectStatus o : gameObjects) {
-    		if (o.data.objectId == playerCharId) {
-    			return o;
-    		}
-    	}
-    	return null;
-    }
-    
     private void automaticHandling(Packet pkt) throws IOException {
 		// Catch ping/pong because this should be same across any client
 		if (pkt instanceof PingPacket) {
@@ -254,26 +247,32 @@ public class Client implements Runnable {
 			if (up.newobjs != null) {
 				for (ObjectStatus o : up.newobjs) {
 					Iterator<ObjectStatus> itr = gameObjects.iterator();
-					ObjectStatus existing = null;
+					boolean updated = false;
 					while (itr.hasNext()) {
 						ObjectStatus lo = itr.next();
 						if (lo.data.objectId == o.data.objectId) {
-							existing = lo;
-						}
-						if (existing != null) {
-							existing.update(o);
+							lo.update(o);
+							updated = true;
 							for (DataListener dl : dataListeners) {
 								dl.objectUpdated(this, lo);
+								break;
 							}
-						} else {
-							gameObjects.add(o);
-							for (DataListener dl : dataListeners) {
-								dl.objectAdded(this, o);
-							}
+						}
+					}
+					
+					if (!updated) {
+						gameObjects.add(o);
+						for (DataListener dl : dataListeners) {
+							dl.objectAdded(this, o);
+						}
+						
+						if (o.data.objectId == playerObjectId) {
+							playerObject = o;
 						}
 					}
 				}
 			}
+			
 			
 			UpdateAckPacket ump = new UpdateAckPacket();
 			sendPacket(ump);
@@ -281,7 +280,7 @@ public class Client implements Runnable {
 		
 		if (pkt instanceof CreateSuccessPacket) {
 			CreateSuccessPacket csp = (CreateSuccessPacket)pkt;
-			playerCharId = csp.objectId;
+			playerObjectId = csp.objectId;
 		}
 		
 		if (pkt instanceof GotoPacket) {
@@ -298,7 +297,7 @@ public class Client implements Runnable {
 				dl.objectUpdated(this, o);
 			}
 			GotoAckPacket gtap = new GotoAckPacket();
-			gtap.time = getTime(); // TODO update goto'd object
+			gtap.time = getTime();
 			sendPacket(gtap);
 		}
     }
@@ -309,5 +308,9 @@ public class Client implements Runnable {
 
 	public void setAutomaticallyHandling(boolean automaticallyHandling) {
 		this.automaticallyHandling = automaticallyHandling;
+	}
+
+	public ObjectStatus getPlayerObject() {
+		return playerObject;
 	}
 }

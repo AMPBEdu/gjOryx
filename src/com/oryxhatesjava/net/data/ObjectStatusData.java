@@ -79,9 +79,10 @@ public class ObjectStatusData implements Parsable {
 		pos = new Location(in);
 		
 		int size = in.readShort();
-		stats = new Vector<StatData>(size);
+		stats = new Vector<StatData>();
 		for (int i = 0; i < size; i++) {
-			stats.add(new StatData(in));
+			StatData inp = new StatData(in);
+			stats.add(inp);
 		}
 	}
 	
@@ -94,6 +95,16 @@ public class ObjectStatusData implements Parsable {
 			}
 		}
 		stats.add(in);
+	}
+	
+	public StatData getStat(int type) {
+		StatData ret = null;
+		for (StatData s : stats) {
+			if (s.type == type) {
+				ret = s;
+			}
+		}
+		return ret;
 	}
 	
 	@Override
