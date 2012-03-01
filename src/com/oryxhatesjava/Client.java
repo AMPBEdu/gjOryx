@@ -168,11 +168,19 @@ public class Client implements Runnable {
     }
     
     public synchronized void addPacketListener(PacketListener l, PacketFilter filter) {
+    	if (l == null) {
+    		throw new NullPointerException();
+    	}
+    	
     	packetListeners.add(l);
     	packetFilters.put(l, filter);
     }
     
     public synchronized void addPacketListener(PacketListener l, boolean accept, int ... filter) {
+    	if (l == null) {
+    		throw new NullPointerException();
+    	}
+    	
     	packetListeners.add(l);
     	PacketFilter f = new PacketFilter(accept, filter);
     	packetFilters.put(l, f);
@@ -184,6 +192,10 @@ public class Client implements Runnable {
     }
     
     public synchronized void addClientListener(ClientListener l) {
+    	if (l == null) {
+    		throw new NullPointerException();
+    	}
+    	
     	clientListeners.add(l);
     }
     
@@ -192,6 +204,10 @@ public class Client implements Runnable {
     }
     
     public synchronized void addDataListener(DataListener l) {
+    	if (l == null) {
+    		throw new NullPointerException();
+    	}
+    	
     	dataListeners.add(l);
     }
     
