@@ -33,6 +33,7 @@ package com.oryxhatesjava;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -41,7 +42,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import net.clarenceho.crypto.RC4;
 
@@ -58,16 +60,15 @@ import com.oryxhatesjava.net.data.ObjectStatus;
 import com.oryxhatesjava.proxy.Proxy;
 
 /**
+ * A Realm of the Mad God client. Provides facilities for hooking packet
+ * reception, network events and data updates from the game server.
  * <p>
- * TODO document this type
- * </p>
- * <p>
- * Started Feb 27, 2011
- * </p>
+ * Create an instance of this and use the <code>connect()</code> method to
+ * connect to a game server.
  * 
  * @author Furyhunter
  */
-public class Client implements Runnable {
+public class Client {
     
 	public static final int PORT = 2050;
 	private InetAddress address;
@@ -78,7 +79,12 @@ public class Client implements Runnable {
 	private DataInputStream read;
 	private long startTime;
 	
+	private Thread clientThread;
+	private Thread eventThread;
+	
 	private boolean running = true;
+	private boolean connected = false;
+	private BlockingQueue<Runnable> eventQueue;
 	
 	private List<PacketListener> packetListeners;
 	private List<ClientListener> clientListeners;
@@ -92,11 +98,13 @@ public class Client implements Runnable {
 	private ObjectStatus playerObject;
 	private int playerObjectId;
 	
-	public Client(InetAddress address) {
-		this.address = address;
-		packetListeners = new Vector<PacketListener>();
-		clientListeners = new Vector<ClientListener>();
-		dataListeners = new Vector<DataListener>();
+	/**
+	 * Create a Client.
+	 */
+	public Client() {
+		packetListeners = new LinkedList<PacketListener>();
+		clientListeners = new LinkedList<ClientListener>();
+		dataListeners = new LinkedList<DataListener>();
 		packetFilters = new HashMap<PacketListener, PacketFilter>();
 		cipherOut = new RC4(Proxy.CLIENTKEY);
 		cipherIn = new RC4(Proxy.SERVERKEY);
@@ -106,7 +114,6 @@ public class Client implements Runnable {
      * (non-Javadoc)
      * @see java.lang.Runnable#run()
      */
-    @Override
     public void run() {
         // Connect to the server
     	try {
@@ -121,6 +128,8 @@ public class Client implements Runnable {
     		}
 			return;
 		}
+    	
+    	connected = true;
     	
     	gameObjects = new LinkedList<ObjectStatus>();
     	
@@ -139,8 +148,10 @@ public class Client implements Runnable {
     			if (isAutomaticallyHandling()) {
     				automaticHandling(pkt);
     			}
-    		} catch (IOException e) {
+    		} catch (EOFException e) {
     			e.printStackTrace();
+    			break;
+    		} catch (IOException e) {
     			break;
     		} finally {
     			for (PacketListener l : packetListeners) {
@@ -167,6 +178,11 @@ public class Client implements Runnable {
     	}
     }
     
+    /**
+     * Add a packet listener with the given pre-constructed filter.
+     * @param l the listener to add
+     * @param filter the filter to assign to this listener
+     */
     public synchronized void addPacketListener(PacketListener l, PacketFilter filter) {
     	if (l == null) {
     		throw new NullPointerException();
@@ -176,6 +192,14 @@ public class Client implements Runnable {
     	packetFilters.put(l, filter);
     }
     
+    /**
+     * Add a packet listener with the filter parameters given.
+     * @param l the listener to add
+     * @param accept true if accept all BUT the filtered packets, false for
+     * only the filtered packets
+     * @param filter list of packet types to filter
+     * @see com.oryxhatesjava.net.Packet Packet
+     */
     public synchronized void addPacketListener(PacketListener l, boolean accept, int ... filter) {
     	if (l == null) {
     		throw new NullPointerException();
@@ -186,11 +210,19 @@ public class Client implements Runnable {
     	packetFilters.put(l, f);
     }
     
+    /**
+     * Remove a packet listener.
+     * @param l listener to remove
+     */
     public synchronized void removePacketListener(PacketListener l) {
     	packetListeners.remove(l);
     	packetFilters.remove(l);
     }
     
+    /**
+     * Add a client listener.
+     * @param l
+     */
     public synchronized void addClientListener(ClientListener l) {
     	if (l == null) {
     		throw new NullPointerException();
@@ -199,10 +231,18 @@ public class Client implements Runnable {
     	clientListeners.add(l);
     }
     
+    /**
+     * Remove a client listener.
+     * @param l
+     */
     public synchronized void removeClientListener(ClientListener l) {
     	clientListeners.remove(l);
     }
     
+    /**
+     * Add a data listener.
+     * @param l
+     */
     public synchronized void addDataListener(DataListener l) {
     	if (l == null) {
     		throw new NullPointerException();
@@ -211,11 +251,38 @@ public class Client implements Runnable {
     	dataListeners.add(l);
     }
     
+    /**
+     * Remove a data listener.
+     * @param l
+     */
     public synchronized void removeDataListener(DataListener l) {
     	dataListeners.remove(l);
     }
     
+    /**
+     * <em>Deprecated. Replaced by <code>syncSendPacket()</code>. To be removed
+     * by version 0.2 release.
+     * <p>
+     * Send a packet.
+     * @param pkt the packet to send
+     * @throws IOException couldn't write packet
+     */
+    @Deprecated
     public void sendPacket(Packet pkt) throws IOException {
+    	sendSyncPacket(pkt);
+    }
+    
+    /**
+     * Send a packet synchronously. The current thread will not continue until
+     * the packet has been sent.
+     * @param pkt the packet to send
+     * @throws IOException couldn't write packet
+     */
+    public void sendSyncPacket(Packet pkt) throws IOException {
+    	if (!connected) {
+    		throw new IllegalStateException("Not connected to a server.");
+    	}
+    	
     	ByteArrayDataOutput b = new ByteArrayDataOutput(20000);
     	pkt.writeToDataOutput(b);
     	byte[] buf = b.getArray();
@@ -224,6 +291,31 @@ public class Client implements Runnable {
     	write.write(cipherOut.rc4(buf));
     }
     
+    /**
+     * Sends a packet asynchronously, allowing execution on the current thread
+     * to continue.
+     * @param pkt the packet to send
+     */
+    public void sendAsyncPacket(final Packet pkt) {
+    	if (!connected) {
+    		throw new IllegalStateException("Not connected to a server.");
+    	}
+    	
+    	eventQueue.add(new Runnable() {
+			public void run() {
+				try {
+					sendSyncPacket(pkt);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+    }
+    
+    /**
+     * Get the current client time.
+     * @return
+     */
     public int getTime() {
     	return (int) (System.currentTimeMillis() - startTime);
     }
@@ -235,7 +327,7 @@ public class Client implements Runnable {
 			PongPacket pop = new PongPacket();
 			pop.serial = pp.serial;
 			pop.time = (int) (System.currentTimeMillis() - startTime);
-			sendPacket(pop);
+			sendSyncPacket(pop);
 		}
 		// Catch UPDATE since you ALWAYS need to respond with an ack
 		if (pkt instanceof UpdatePacket) {
@@ -291,7 +383,7 @@ public class Client implements Runnable {
 			
 			
 			UpdateAckPacket ump = new UpdateAckPacket();
-			sendPacket(ump);
+			sendSyncPacket(ump);
 		}
 		
 		if (pkt instanceof CreateSuccessPacket) {
@@ -314,19 +406,96 @@ public class Client implements Runnable {
 			}
 			GotoAckPacket gtap = new GotoAckPacket();
 			gtap.time = getTime();
-			sendPacket(gtap);
+			sendSyncPacket(gtap);
 		}
     }
 
+    /**
+     * Whether or not the client automatically handles basic procedures, such
+     * as ping/pong and object updating.
+     * @return
+     */
 	public boolean isAutomaticallyHandling() {
 		return automaticallyHandling;
 	}
 
+	/**
+	 * Set whether the client automatically handles basic procedures, such as
+	 * ping/pong and object updating.
+	 * @param automaticallyHandling
+	 */
 	public void setAutomaticallyHandling(boolean automaticallyHandling) {
 		this.automaticallyHandling = automaticallyHandling;
 	}
 
+	/**
+	 * Get the player object.
+	 * @return
+	 */
 	public ObjectStatus getPlayerObject() {
 		return playerObject;
+	}
+	
+	/**
+	 * Starts the client thread and connects to the given server address. This
+	 * method is asynchronous; use a ClientListener to check for connection
+	 * events.
+	 * @param address the address to connect to
+	 */
+	public void connect(InetAddress address) {
+		if (connected) {
+			throw new IllegalStateException("Currently connected to a server.");
+		}
+		
+		running = true;
+		eventQueue = new LinkedBlockingQueue<Runnable>();
+		clientThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				run();
+			}
+		}, "Client Thread");
+		clientThread.setDaemon(true);
+		clientThread.start();
+		
+		eventThread = new Thread(new Runnable() {
+			public void run() {
+				while (true) {
+					Runnable run = null;
+					try {
+						run = eventQueue.take();
+						run.run();
+					} catch (InterruptedException ie) {
+						break;
+					}
+				}
+			}
+		}, "Client Event Thread");
+		eventThread.setDaemon(true);
+		eventThread.start();
+	}
+	
+	/**
+	 * Disconnect the client.
+	 */
+	public void disconnect() {
+		if (!connected) {
+			throw new IllegalStateException("Not connected to a server.");
+		}
+		running = false;
+		try {
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		eventThread.interrupt();
+	}
+	
+	/**
+	 * Whether or not the client is connected.
+	 * @return
+	 */
+	public boolean isConnected() {
+		return connected;
 	}
 }
