@@ -341,6 +341,7 @@ public class AppEngineClient {
 				run();
 			}
 		}, "AppEngine Service Thread");
+		thread.setDaemon(true);
 		thread.start();
 	}
 	
