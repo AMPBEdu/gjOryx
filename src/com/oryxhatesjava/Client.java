@@ -37,11 +37,9 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -89,7 +87,6 @@ public class Client {
 	private List<PacketListener> packetListeners;
 	private List<ClientListener> clientListeners;
 	private List<DataListener> dataListeners;
-	private Map<PacketListener, PacketFilter> packetFilters;
 	
 	private List<ObjectStatus> gameObjects;
 	
@@ -105,16 +102,12 @@ public class Client {
 		packetListeners = new LinkedList<PacketListener>();
 		clientListeners = new LinkedList<ClientListener>();
 		dataListeners = new LinkedList<DataListener>();
-		packetFilters = new HashMap<PacketListener, PacketFilter>();
 		cipherOut = new RC4(Proxy.CLIENTKEY);
 		cipherIn = new RC4(Proxy.SERVERKEY);
 	}
 	
-    /*
-     * (non-Javadoc)
-     * @see java.lang.Runnable#run()
-     */
-    public void run() {
+    @SuppressWarnings("unused")
+	private void run() {
         // Connect to the server
     	try {
 			socket = new Socket(address, PORT);
@@ -155,11 +148,11 @@ public class Client {
     			break;
     		} finally {
     			for (PacketListener l : packetListeners) {
-    				PacketFilter f = packetFilters.get(l);
+    				if (l.filter(pkt)) {
+    					l.packetReceived(this, pkt);
+    				}
     				if (pkt.type == Packet.FAILURE) {
     					running = false;
-    				} else if (f.select(pkt)) {
-    					l.packetReceived(this, pkt);
     				}
     			}
     		}
@@ -179,35 +172,15 @@ public class Client {
     }
     
     /**
-     * Add a packet listener with the given pre-constructed filter.
+     * Add a packet listener.
      * @param l the listener to add
-     * @param filter the filter to assign to this listener
      */
-    public synchronized void addPacketListener(PacketListener l, PacketFilter filter) {
+    public synchronized void addPacketListener(PacketListener l) {
     	if (l == null) {
     		throw new NullPointerException();
     	}
     	
     	packetListeners.add(l);
-    	packetFilters.put(l, filter);
-    }
-    
-    /**
-     * Add a packet listener with the filter parameters given.
-     * @param l the listener to add
-     * @param accept true if accept all BUT the filtered packets, false for
-     * only the filtered packets
-     * @param filter list of packet types to filter
-     * @see com.oryxhatesjava.net.Packet Packet
-     */
-    public synchronized void addPacketListener(PacketListener l, boolean accept, int ... filter) {
-    	if (l == null) {
-    		throw new NullPointerException();
-    	}
-    	
-    	packetListeners.add(l);
-    	PacketFilter f = new PacketFilter(accept, filter);
-    	packetFilters.put(l, f);
     }
     
     /**
@@ -216,7 +189,6 @@ public class Client {
      */
     public synchronized void removePacketListener(PacketListener l) {
     	packetListeners.remove(l);
-    	packetFilters.remove(l);
     }
     
     /**

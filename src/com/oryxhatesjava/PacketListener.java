@@ -35,4 +35,5 @@ import com.oryxhatesjava.net.Packet;
 
 public interface PacketListener {
 	public void packetReceived(Client client, Packet pkt);
+	public boolean filter(Packet pkt);
 }
