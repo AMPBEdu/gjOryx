@@ -33,7 +33,25 @@ package com.oryxhatesjava;
 
 import com.oryxhatesjava.net.Packet;
 
+/**
+ * A listener for packet events. These methods are called on the {@link Client}
+ * receptor thread.
+ * @author furyhunter
+ *
+ */
 public interface PacketListener {
+	/**
+	 * Callback on packet reception. Only called if <code>filter()</code>
+	 * returned true on the same packet.
+	 * @param client the client that received the packet
+	 * @param pkt the packet received
+	 */
 	public void packetReceived(Client client, Packet pkt);
+	
+	/**
+	 * Filter a packet. 
+	 * @param pkt the packet check for filtering
+	 * @return true to handle, false to ignore
+	 */
 	public boolean filter(Packet pkt);
 }

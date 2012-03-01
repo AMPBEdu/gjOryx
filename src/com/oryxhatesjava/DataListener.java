@@ -33,9 +33,32 @@ package com.oryxhatesjava;
 
 import com.oryxhatesjava.net.data.ObjectStatus;
 
+/**
+ * A listener for data updates. Only called upon if the {@link Client} is
+ * automatically handling packets.
+ * @author furyhunter
+ *
+ */
 public interface DataListener {
 
+	/**
+	 * An object was added
+	 * @param client the client who had an object added
+	 * @param object the status of the object added
+	 */
 	public void objectAdded(Client client, ObjectStatus object);
+	
+	/**
+	 * An object was removed
+	 * @param client the client whose object was removed
+	 * @param object the last status of the object removed
+	 */
 	public void objectRemoved(Client client, ObjectStatus object);
+	
+	/**
+	 * An object was updated.
+	 * @param client the client whose object was updated
+	 * @param object the status of the object
+	 */
 	public void objectUpdated(Client client, ObjectStatus object);
 }

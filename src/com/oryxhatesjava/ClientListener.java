@@ -32,7 +32,22 @@
 package com.oryxhatesjava;
 
 
+/**
+ * A listener for client events. These methods are called on the {@link Client}
+ * receptor thread.
+ * @author furyhunter
+ *
+ */
 public interface ClientListener {
+	/**
+	 * The client was connected.
+	 * @param client the client
+	 */
 	public void connected(Client client);
+	
+	/**
+	 * The client was disconnected.
+	 * @param client the client
+	 */
 	public void disconnected(Client client);
 }
