@@ -40,10 +40,18 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.jdom.Document;
 import org.jdom.input.SAXBuilder;
 
-public class AppEngineConnector implements Runnable {
+/**
+ * A utility for retrieving information from the Realm of the Mad God Google
+ * AppEngine service. Use this to get information about accounts, characters,
+ * servers, et cetera.
+ * @author furyhunter
+ *
+ */
+public class AppEngineClient {
 
 	private String urlbase;
 	private BlockingQueue<Request> reqs;
+	private Thread thread;
 	
 	enum RequestType {
 		PlainText,
@@ -69,16 +77,42 @@ public class AppEngineConnector implements Runnable {
 		}
 	}
 	
-	public AppEngineConnector() {
+	/**
+	 * Create an AppEngineClient that retrieves from the official production
+	 * servers.
+	 */
+	public AppEngineClient() {
 		this("http://realmofthemadgod.appspot.com");
 	}
 	
-	public AppEngineConnector(String urlBase) {
+	/**
+	 * Create an AppEngineClient that retrieves from the given server. The
+	 * string is used as a base for the full request URL, so include http.
+	 * @param urlBase
+	 */
+	public AppEngineClient(String urlBase) {
 		urlbase = urlBase;
 		reqs = new LinkedBlockingQueue<Request>();
+		thread = new Thread(new Runnable() {
+			public void run() {
+				run();
+			}
+		});
 	}
 	
-	public synchronized void getXMLRequest(String service, String request, String postdata, RequestListener callback) {
+	/**
+	 * Asynchronously retrieve the contents of a request in XML format.
+	 * <p>
+	 * Does nothing if the service thread is not started.
+	 * @param service the service to call
+	 * @param request the request to make
+	 * @param postdata the URL string of parameters
+	 * @param callback the listener to inform of reception
+	 */
+	public void getXMLRequestAsync(String service, String request, String postdata, RequestListener callback) {
+		if (!thread.isAlive()) {
+			return;
+		}
 		try {
 			URL url = new URL(urlbase + service + request + "?" + postdata);
 			reqs.add(new Request(url, service+request, RequestType.XML, callback));
@@ -87,7 +121,19 @@ public class AppEngineConnector implements Runnable {
 		}
 	}
 	
-	public synchronized void getTextRequest(String service, String request, String postdata, RequestListener callback) {
+	/**
+	 * Asynchronously retrieve the contents of a request in plain text.
+	 * <p>
+	 * Does nothing if the service thread is not started.
+	 * @param service the service to call
+	 * @param request the request to make
+	 * @param postdata the URL string of parameters, if any
+	 * @param callback the listener to inform of reception
+	 */
+	public void getTextRequestAsync(String service, String request, String postdata, RequestListener callback) {
+		if (!thread.isAlive()) {
+			return;
+		}
 		try {
 			URL url = new URL(urlbase + service + request + "?" + postdata);
 			reqs.add(new Request(url, service+request, RequestType.PlainText, callback));
@@ -96,7 +142,18 @@ public class AppEngineConnector implements Runnable {
 		}
 	}
 	
-	public synchronized void getAccount(String guid, String password, RequestListener callback) {
+	/**
+	 * Asynchronously retrieve information on a Web Account.
+	 * <p>
+	 * Does nothing if the service thread is not started.
+	 * @param guid the guid of the account
+	 * @param password the password of the account
+	 * @param callback the listener to inform of reception
+	 */
+	public void getAccountAsync(String guid, String password, RequestListener callback) {
+		if (!thread.isAlive()) {
+			return;
+		}
 		try {
 			URL url = new URL(urlbase + "/account/verify?" + "guid=" + guid + "&password=" + password);
 			reqs.add(new Request(url, "/account/verify", RequestType.Account, callback));
@@ -105,7 +162,20 @@ public class AppEngineConnector implements Runnable {
 		}
 	}
 	
-	public synchronized void getChars(String guid, String password, RequestListener callback) {
+	/**
+	 * Asynchronously retrieve login information, or Chars. This includes a
+	 * list of servers to connect to and the list of characters on the account,
+	 * with their classes unlocked, their vault, and their high scores.
+	 * <p>
+	 * Does nothing if the service thread is not started.
+	 * @param guid the guid of the account
+	 * @param password the password of the account
+	 * @param callback the listener to inform of reception
+	 */
+	public void getCharsAsync(String guid, String password, RequestListener callback) {
+		if (!thread.isAlive()) {
+			return;
+		}
 		try {
 			URL url = new URL(urlbase + "/char/list?guid=" + guid + "&password=" + password);
 			reqs.add(new Request(url, "/char/list", RequestType.CharList, callback));
@@ -114,7 +184,20 @@ public class AppEngineConnector implements Runnable {
 		}
 	}
 	
-	public synchronized void getGuildMemberList(int num, int offset, String guid, String password, RequestListener callback) {
+	/**
+	 * Asynchronously retrieve a list of guild members.
+	 * <p>
+	 * Does nothing if the service thread is not started.
+	 * @param num the number of guild members to list
+	 * @param offset the index of the first guild member to list
+	 * @param guid the guid of the account whose guild to parse
+	 * @param password the password of the account whose guild to parse
+	 * @param callback the listener to inform of reception
+	 */
+	public void getGuildMemberListAsync(int num, int offset, String guid, String password, RequestListener callback) {
+		if (!thread.isAlive()) {
+			return;
+		}
 		try {
 			URL url = new URL(urlbase + "/guild/listMembers?num=" + num + "&offset=" + offset + "&guid=" + guid + "&password=" + password);
 			reqs.add(new Request(url, "/guild/list", RequestType.GuildMemberList, callback));
@@ -123,7 +206,20 @@ public class AppEngineConnector implements Runnable {
 		}
 	}
 	
-	public synchronized void getFameList(String timespan, int accountId, int charId, RequestListener callback) {
+	/**
+	 * Asynchronously retrieve the Legends fame list, with an entry for the
+	 * given (dead) character.
+	 * <p>
+	 * Does nothing if the service thread is not started.
+	 * @param timespan "week", "month" or "all"
+	 * @param accountId id of the character's account
+	 * @param charId id of the character on the account
+	 * @param callback the listener to inform of reception
+	 */
+	public void getFameListAsync(String timespan, int accountId, int charId, RequestListener callback) {
+		if (!thread.isAlive()) {
+			return;
+		}
 		try {
 			URL url = new URL(urlbase + "/fame/list?timespan=" + timespan + "&accountId=" + accountId + "&charId=" + charId);
 			reqs.add(new Request(url, "/fame/list", RequestType.FameList, callback));
@@ -132,7 +228,18 @@ public class AppEngineConnector implements Runnable {
 		}
 	}
 	
-	public synchronized void getCharFame(int accountId, int charId, RequestListener callback) {
+	/**
+	 * Asynchronously retrieve a character's fame information.
+	 * <p>
+	 * Does nothing if the service thread is not started.
+	 * @param accountId
+	 * @param charId
+	 * @param callback
+	 */
+	public void getCharFameAsync(int accountId, int charId, RequestListener callback) {
+		if (!thread.isAlive()) {
+			return;
+		}
 		try {
 			URL url = new URL(urlbase + "/char/fame?accountId=" + accountId + "&charId=" + charId);
 			reqs.add(new Request(url, "/char/fame", RequestType.CharFame, callback));
@@ -141,7 +248,20 @@ public class AppEngineConnector implements Runnable {
 		}
 	}
 	
-	public synchronized void getBoolean(String service, String request, String postdata, RequestListener callback) {
+	/**
+	 * Asynchronously retrieve a boolean result. Use this method for requests
+	 * that either return Success or Fail.
+	 * <p>
+	 * Does nothing if the service thread is not started.
+	 * @param service
+	 * @param request
+	 * @param postdata
+	 * @param callback
+	 */
+	public void getBooleanAsync(String service, String request, String postdata, RequestListener callback) {
+		if (!thread.isAlive()) {
+			return;
+		}
 		try {
 			URL url = new URL(urlbase + service + request + "?" + postdata);
 			reqs.add(new Request(url, service+request, RequestType.SuccessFail, callback));
@@ -150,8 +270,8 @@ public class AppEngineConnector implements Runnable {
 		}
 	}
 	
-	@Override
-	public void run() {
+	@SuppressWarnings("unused")
+	private void run() {
 		Request r;
 		try {
 			while ((r = reqs.take()) != null) {
@@ -204,7 +324,33 @@ public class AppEngineConnector implements Runnable {
 				}
 			}
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			return;
+		}
+	}
+	
+	/**
+	 * Start the service thread for asynchronous requests, or do nothing if
+	 * already started.
+	 */
+	public void start() {
+		if (thread.isAlive()) {
+			return;
+		}
+		thread = new Thread(new Runnable() {
+			public void run() {
+				run();
+			}
+		}, "AppEngine Service Thread");
+		thread.start();
+	}
+	
+	/**
+	 * Stop the service thread for asynchronous requests, or do nothing if
+	 * it is not started.
+	 */
+	public void stop() {
+		if (thread.isAlive()) {
+			thread.interrupt();
 		}
 	}
 }
