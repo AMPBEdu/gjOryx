@@ -106,8 +106,7 @@ public class Client {
 		cipherIn = new RC4(Proxy.SERVERKEY);
 	}
 	
-    @SuppressWarnings("unused")
-	private void run() {
+	private void runThread() {
         // Connect to the server
     	try {
 			socket = new Socket(address, PORT);
@@ -424,7 +423,7 @@ public class Client {
 		clientThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				run();
+				runThread();
 			}
 		}, "Client Thread");
 		clientThread.setDaemon(true);

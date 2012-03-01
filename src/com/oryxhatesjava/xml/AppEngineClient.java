@@ -270,8 +270,7 @@ public class AppEngineClient {
 		}
 	}
 	
-	@SuppressWarnings("unused")
-	private void run() {
+	private void runThread() {
 		Request r;
 		try {
 			while ((r = reqs.take()) != null) {
@@ -338,7 +337,7 @@ public class AppEngineClient {
 		}
 		thread = new Thread(new Runnable() {
 			public void run() {
-				run();
+				runThread();
 			}
 		}, "AppEngine Service Thread");
 		thread.setDaemon(true);
