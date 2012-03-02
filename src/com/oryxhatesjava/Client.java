@@ -341,13 +341,15 @@ public class Client {
 					
 					if (!updated) {
 						gameObjects.add(o);
-						for (DataListener dl : dataListeners) {
-							dl.objectAdded(this, o);
-						}
 						
 						if (o.data.objectId == playerObjectId) {
 							playerObject = o;
 						}
+						
+						for (DataListener dl : dataListeners) {
+							dl.objectAdded(this, o);
+						}
+						
 					}
 				}
 			}
