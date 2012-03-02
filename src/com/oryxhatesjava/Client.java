@@ -49,6 +49,7 @@ import com.oryxhatesjava.net.ByteArrayDataOutput;
 import com.oryxhatesjava.net.CreateSuccessPacket;
 import com.oryxhatesjava.net.GotoAckPacket;
 import com.oryxhatesjava.net.GotoPacket;
+import com.oryxhatesjava.net.NewTickPacket;
 import com.oryxhatesjava.net.Packet;
 import com.oryxhatesjava.net.PingPacket;
 import com.oryxhatesjava.net.PongPacket;
@@ -91,6 +92,7 @@ public class Client {
 	private List<ObjectStatus> gameObjects;
 	
 	private boolean automaticallyHandling = true;
+	private int tickLengthMs;
 	
 	private ObjectStatus playerObject;
 	private int playerObjectId;
@@ -381,6 +383,11 @@ public class Client {
 			gtap.time = getTime();
 			sendSyncPacket(gtap);
 		}
+		
+		if (pkt instanceof NewTickPacket) {
+			NewTickPacket ntp = (NewTickPacket)pkt;
+			tickLengthMs = ntp.tickTime;
+		}
     }
 
     /**
@@ -471,5 +478,13 @@ public class Client {
 	 */
 	public boolean isConnected() {
 		return connected;
+	}
+	
+	/**
+	 * Retrieve the length of time in milliseconds for the last received tick.
+	 * @return
+	 */
+	public int getTickLengthMs() {
+		return tickLengthMs;
 	}
 }
