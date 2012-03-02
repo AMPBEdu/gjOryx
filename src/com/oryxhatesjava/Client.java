@@ -420,6 +420,7 @@ public class Client {
 			throw new IllegalStateException("Currently connected to a server.");
 		}
 		
+		this.address = address;
 		running = true;
 		eventQueue = new LinkedBlockingQueue<Runnable>();
 		clientThread = new Thread(new Runnable() {
