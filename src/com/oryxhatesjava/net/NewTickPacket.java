@@ -82,6 +82,6 @@ public class NewTickPacket extends Packet implements Parsable {
 	
 	@Override
 	public String toString() {
-		return "NEW_TICK " + tickId + " " + tickTime;
+		return "NEW_TICK " + tickId + " " + tickTime + " " + statuses;
 	}
 }
