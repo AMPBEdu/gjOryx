@@ -45,15 +45,18 @@ public interface DataListener {
 	 * An object was added
 	 * @param client the client who had an object added
 	 * @param object the status of the object added
+	 * @return DataListener to add
 	 */
-	public void objectAdded(Client client, ObjectStatus object);
+	public DataListener objectAdded(Client client, ObjectStatus object);
 	
 	/**
 	 * An object was removed
 	 * @param client the client whose object was removed
 	 * @param object the last status of the object removed
+	 * @param id the object id of the object removed
+	 * @return DataListener to remove
 	 */
-	public void objectRemoved(Client client, ObjectStatus object);
+	public DataListener objectRemoved(Client client, ObjectStatus object, int id);
 	
 	/**
 	 * An object was updated.

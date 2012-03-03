@@ -37,7 +37,6 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -56,6 +55,7 @@ import com.oryxhatesjava.net.PongPacket;
 import com.oryxhatesjava.net.UpdateAckPacket;
 import com.oryxhatesjava.net.UpdatePacket;
 import com.oryxhatesjava.net.data.ObjectStatus;
+import com.oryxhatesjava.net.data.ObjectStatusData;
 import com.oryxhatesjava.proxy.Proxy;
 
 /**
@@ -294,6 +294,8 @@ public class Client {
     }
     
     private void automaticHandling(Packet pkt) throws IOException {
+		List<DataListener> copyList = new LinkedList<DataListener>(dataListeners);
+		
 		// Catch ping/pong because this should be same across any client
 		if (pkt instanceof PingPacket) {
 			PingPacket pp = (PingPacket)pkt;
@@ -302,6 +304,7 @@ public class Client {
 			pop.time = (int) (System.currentTimeMillis() - startTime);
 			sendSyncPacket(pop);
 		}
+		
 		// Catch UPDATE since you ALWAYS need to respond with an ack
 		if (pkt instanceof UpdatePacket) {
 			UpdatePacket up = (UpdatePacket)pkt;
@@ -317,8 +320,13 @@ public class Client {
 					}
 					if (del != null) {
 						gameObjects.remove(del);
-						for (DataListener dl : dataListeners) {
-							dl.objectRemoved(this, del);
+						for (DataListener dl : copyList) {
+							if (dataListeners.contains(dl)) {
+								DataListener ret = dl.objectRemoved(this, del, i);
+								if (ret != null) {
+									dataListeners.remove(ret);
+								}
+							}
 						}
 					}
 				}
@@ -327,32 +335,21 @@ public class Client {
 			// Add and update new objects
 			if (up.newobjs != null) {
 				for (ObjectStatus o : up.newobjs) {
-					Iterator<ObjectStatus> itr = gameObjects.iterator();
-					boolean updated = false;
-					while (itr.hasNext()) {
-						ObjectStatus lo = itr.next();
-						if (lo.data.objectId == o.data.objectId) {
-							lo.update(o);
-							updated = true;
-							for (DataListener dl : dataListeners) {
-								dl.objectUpdated(this, lo);
-								break;
+					gameObjects.add(o);
+					
+					if (o.data.objectId == playerObjectId) {
+						playerObject = o;
+					}
+					
+					for (DataListener dl : copyList) {
+						if (dataListeners.contains(dl)) {
+							DataListener ret = dl.objectAdded(this, o);
+							if (ret != null) {
+								dataListeners.add(ret);
 							}
 						}
 					}
-					
-					if (!updated) {
-						gameObjects.add(o);
 						
-						if (o.data.objectId == playerObjectId) {
-							playerObject = o;
-						}
-						
-						for (DataListener dl : dataListeners) {
-							dl.objectAdded(this, o);
-						}
-						
-					}
 				}
 			}
 			
@@ -376,9 +373,11 @@ public class Client {
 					break;
 				}
 			}
-			for (DataListener dl : dataListeners) {
+			
+			for (DataListener dl : copyList) {
 				dl.objectUpdated(this, o);
 			}
+			
 			GotoAckPacket gtap = new GotoAckPacket();
 			gtap.time = getTime();
 			sendSyncPacket(gtap);
@@ -387,6 +386,21 @@ public class Client {
 		if (pkt instanceof NewTickPacket) {
 			NewTickPacket ntp = (NewTickPacket)pkt;
 			tickLengthMs = ntp.tickTime;
+			
+			for (ObjectStatusData o : ntp.statuses) {
+				for (ObjectStatus lo : gameObjects) {
+					if (o.objectId == lo.data.objectId && o.objectId != playerObjectId) {
+						lo.data.pos = o.pos;
+						
+						for (DataListener dl : copyList) {
+							if (dataListeners.contains(dl)) {
+								dl.objectUpdated(this, lo);
+							}
+						}
+						break;
+					}
+				}
+			}
 		}
     }
 
