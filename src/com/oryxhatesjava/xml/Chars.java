@@ -58,7 +58,7 @@ public class Chars {
 	@SuppressWarnings("unchecked")
 	public void parseElement(Element e) {
 		if (!e.getName().equals("Chars")) {
-			return;
+			throw new IllegalArgumentException();
 		}
 		
 		nextCharId = Integer.parseInt(e.getAttributeValue("nextCharId"));

@@ -54,7 +54,7 @@ public class FameList {
 	@SuppressWarnings("unchecked")
 	public void parseElement(Element e) {
 		if (!e.getName().equals("FameList")) {
-			return;
+			throw new IllegalArgumentException();
 		}
 		
 		timespan = e.getAttributeValue("timespan");

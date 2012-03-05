@@ -40,6 +40,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.jdom.Document;
 import org.jdom.input.SAXBuilder;
+import org.jdom.JDOMException;
 
 /**
  * A utility for retrieving information from the Realm of the Mad God Google
@@ -275,79 +276,92 @@ public class AppEngineClient {
 		Request r;
 		try {
 			while ((r = reqs.take()) != null) {
-				try {
-					Document d;
-					switch (r.type) {
-					case Account:
-						try {
-							d = new SAXBuilder().build(r.url);
-							r.listener.accountReceived(r.fullRequest, new Account(d.getRootElement()));
-						} catch (IOException e) {
-							r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
-						} catch (Exception e) {
-							r.listener.requestFailed(r.fullRequest, "Invalid credentials.");
+				Document d;
+				switch (r.type) {
+				case Account:
+					try {
+						d = new SAXBuilder().build(r.url);
+						r.listener.accountReceived(r.fullRequest, new Account(d.getRootElement()));
+					} catch (IOException e) {
+						r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
+					} catch (IllegalArgumentException e) {
+						r.listener.requestFailed(r.fullRequest, "Invalid credentials.");
+					} catch (JDOMException e) {
+						r.listener.requestFailed(r.fullRequest, "Bad XML");
+					}
+					break;
+				case PlainText:
+					try {
+						BufferedReader br = new BufferedReader(new InputStreamReader(r.url.openStream()));
+						String line;
+						StringBuilder full = new StringBuilder();
+						while ((line = br.readLine()) != null) {
+							full.append(line+"\n");
 						}
-						break;
-					case PlainText:
-						try {
-							BufferedReader br = new BufferedReader(new InputStreamReader(r.url.openStream()));
-							String line;
-							StringBuilder full = new StringBuilder();
-							while ((line = br.readLine()) != null) {
-								full.append(line+"\n");
-							}
-							r.listener.textReceived(r.fullRequest, full.toString());
-						} catch (IOException e) {
-							r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
-						}
-						break;
-					case XML:
-						try {
-							d = new SAXBuilder().build(r.url);
-							r.listener.xmlReceived(r.fullRequest, d);
-						} catch (IOException e) {
-							r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
-						}
-						break;
-					case CharList:
-						try {
-							d = new SAXBuilder().build(r.url);
-							r.listener.charsReceived(r.fullRequest, new Chars(d.getRootElement()));
-						} catch (IOException e) {
-							r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
-						} catch (Exception e) {
-							r.listener.requestFailed(r.fullRequest, "Invalid credentials.");
-						}
-						break;
-					case GuildMemberList:
-						try {
-							d = new SAXBuilder().build(r.url);
-							r.listener.guildMemberListReceived(r.fullRequest, new GuildMembers(d.getRootElement()));
-						} catch (IOException e) {
-							r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
-						} catch (Exception e) {
-							r.listener.requestFailed(r.fullRequest, "Parsing failed.");
-						}
-						break;
-					case FameList:
-						try {
-							d = new SAXBuilder().build(r.url);
-							r.listener.fameListReceived(r.fullRequest, new FameList(d.getRootElement()));
-						} catch (Exception e) {
-							r.listener.requestFailed(r.fullRequest, "Invalid credentials.");
-						}
-						break;
-					case CharFame:
-						try {
-							d = new SAXBuilder().build(r.url);
-							r.listener.charFameReceived(r.fullRequest, new CharFame(d.getRootElement()));
-						} catch (IOException e) {
-							r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
-						} catch (Exception e) {
-							r.listener.requestFailed(r.fullRequest, "Invalid credentials.");
-						}
-						break;
-					case SuccessFail:
+						r.listener.textReceived(r.fullRequest, full.toString());
+					} catch (IOException e) {
+						r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
+					}
+					break;
+				case XML:
+					try {
+						d = new SAXBuilder().build(r.url);
+						r.listener.xmlReceived(r.fullRequest, d);
+					} catch (IOException e) {
+						r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
+					} catch (Exception e) {
+						r.listener.requestFailed(r.fullRequest, "Bad XML");
+					}
+					break;
+				case CharList:
+					try {
+						d = new SAXBuilder().build(r.url);
+						r.listener.charsReceived(r.fullRequest, new Chars(d.getRootElement()));
+					} catch (IOException e) {
+						r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
+					} catch (IllegalArgumentException e) {
+						r.listener.requestFailed(r.fullRequest, "Invalid credentials.");
+					} catch (JDOMException e) {
+						r.listener.requestFailed(r.fullRequest, "Bad XML");
+					}
+					break;
+				case GuildMemberList:
+					try {
+						d = new SAXBuilder().build(r.url);
+						r.listener.guildMemberListReceived(r.fullRequest, new GuildMembers(d.getRootElement()));
+					} catch (IOException e) {
+						r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
+					} catch (IllegalArgumentException e) {
+						r.listener.requestFailed(r.fullRequest, "Invalid credentials.");
+					} catch (JDOMException e) {
+						r.listener.requestFailed(r.fullRequest, "Bad XML");
+					}
+					break;
+				case FameList:
+					try {
+						d = new SAXBuilder().build(r.url);
+						r.listener.fameListReceived(r.fullRequest, new FameList(d.getRootElement()));
+					} catch (IOException e) {
+						r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
+					} catch (IllegalArgumentException e) {
+						r.listener.requestFailed(r.fullRequest, "Invalid credentials.");
+					} catch (JDOMException e) {
+						r.listener.requestFailed(r.fullRequest, "Bad XML");
+					}
+					break;
+				case CharFame:
+					try {
+						d = new SAXBuilder().build(r.url);
+						r.listener.charFameReceived(r.fullRequest, new CharFame(d.getRootElement()));
+					} catch (IOException e) {
+						r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
+					} catch (IllegalArgumentException e) {
+						r.listener.requestFailed(r.fullRequest, "Invalid credentials.");
+					} catch (JDOMException e) {
+						r.listener.requestFailed(r.fullRequest, "Bad XML");
+					}
+					break;
+				case SuccessFail:
 					try {
 						d = new SAXBuilder().build(r.url);
 						boolean success = (d.getRootElement().getChild("Success") != null ? true : false);
@@ -355,11 +369,12 @@ public class AppEngineClient {
 						break;
 					} catch (IOException e) {
 						r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
+					} catch (JDOMException e) {
+						r.listener.requestFailed(r.fullRequest, "Bad XML");
 					}
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
+					break;
 				}
+			
 			}
 		} catch (InterruptedException e) {
 			return;

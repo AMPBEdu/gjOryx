@@ -57,7 +57,7 @@ public class GuildMembers {
 	@SuppressWarnings("unchecked")
 	public void parseElement(Element e) {
 		if (!e.getName().equals("Guild")) {
-			return;
+			throw new IllegalArgumentException();
 		}
 		
 		id = Integer.parseInt(e.getAttributeValue("id"));

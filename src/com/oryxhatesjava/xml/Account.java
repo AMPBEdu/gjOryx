@@ -102,7 +102,7 @@ public class Account {
 	@SuppressWarnings("unchecked")
 	public void parseElement(Element accountRoot) {
 		if (!accountRoot.getName().equals("Account")) {
-			return;
+			throw new IllegalArgumentException();
 		}
 		
 		credits = Integer.parseInt(accountRoot.getChildText("Credits"));
