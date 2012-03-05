@@ -42,4 +42,5 @@ public interface RequestListener {
 	public void fameListReceived(String fullRequest, FameList list);
 	public void charFameReceived(String fullRequest, CharFame fame);
 	public void booleanReceived(String fullRequest, boolean success);
+	public void requestFailed(String fullRequest, String reason);
 }
