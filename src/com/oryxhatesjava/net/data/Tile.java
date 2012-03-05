@@ -73,7 +73,7 @@ public class Tile implements Parsable {
 	public void parseFromDataInput(DataInput in) throws IOException {
 		x = in.readShort();
 		y = in.readShort();
-		type = in.readByte();
+		type = in.readUnsignedByte();
 	}
 
 	@Override

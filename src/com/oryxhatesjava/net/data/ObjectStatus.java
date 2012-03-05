@@ -73,10 +73,12 @@ public class ObjectStatus implements Parsable {
 	}
 	
 	public void update(ObjectStatus status) {
-		// Updating our data with data from status
-		objectType = status.objectType;
-		data.pos = status.data.pos;
-		for (StatData stat : status.data.stats) {
+		update(status.data);
+	}
+	
+	public void update(ObjectStatusData data) {
+		data.pos = data.pos;
+		for (StatData stat : data.stats) {
 			data.updateStat(stat);
 		}
 	}

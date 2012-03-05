@@ -32,6 +32,7 @@
 package com.oryxhatesjava;
 
 import com.oryxhatesjava.net.data.ObjectStatus;
+import com.oryxhatesjava.net.data.Tile;
 
 /**
  * A listener for data updates. Only called upon if the {@link Client} is
@@ -64,4 +65,10 @@ public interface DataListener {
 	 * @param object the status of the object
 	 */
 	public void objectUpdated(Client client, ObjectStatus object);
+	
+	/**
+	 * A tile was added.
+	 * @param tile
+	 */
+	public void tileAdded(Tile tile);
 }

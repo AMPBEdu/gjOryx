@@ -56,6 +56,7 @@ import com.oryxhatesjava.net.UpdateAckPacket;
 import com.oryxhatesjava.net.UpdatePacket;
 import com.oryxhatesjava.net.data.ObjectStatus;
 import com.oryxhatesjava.net.data.ObjectStatusData;
+import com.oryxhatesjava.net.data.Tile;
 import com.oryxhatesjava.proxy.Proxy;
 
 /**
@@ -309,6 +310,15 @@ public class Client {
 		if (pkt instanceof UpdatePacket) {
 			UpdatePacket up = (UpdatePacket)pkt;
 			
+			// Add tiles
+			if (up.tiles != null) {
+				for (Tile i : up.tiles) {
+					for (DataListener dl : copyList) {
+						dl.tileAdded(i);
+					}
+				}
+			}
+			
 			// Remove objects dropped
 			if (up.drops != null) {
 				for (int i : up.drops) {
@@ -391,6 +401,7 @@ public class Client {
 				for (ObjectStatus lo : gameObjects) {
 					if (o.objectId == lo.data.objectId && o.objectId != playerObjectId) {
 						lo.data.pos = o.pos;
+						lo.update(o);
 						
 						for (DataListener dl : copyList) {
 							if (dataListeners.contains(dl)) {
