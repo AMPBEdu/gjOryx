@@ -105,12 +105,12 @@ public class Client {
 		packetListeners = new LinkedList<PacketListener>();
 		clientListeners = new LinkedList<ClientListener>();
 		dataListeners = new LinkedList<DataListener>();
-		cipherOut = new RC4(Proxy.CLIENTKEY);
-		cipherIn = new RC4(Proxy.SERVERKEY);
 	}
 	
 	private void runThread() {
         // Connect to the server
+		cipherOut = new RC4(Proxy.CLIENTKEY);
+		cipherIn = new RC4(Proxy.SERVERKEY);
     	try {
 			socket = new Socket(address, PORT);
     		startTime = System.currentTimeMillis();
