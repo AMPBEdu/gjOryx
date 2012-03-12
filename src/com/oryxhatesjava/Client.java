@@ -148,14 +148,14 @@ public class Client {
     			break;
     		} catch (IOException e) {
     			break;
-    		} finally {
-    			for (PacketListener l : packetListeners) {
-    				if (l.filter(pkt)) {
-    					l.packetReceived(this, pkt);
-    				}
-    				if (pkt.type == Packet.FAILURE) {
-    					running = false;
-    				}
+    		}
+    		
+    		for (PacketListener l : packetListeners) {
+    			if (l.filter(pkt)) {
+    				l.packetReceived(this, pkt);
+    			}
+    			if (pkt.type == Packet.FAILURE) {
+    				running = false;
     			}
     		}
     	}
