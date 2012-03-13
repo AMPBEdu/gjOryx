@@ -32,6 +32,7 @@ package com.oryxhatesjava.net;
 
 import java.io.DataInput;
 import java.io.DataOutput;
+import java.io.EOFException;
 import java.io.IOException;
 
 import com.oryxhatesjava.net.data.Location;
@@ -45,23 +46,13 @@ public class EnemyShootPacket extends Packet implements Parsable {
     
     public int bulletId;
     public int ownerId;
-    public int containerType;
+    public int bulletType;
     public Location startingPos;
     public float angle;
     public int damage;
+    public boolean hasMultiProjectiles;
     public int numShots;
     public float angleInc;
-    
-    public EnemyShootPacket(int bulletId, int ownerId, int containerType,
-            Location startingPos, float angle, int damage) {
-    	type = Packet.ENEMYSHOOT;
-        this.bulletId = bulletId;
-        this.ownerId = ownerId;
-        this.containerType = containerType;
-        this.startingPos = startingPos.clone();
-        this.angle = angle;
-        this.damage = damage;
-    }
     
     public EnemyShootPacket(DataInput read) {
         try {
@@ -80,28 +71,35 @@ public class EnemyShootPacket extends Packet implements Parsable {
     public void parseFromDataInput(DataInput read) throws IOException {
         bulletId = read.readUnsignedByte();
         ownerId = read.readInt();
-        containerType = read.readShort();
+        bulletType = read.readUnsignedByte();
         startingPos = new Location(read);
         angle = read.readFloat();
         damage = read.readShort();
-        numShots = read.readInt();
-        angleInc = read.readFloat();
+        try {
+        	numShots = read.readUnsignedByte();
+        	angleInc = read.readFloat();
+        	hasMultiProjectiles = true;
+        } catch (EOFException ex) {
+        	hasMultiProjectiles = false;
+        }
     }
     
     @Override
     public void writeToDataOutput(DataOutput write) throws IOException {
         write.writeByte(bulletId);
         write.writeInt(ownerId);
-        write.writeShort(containerType);
+        write.writeByte(bulletType);
         startingPos.writeToDataOutput(write);
         write.writeFloat(angle);
         write.writeShort(damage);
-        write.writeInt(numShots);
-        write.writeFloat(angleInc);
+        if (hasMultiProjectiles) {
+        	write.writeByte(numShots);
+        	write.writeFloat(angleInc);
+        }
     }
     
     @Override
     public String toString() {
-        return "ENEMYSHOOT " + bulletId + " " + ownerId + " " + containerType + " " + startingPos + " " + angle + " " + damage + " " + numShots + " " + angleInc;
+        return "ENEMYSHOOT " + bulletId + " " + ownerId + " " + bulletType + " " + startingPos + " " + angle + " " + damage + " " + numShots + " " + angleInc;
     }
 }
