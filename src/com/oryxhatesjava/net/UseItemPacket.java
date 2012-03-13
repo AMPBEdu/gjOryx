@@ -63,6 +63,7 @@ public class UseItemPacket extends Packet implements Parsable {
 		time = in.readInt();
 		objectId = in.readInt();
 		slotId = in.readUnsignedByte();
+		usePos = new Location(in);
 	}
 	
 	@Override
@@ -70,6 +71,7 @@ public class UseItemPacket extends Packet implements Parsable {
 		out.writeInt(time);
 		out.writeInt(objectId);
 		out.writeByte(slotId);
+		usePos.writeToDataOutput(out);
 	}
 	
 	@Override
