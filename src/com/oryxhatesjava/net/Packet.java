@@ -102,7 +102,7 @@ public class Packet implements Parsable {
     public static final int GUILDREMOVE = 52; //GuildRemovePacket
     public static final int GUILDINVITE = 53; //GuildInvitePacket
     public static final int ALLYSHOOT = 55; //AllyShootPacket
-    public static final int UNKNOWN_56 = 56; // UNKNOWN7
+    public static final int ENEMYSHOOT = 56; //EnemyShootPacket
     public static final int REQUESTTRADE = 57; //RequestTradePacket
     public static final int TRADEREQUESTED = 58; //TradeRequestedPacket
     public static final int TRADESTART = 59; //TradeStartPacket
@@ -252,6 +252,8 @@ public class Packet implements Parsable {
             	return new GuildInvitePacket(in);
             case ALLYSHOOT:
             	return new AllyShootPacket(in);
+            case ENEMYSHOOT:
+            	return new EnemyShootPacket(in);
             case REQUESTTRADE:
             	return new RequestTradePacket(in);
             case TRADEREQUESTED:
