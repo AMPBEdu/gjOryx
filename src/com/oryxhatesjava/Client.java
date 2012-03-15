@@ -70,7 +70,7 @@ import com.oryxhatesjava.proxy.Proxy;
  */
 public class Client {
     
-	public static final int PORT = 2050;
+	private int port = 2050;
 	private InetAddress address;
 	private Socket socket;
 	private RC4 cipherOut;
@@ -112,7 +112,7 @@ public class Client {
 		cipherOut = new RC4(Proxy.CLIENTKEY);
 		cipherIn = new RC4(Proxy.SERVERKEY);
     	try {
-			socket = new Socket(address, PORT);
+			socket = new Socket(address, port);
     		startTime = System.currentTimeMillis();
 			write = new DataOutputStream(socket.getOutputStream());
 			read = new DataInputStream(socket.getInputStream());
@@ -447,8 +447,10 @@ public class Client {
 	 * method is asynchronous; use a ClientListener to check for connection
 	 * events.
 	 * @param address the address to connect to
+	 * @param port the port to connect on
 	 */
-	public void connect(InetAddress address) {
+	public void connect(InetAddress address, int port) {
+		this.port = port;
 		if (connected) {
 			throw new IllegalStateException("Currently connected to a server.");
 		}
