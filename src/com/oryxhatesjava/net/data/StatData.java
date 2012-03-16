@@ -40,11 +40,11 @@ public class StatData implements Parsable {
 	public int value; //int
 	public String valueString = "";
 	
+	public static final int MAXHP = 0;
 	public static final int HP = 1;
-	public static final int MAXHP = 2;
-	public static final int SIZE = 3;
+	public static final int SIZE = 2;
+	public static final int MAXMP = 3;
 	public static final int MP = 4;
-	public static final int MAXMP = 5;
 	public static final int XP = 6;
 	public static final int LEVEL = 7;
 	public static final int INVENTORY0 = 8;
