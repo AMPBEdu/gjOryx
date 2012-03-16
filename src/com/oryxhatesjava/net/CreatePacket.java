@@ -49,15 +49,11 @@ import com.oryxhatesjava.net.data.Parsable;
  */
 public class CreatePacket extends Packet implements Parsable {
     
-    public int charId;
     public short objectType;
-    public String name;
     
-    public CreatePacket(int charId, short objectType, String name) {
+    public CreatePacket(short objectType) {
     	type = Packet.CREATE;
-        this.charId = charId;
         this.objectType = objectType;
-        this.name = new String(name);
     }
     
     public CreatePacket(DataInput read) {
@@ -75,20 +71,16 @@ public class CreatePacket extends Packet implements Parsable {
     
     @Override
     public void parseFromDataInput(DataInput read) throws IOException {
-        charId = read.readInt();
         objectType = read.readShort();
-        name = read.readUTF();
     }
     
     @Override
     public void writeToDataOutput(DataOutput write) throws IOException {
-        write.writeInt(charId);
         write.writeShort(objectType);
-        write.writeUTF(name);
     }
     
     @Override
     public String toString() {
-        return "CREATE " + charId + " " + objectType + " " + name;
+        return "CREATE " + objectType;
     }
 }
