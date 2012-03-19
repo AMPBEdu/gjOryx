@@ -35,6 +35,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -157,7 +158,7 @@ public class AppEngineClient {
 			return;
 		}
 		try {
-			URL url = new URL(urlbase + "/account/verify?" + "guid=" + guid + "&password=" + password);
+			URL url = new URL(urlbase + "/account/verify?" + "guid=" + URLEncoder.encode(guid, "UTF-8") + "&password=" + URLEncoder.encode(password, "UTF-8"));
 			reqs.add(new Request(url, "/account/verify", RequestType.Account, callback));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -179,7 +180,7 @@ public class AppEngineClient {
 			return;
 		}
 		try {
-			URL url = new URL(urlbase + "/char/list?guid=" + guid + "&password=" + password);
+			URL url = new URL(urlbase + "/char/list?guid=" + URLEncoder.encode(guid, "UTF-8") + "&password=" + URLEncoder.encode(password, "UTF-8"));
 			reqs.add(new Request(url, "/char/list", RequestType.CharList, callback));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -201,7 +202,7 @@ public class AppEngineClient {
 			return;
 		}
 		try {
-			URL url = new URL(urlbase + "/guild/listMembers?num=" + num + "&offset=" + offset + "&guid=" + guid + "&password=" + password);
+			URL url = new URL(urlbase + "/guild/listMembers?num=" + num + "&offset=" + offset + "&guid=" + URLEncoder.encode(guid, "UTF-8") + "&password=" + URLEncoder.encode(guid, "UTF-8"));
 			reqs.add(new Request(url, "/guild/list", RequestType.GuildMemberList, callback));
 		} catch (Exception e) {
 			e.printStackTrace();
