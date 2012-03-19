@@ -51,7 +51,7 @@ import com.oryxhatesjava.net.data.Parsable;
 public class PlayerShootPacket extends Packet implements Parsable {
     
     public int time;
-    public byte bulletId; // uint
+    public int bulletId; // uint
     public short containerType;
     public Location startingPos;
     public float angle;
@@ -82,7 +82,7 @@ public class PlayerShootPacket extends Packet implements Parsable {
     @Override
     public void parseFromDataInput(DataInput read) throws IOException {
         time = read.readInt();
-        bulletId = read.readByte();
+        bulletId = read.readUnsignedByte();
         containerType = read.readShort();
         startingPos = new Location(read.readFloat(), read.readFloat());
         angle = read.readFloat();
