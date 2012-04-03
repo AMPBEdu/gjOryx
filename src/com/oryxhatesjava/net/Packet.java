@@ -119,6 +119,7 @@ public class Packet implements Parsable {
     public static final int INVITEDTOGUILD = 74; //InvitedToGuildPacket
     public static final int JOINGUILD = 75; //JoinGuildPacket
     public static final int CHANGEGUILDRANK = 76; //ChangeGuildRankPacket
+    public static final int PLAYSOUND = 77; //PlaySoundPacket
     
     public int type;
     
@@ -286,6 +287,8 @@ public class Packet implements Parsable {
             	return new JoinGuildPacket(in);
             case CHANGEGUILDRANK:
             	return new ChangeGuildRankPacket(in);
+            case PLAYSOUND:
+            	return new PlaySoundPacket(in);
             default:
                 return new Packet(type, data);
         }
