@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="oryxhatesjava" default="build">
+	<description>An API for programming a client for Realm of the Mad God.</description>
+	<property name="src" value="src" />
+	<property name="build" value="build" />
+	<property name="dist" value="dist" />
+	<property name="version" value="0.1" />
+
+	<target name="init" description="Initialize the build directory">
+		<mkdir dir="${build}" />
+	</target>
+
+	<target name="build" depends="init" description="Build from source">
+		<javac debug="on" srcdir="${src}" destdir="${build}" includeantruntime="false" />
+	</target>
+
+	<target name="dist" depends="build" description="Build distribution folder">
+		<mkdir dir="${dist}" />
+		<copy file="README.mkd" todir="${dist}" />
+		<jar destfile="${dist}/${ant.project.name}.jar">
+			<fileset dir="${build}" />
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Implementation-Title" value="${ant.project.name}" />
+				<attribute name="Implementation-Version" value="${version}" />
+			</manifest>
+		</jar>
+		<zip destfile="${dist}/src.zip">
+			<fileset dir="${src}" />
+		</zip>
+	</target>
+
+	<target name="dist-zip" depends="dist" description="Zip up distribution folder">
+		<zip destfile="${ant.project.name}-${version}.zip">
+			<fileset dir="${dist}" />
+		</zip>
+	</target>
+
+	<target name="clean" description="Clean the build and dist directories">
+		<delete verbose="true" includeemptydirs="true">
+			<fileset dir="${build}" />
+			<fileset dir="${dist}" />
+			<fileset dir="." includes="${ant.project.name}*.zip" />
+		</delete>
+	</target>
+</project>
