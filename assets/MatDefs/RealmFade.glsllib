@@ -1,0 +1,11 @@
+vec4 Fade(vec4 col, vec2 oldCoord) {
+	vec4 ret = col;
+	if (ret.a > 0) {
+		// fade effect
+		vec4 fade = vec4(0.0);
+		float y = 1.0 - oldCoord.y;
+		fade.xyz = 0.2 * y;
+		ret = ret - fade;
+	}
+	return ret;
+}

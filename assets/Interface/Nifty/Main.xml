@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty xmlns="http://nifty-gui.sourceforge.net/nifty.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty.xsd http://nifty-gui.sourceforge.net/nifty.xsd">
+	
+	<useControls filename="nifty-default-controls.xml" />
+	<useStyles filename="nifty-default-styles.xml" />
+	<useStyles filename="Interface/Nifty/chat-textfield.xml" />
+	
+	<screen id="screenLogin" controller="com.joryx.appstate.screens.LoginScreen">
+		<layer id="layerForeground" childLayout="vertical">
+			<panel id="spacer1" width="80%" height="20%" align="center">
+				<!-- spacer -->
+			</panel>
+			<panel id="title" width="80%" align="center" childLayout="vertical"
+				valign="center">
+				<image filename="Textures/Oryx.png" imageMode="normal" width="192"
+					height="192" align="center" />
+			</panel>
+			<panel id="titlePanel" width="80%" align="center" childLayout="center">
+				<text text="Realm of the Mad God" font="Interface/Fonts/Default.fnt"
+					align="center" />
+			</panel>
+			<panel>
+				<!-- spacer -->
+			</panel>
+			<panel id="loginPanel" width="384" height="100" align="center" childLayout="vertical" style="nifty-panel">
+				<effect>
+					<onStartScreen name="fade" length="400" start="#00" end="#ff" inherit="true"/>
+				</effect>
+				<panel id="loginUsernamePanel" childLayout="horizontal" width="100%" align="center">
+					<control name="label" text="Email:" align="left"></control>
+					<panel><!-- spacer --></panel>
+					<control id="emailField" width="70%" name="textfield"></control>
+				</panel>
+				<panel id="loginPasswordPanel" childLayout="horizontal" width="100%" align="center">
+					<control name="label" text="Password:" align="left"></control>
+					<panel><!-- spacer --></panel>
+					<control id="passwordField" width="70%" name="textfield" passwordChar="*"></control>
+				</panel>
+				<panel id="loginButtonPanel" childLayout="horizontal" width="100%" align="center">
+					<control id="rememberMeCheckbox" name="checkbox"></control>
+					<control name="label" text=" Remember Account"></control>
+					<panel> <!-- spacer --> </panel>
+					<control id="buttonLogin" name="button" label="Login" align="right"></control>
+				</panel>
+			</panel>
+			<panel><!-- spacer --></panel>
+			<panel id="copyright" childLayout="horizontal">
+				<control id="buttonSettings" name="button" label="Settings" />
+				<panel><!-- spacer --></panel>
+				<control name="label" text="Copyright (C) 2010-2012 Wild Shadow Studios" align="right" />
+			</panel>
+		</layer>
+	</screen>
+	
+	<screen id="screenChars" controller="com.joryx.appstate.screens.CharsScreen">
+		<layer id="layerForeground" childLayout="horizontal" align="left">
+			<panel childLayout="vertical" width="256" align="left">
+				<panel width="100%" style="nifty-panel" childLayout="vertical">
+					<panel width="100%" height="64" childLayout="horizontal">
+						<control id="labelServer" name="label" text="Server" width="100"></control>
+						<panel><!-- spacer --></panel>
+						<control id="buttonChangeServer" name="button" label="Change"></control>
+					</panel>
+					<control id="listboxCharacters" name="listBox" height="100%" forceSelection="true" selectionMode="single" horizontal="off" vertical="optional" displayItems="11"></control>
+					<panel><!-- spacer --></panel>
+				</panel>
+			</panel>
+			<panel><!-- spacer --></panel>
+			<panel childLayout="vertical" width="128" align="center" height="100%">
+				<panel><!-- spacer --></panel>
+				<panel width="100%" height="128" childLayout="vertical" valign="bottom">
+					<panel><!-- spacer --></panel>
+					<control id="labelAccountName" name="label" text="Character Goes Above In Scene" width="100%"></control>
+					<control id="labelLevel" name="label" text="Level 20 Class" width="100%"></control>
+					<panel childLayout="horizontal">
+						<panel><!-- spacer --></panel>
+						<control id="buttonStart" name="button" label="Continue"></control>
+						<panel><!-- spacer --></panel>
+					</panel>
+				</panel>
+			</panel>
+			<panel><!-- spacer --></panel>
+			<panel childLayout="vertical" width="256" height="100%" align="right">
+				<panel width="100%" childLayout="vertical" style="nifty-panel">
+					<control name="label" text="News goes here"></control>
+					<panel><!-- spacer --></panel>
+				</panel>
+			</panel>
+		</layer>
+	</screen>
+	
+	<screen id="screenWorld" controller="com.joryx.appstate.screens.WorldScreen">
+		<layer id="layerHUD" childLayout="absolute">
+			<!-- panels and labels are added here programmatically -->
+		</layer>
+		
+		<layer id="layerChat" childLayout="horizontal" align="left">
+			<panel childLayout="vertical" width="512" valign="bottom" visibleToMouse="false">
+				<panel id="panelChat" childLayout="vertical">
+					<panel><!-- spacer --></panel>
+				</panel>
+				<panel height="25"><!-- spacer --></panel>
+			</panel>
+		</layer>
+		
+		<layer id="layerChatBox" childLayout="vertical" align="left">
+			<panel width="512" childLayout="vertical">
+				<panel><!-- spacer --></panel>
+				<control id="textfieldChat" name="textfield" width="100%" style="chat-textfield"/>
+			</panel>
+		</layer>
+		
+		<layer id="layerTooltip" childLayout="horizontal" align="right">
+			<panel><!-- spacer --></panel>
+			<panel childLayout="vertical" width="200">
+				<panel><!-- spacer --></panel>
+				<panel id="panelToolTip" style="nifty-panel" childLayout="vertical" height="128" width="100%">
+					<control id="labelToolTipName" name="label" text="id or name" width="100%" />
+					<control id="labelToolTipObjType" name="label" text="type" width="100%" />
+					<control id="labelToolTipHealth" name="label" text="health" width="100%" />
+				</panel>
+			</panel>
+		</layer>
+		
+		<layer id="layerContext" childLayout="vertical" align="center">
+			<panel id="panelPortal" childLayout="horizontal" backgroundColor="#0004" width="100%" height="24">
+				<control id="panelPortalLabel" name="label" text="Portal name" width="192" />
+				<panel><!-- spacer --></panel>
+				<control id="panelPortalEnter" name="button" label="Enter" />
+			</panel>
+			<panel><!-- spacer --></panel>
+		</layer>
+	</screen>
+	
+	<popup id="popupError" childLayout="center" backgroundColor="#0008" width="100%" height="100%">
+		<panel childLayout="vertical" width="256" height="128" style="nifty-panel-red">
+			<effect>
+				<onStartScreen name="fade" length="400" start="#00" end="#ff" inherit="true"/>
+			</effect>
+			<panel childLayout="horizontal" width="100%" valign="center">
+				<control id="labelError" name="label" text="Error"></control>
+			</panel>
+			<panel> <!-- spacer --></panel>
+			<panel childLayout="horizontal" width="100%">
+				<panel><!-- spacer --></panel>
+				<control id="buttonOkay" name="button" label="Okay" align="right"></control>
+			</panel>
+		</panel>
+	</popup>
+	
+	<popup id="popupLoading" childLayout="center" backgroundColor="#0008" width="100%" height="100%">
+		<panel childLayout="center" width="192" height="128" style="nifty-panel" align="center" valign="center">
+			<effect>
+				<onStartScreen name="fade" length="400" start="#00" end="#ff" inherit="true"/>
+			</effect>
+			<control id="labelLoading" name="label" text="Loading..."></control>
+		</panel>
+	</popup>
+	
+	<popup id="popupServers" childLayout="center" backgroundColor="#0008" width="100%" height="100%">
+		<panel width="512" height="320" childLayout="vertical" style="nifty-panel">
+			<effect>
+				<onStartScreen name="fade" length="400" start="#00" end="#ff" inherit="true"/>
+			</effect>
+			<control name="label" text="Select a server"></control>
+			<control id="listboxServers" name="listBox" height="100%" forceSelection="true" selectionMode="single" horizontal="off" vertical="optional" displayItems="10"></control>
+			<panel><!-- spacer --></panel>
+			<panel childLayout="horizontal">
+				<panel><!-- spacer --></panel>
+				<control id="buttonSelectServer" name="button" label="Select"></control>
+			</panel>
+		</panel>
+	</popup>
+	
+	<popup id="popupSettings" childLayout="center" backgroundColor="#0008" width="100%" height="100%">
+		<panel width="512" height="256" childLayout="vertical" style="nifty-panel">
+			<effect>
+				<onStartScreen name="fade" length="400" start="#00" end="#ff" inherit="true" />
+			</effect>
+			<control name="label" text="Settings" width="100%"></control>
+			<panel childLayout="horizontal" width="100%">
+				<control name="label" text="Resolution"></control>
+				<control id="popupSettings_dropdownResolution" name="dropDown"></control>
+			</panel>
+			<panel childLayout="horizontal" width="100%">
+				<control name="label" text="Fullscreen"></control>
+				<control id="popupSettings_checkboxFullscreen" name="checkbox"></control>
+			</panel>
+			<panel><!-- spacer --></panel>
+			<panel childLayout="horizontal">
+				<panel><!-- spacer --></panel>
+				<control id="popupSettings_buttonCancel" name="button" label="Cancel"></control>
+				<control id="popupSettings_buttonSave" name="button" label="Save Settings"></control>
+			</panel>
+		</panel>
+	</popup>
+</nifty>

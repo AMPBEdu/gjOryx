@@ -1,0 +1,2525 @@
+<Objects>
+   
+  <Object id="Black Cat Generator" type="0x1500">
+     
+    <DisplayId>
+      Black Cat
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x00
+      </Index>
+    </AnimatedTexture>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A cute and affectionate cat.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Black Cat">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Black Cat" type="0x1600">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x00
+      </Index>
+    </AnimatedTexture>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Grey Cat Generator" type="0x1501">
+     
+    <DisplayId>
+      Grey Cat
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x01
+      </Index>
+    </AnimatedTexture>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A cute and affectionate cat.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Grey Cat">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Grey Cat" type="0x1601">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x01
+      </Index>
+    </AnimatedTexture>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Orange Cat Generator" type="0x1502">
+     
+    <DisplayId>
+      Orange Cat
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x02
+      </Index>
+    </AnimatedTexture>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A cute and affectionate cat.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Orange Cat">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Orange Cat" type="0x1602">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x02
+      </Index>
+    </AnimatedTexture>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Tan Cat Generator" type="0x1503">
+     
+    <DisplayId>
+      Tan Cat
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x02
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x1ce9f32
+    </Tex1>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A cute and affectionate cat.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Tan Cat">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Tan Cat" type="0x1603">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x02
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x1ce9f32
+    </Tex1>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Yellow Cat Generator" type="0x1504">
+     
+    <DisplayId>
+      Yellow Cat
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x02
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x1cbc916
+    </Tex1>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A cute and affectionate cat.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Yellow Cat">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Yellow Cat" type="0x1604">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x02
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x1cbc916
+    </Tex1>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Brown Pup Generator" type="0x1505">
+     
+    <DisplayId>
+      Brown Pup
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x05
+      </Index>
+    </AnimatedTexture>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A loyal and friendly pup.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Brown Pup">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Brown Pup" type="0x1605">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x05
+      </Index>
+    </AnimatedTexture>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Grey Pup Generator" type="0x1506">
+     
+    <DisplayId>
+      Grey Pup
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x05
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x1767676
+    </Tex1>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A loyal and friendly pup.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Grey Pup">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Grey Pup" type="0x1606">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x05
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x1767676
+    </Tex1>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Golden Pup Generator" type="0x1507">
+     
+    <DisplayId>
+      Golden Pup
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x05
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x1ce9f32
+    </Tex1>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A loyal and friendly pup.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Golden Pup">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Golden Pup" type="0x1607">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x05
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x1ce9f32
+    </Tex1>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="White Cat Generator" type="0x1508">
+     
+    <DisplayId>
+      White Cat
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x00
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x1ffffff
+    </Tex1>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A cute and affectionate cat.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="White Cat">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="White Cat" type="0x1608">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x00
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x1ffffff
+    </Tex1>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Blue Snail Generator" type="0x1509">
+     
+    <DisplayId>
+      Blue Snail
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x03
+      </Index>
+    </AnimatedTexture>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A slimy but lovable snail.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Blue Snail">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Blue Snail" type="0x1609">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x03
+      </Index>
+    </AnimatedTexture>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Grey Wolf Generator" type="0x150a">
+     
+    <DisplayId>
+      Grey Wolf
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x04
+      </Index>
+    </AnimatedTexture>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A brave, majestic wolf.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Grey Wolf">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Grey Wolf" type="0x160a">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x04
+      </Index>
+    </AnimatedTexture>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Brown Fox Generator" type="0x150b">
+     
+    <DisplayId>
+      Brown Fox
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x06
+      </Index>
+    </AnimatedTexture>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A quick and cunning fox.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Brown Fox">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Brown Fox" type="0x160b">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x06
+      </Index>
+    </AnimatedTexture>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Green Frog Generator" type="0x150c">
+     
+    <DisplayId>
+      Green Frog
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x07
+      </Index>
+    </AnimatedTexture>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A cute little frog.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Green Frog">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Green Frog" type="0x160c">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x07
+      </Index>
+    </AnimatedTexture>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      80
+    </Size>
+     
+  </Object>
+   
+  <Object id="Lion Generator" type="0x150d">
+     
+    <DisplayId>
+      Lion
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x08
+      </Index>
+    </AnimatedTexture>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A fierce but friendly lion.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Lion">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Lion" type="0x160d">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x08
+      </Index>
+    </AnimatedTexture>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      80
+    </Size>
+     
+  </Object>
+   
+  <Object id="Penguin Generator" type="0x150e">
+     
+    <DisplayId>
+      Penguin
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x09
+      </Index>
+    </AnimatedTexture>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A cute little penguin.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Penguin">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Penguin" type="0x160e">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x09
+      </Index>
+    </AnimatedTexture>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Sheepdog Generator" type="0x150f">
+     
+    <DisplayId>
+      Sheepdog
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x0a
+      </Index>
+    </AnimatedTexture>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A brave and protective sheepdog.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Sheepdog">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Sheepdog" type="0x160f">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x0a
+      </Index>
+    </AnimatedTexture>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Panda Generator" type="0x1510">
+     
+    <DisplayId>
+      Panda
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x0b
+      </Index>
+    </AnimatedTexture>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A rare, beautiful panda.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Panda">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Panda" type="0x1610">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x0b
+      </Index>
+    </AnimatedTexture>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Purple Snail Generator" type="0x1511">
+     
+    <DisplayId>
+      Purple Snail
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x03
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex2>
+      0x19829f6
+    </Tex2>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A slimy but lovable snail.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Purple Snail">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Purple Snail" type="0x1611">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x03
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex2>
+      0x19829f6
+    </Tex2>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Black Wolf Generator" type="0x1512">
+     
+    <DisplayId>
+      Black Wolf
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x04
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x1333333
+    </Tex1>
+     
+    <Tex2>
+      0x1ff0000
+    </Tex2>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A brave, majestic wolf.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Black Wolf">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Black Wolf" type="0x1612">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x04
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x1333333
+    </Tex1>
+     
+    <Tex2>
+      0x1ff0000
+    </Tex2>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Grey Fox Generator" type="0x1513">
+     
+    <DisplayId>
+      Grey Fox
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x06
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x1808080
+    </Tex1>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A quick and cunning fox.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Grey Fox">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Grey Fox" type="0x1613">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x06
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x1808080
+    </Tex1>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Purple Frog Generator" type="0x1514">
+     
+    <DisplayId>
+      Purple Frog
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x07
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x19829f6
+    </Tex1>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A cute little frog.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Purple Frog">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Purple Frog" type="0x1614">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x07
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x19829f6
+    </Tex1>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      80
+    </Size>
+     
+  </Object>
+   
+  <Object id="White Lion Generator" type="0x1515">
+     
+    <DisplayId>
+      White Lion
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x08
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x1d0d0d0
+    </Tex1>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A fierce but friendly lion.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="White Lion">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="White Lion" type="0x1615">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x08
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x1d0d0d0
+    </Tex1>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      80
+    </Size>
+     
+  </Object>
+   
+  <Object id="Green Penguin Generator" type="0x1516">
+     
+    <DisplayId>
+      Green Penguin
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x09
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x1005302
+    </Tex1>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A cute little penguin.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Green Penguin">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Green Penguin" type="0x1616">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x09
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x1005302
+    </Tex1>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Golden Sheepdog Generator" type="0x1517">
+     
+    <DisplayId>
+      Golden Sheepdog
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x0a
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x1cf9700
+    </Tex1>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A brave and protective sheepdog.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Golden Sheepdog">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Golden Sheepdog" type="0x1617">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x0a
+      </Index>
+    </AnimatedTexture>
+     
+    <Tex1>
+      0x1cf9700
+    </Tex1>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Bluebird Generator" type="0x1518">
+     
+    <DisplayId>
+      Bluebird
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x0c
+      </Index>
+    </AnimatedTexture>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A sweet bluebird.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Bluebird">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Bluebird" type="0x1618">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x0c
+      </Index>
+    </AnimatedTexture>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Chick Generator" type="0x1519">
+     
+    <DisplayId>
+      Chick
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x0d
+      </Index>
+    </AnimatedTexture>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A curious young chicken.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Chick">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Chick" type="0x1619">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x0d
+      </Index>
+    </AnimatedTexture>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Pig Generator" type="0x151a">
+     
+    <DisplayId>
+      Pig
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x0e
+      </Index>
+    </AnimatedTexture>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A hungry piglet.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Pig">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Pig" type="0x161a">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x0e
+      </Index>
+    </AnimatedTexture>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Sea Slurp Generator" type="0x151b">
+     
+    <DisplayId>
+      Sea Slurp
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x0f
+      </Index>
+    </AnimatedTexture>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A friendly honey bee.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Sea Slurp">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Sea Slurp" type="0x161b">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        0x0f
+      </Index>
+    </AnimatedTexture>
+     
+    <NoMiniMap/>
+     
+    <Size>
+      60
+    </Size>
+     
+  </Object>
+   
+  <Object id="Bumblebee Generator" type="0x151c">
+     
+    <DisplayId>
+      Bumblebee
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <Texture>
+      <File>
+        lofiChar28x8
+      </File>
+      <Index>
+        0x16
+      </Index>
+    </Texture>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A friendly honey bee.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Bumblebee">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Bumblebee" type="0x161c">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <Texture>
+      <File>
+        lofiChar28x8
+      </File>
+      <Index>
+        0x16
+      </Index>
+    </Texture>
+     
+    <Animation period="0.0" prob="1.0">
+       
+      <Frame time=".05">
+        <Texture>
+          <File>
+            lofiChar28x8
+          </File>
+          <Index>
+            0x16
+          </Index>
+        </Texture>
+      </Frame>
+       
+      <Frame time=".05">
+        <Texture>
+          <File>
+            lofiChar28x8
+          </File>
+          <Index>
+            0x17
+          </Index>
+        </Texture>
+      </Frame>
+       
+    </Animation>
+     
+    <NoMiniMap/>
+     
+    <Z>
+      0.24
+    </Z>
+     
+    <Flying/>
+     
+    <Size>
+      40
+    </Size>
+     
+    <ShadowSize>
+      80
+    </ShadowSize>
+     
+  </Object>
+   
+  <Object id="Bat Generator" type="0x151d">
+     
+    <DisplayId>
+      Bat
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <Texture>
+      <File>
+        lofiChar28x8
+      </File>
+      <Index>
+        0x18
+      </Index>
+    </Texture>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A little bat.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Bat">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Bat" type="0x161d">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <Texture>
+      <File>
+        lofiChar28x8
+      </File>
+      <Index>
+        0x18
+      </Index>
+    </Texture>
+     
+    <Animation period="0.0" prob="1.0">
+       
+      <Frame time=".15">
+        <Texture>
+          <File>
+            lofiChar28x8
+          </File>
+          <Index>
+            0x18
+          </Index>
+        </Texture>
+      </Frame>
+       
+      <Frame time=".15">
+        <Texture>
+          <File>
+            lofiChar28x8
+          </File>
+          <Index>
+            0x19
+          </Index>
+        </Texture>
+      </Frame>
+       
+    </Animation>
+     
+    <NoMiniMap/>
+     
+    <Z>
+      0.24
+    </Z>
+     
+    <Flying/>
+     
+    <Size>
+      60
+    </Size>
+     
+    <ShadowSize>
+      80
+    </ShadowSize>
+     
+  </Object>
+   
+  <Object id="Lil' Ghost Generator" type="0x151e">
+     
+    <DisplayId>
+      Lil' Ghost
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        16
+      </Index>
+    </AnimatedTexture>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      A passive little spirit.
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <InvUse/>
+     
+    <VaultItem/>
+     
+    <Soulbound/>
+     
+    <Activate cooldown="10" objectId="Lil' Ghost">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Lil' Ghost" type="0x161e">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <AnimatedTexture>
+      <File>
+        chars8x8rPets1
+      </File>
+      <Index>
+        16
+      </Index>
+    </AnimatedTexture>
+     
+    <NoMiniMap/>
+     
+    <Z>
+      0.15
+    </Z>
+     
+    <Flying/>
+     
+    <Size>
+      60
+    </Size>
+     
+    <ShadowSize>
+      80
+    </ShadowSize>
+     
+  </Object>
+   
+  <Object id="Valentine Generator" type="0x151f">
+     
+    <DisplayId>
+      Valentine
+    </DisplayId>
+     
+    <Class>
+      Equipment
+    </Class>
+     
+    <Item/>
+     
+    <Texture>
+      <File>
+        lofiChar28x8
+      </File>
+      <Index>
+        0x1a
+      </Index>
+    </Texture>
+     
+    <SlotType>
+      10
+    </SlotType>
+     
+    <Description>
+      Give this valentine to a friend!
+    </Description>
+     
+    <Sound>
+      spell/light_heal
+    </Sound>
+     
+    <Consumable/>
+     
+    <Activate cooldown="10" objectId="Valentine" removeSelf="false">
+      PermaPet
+    </Activate>
+     
+    <OldSound>
+      use_potion
+    </OldSound>
+     
+  </Object>
+   
+  <Object id="Valentine" type="0x161f">
+     
+    <Class>
+      Character
+    </Class>
+     
+    <Texture>
+      <File>
+        lofiChar28x8
+      </File>
+      <Index>
+        0x1a
+      </Index>
+    </Texture>
+     
+    <Animation period="0.0" prob="1.0">
+       
+      <Frame time="0.4">
+        <Texture>
+          <File>
+            lofiChar28x8
+          </File>
+          <Index>
+            0x1a
+          </Index>
+        </Texture>
+      </Frame>
+       
+      <Frame time="0.4">
+        <Texture>
+          <File>
+            lofiChar28x8
+          </File>
+          <Index>
+            0x1b
+          </Index>
+        </Texture>
+      </Frame>
+       
+    </Animation>
+     
+    <NoMiniMap/>
+     
+    <Z>
+      0.15
+    </Z>
+     
+    <Flying/>
+     
+    <Size>
+      40
+    </Size>
+     
+    <ShadowSize>
+      70
+    </ShadowSize>
+     
+  </Object>
+   
+</Objects>

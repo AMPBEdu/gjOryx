@@ -1,0 +1,8 @@
+# ignore build folder
+build/*
+bin/*
+
+*.dll
+*.so
+*.dylib
+*.jnilib

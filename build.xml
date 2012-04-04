@@ -1,28 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="oryxhatesjava" default="build">
-	<description>An API for programming a client for Realm of the Mad God.</description>
+<project name="jOryx" default="build">
+	<description>A client for Realm of the Mad God.</description>
 	<property name="src" value="src" />
+	<property name="assets" value="assets" />
 	<property name="build" value="build" />
 	<property name="dist" value="dist" />
-	<property name="version" value="0.1" />
+	<property name="lib" value="lib" />
+	<property name="version" value="0.3.0" />
 
-	<target name="init" description="Initialize the build directory">
+	<target name="build" description="Build from source">
 		<mkdir dir="${build}" />
-	</target>
-
-	<target name="build" depends="init" description="Build from source">
-		<javac debug="on" srcdir="${src}" destdir="${build}" includeantruntime="false" />
+		<javac debug="on" srcdir="${src}" destdir="${build}" includeantruntime="false" source="1.6" target="1.6">
+			<classpath>
+				<fileset dir="${lib}" includes="*.jar" />
+			</classpath>
+		</javac>
 	</target>
 
 	<target name="dist" depends="build" description="Build distribution folder">
 		<mkdir dir="${dist}" />
+		<mkdir dir="${dist}/lib" />
 		<copy file="README.mkd" todir="${dist}" />
+		<copy file="LICENSE" todir="${dist}" />
+		<copy file="joryx.exe" todir="${dist}" />
+		<copy file="joryx.sh" todir="${dist}" />
+		<copy todir="${dist}/lib">
+			<fileset dir="${lib}">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+
 		<jar destfile="${dist}/${ant.project.name}.jar">
 			<fileset dir="${build}" />
+			<fileset dir="${assets}" />
 			<manifest>
 				<attribute name="Built-By" value="${user.name}" />
 				<attribute name="Implementation-Title" value="${ant.project.name}" />
 				<attribute name="Implementation-Version" value="${version}" />
+				<attribute name="Main-Class" value="com.joryx.JOryx" />
+				<attribute name="Class-Path" value=". lib/eventbus.jar lib/j-ogg-oggd.jar lib/j-ogg-vorbisd.jar lib/jbullet.jar lib/jinput.jar lib/jME3-blender.jar lib/jME3-core.jar lib/jME3-desktop.jar lib/jME3-effects.jar lib/jME3-jbullet.jar lib/jME3-jogg.jar lib/jME3-lwjgl-natives.jar lib/jME3-lwjgl.jar lib/jME3-networking.jar lib/jME3-niftygui.jar lib/jME3-terrain.jar lib/lwjgl.jar lib/nifty-default-controls.jar lib/nifty-style-black.jar lib/nifty.jar lib/stack-alloc.jar lib/vecmath.jar lib/xmlpull-xpp3.jar" />
 			</manifest>
 		</jar>
 		<zip destfile="${dist}/src.zip">
@@ -32,8 +48,30 @@
 
 	<target name="dist-zip" depends="dist" description="Zip up distribution folder">
 		<zip destfile="${ant.project.name}-${version}.zip">
-			<fileset dir="${dist}" />
+			<fileset dir="${dist}">
+				<!-- win -->
+				<exclude name="*.dll" />
+				<!-- linux -->
+				<exclude name="*.so" />
+				<!-- mac -->
+				<exclude name="*.jnilib" />
+				<exclude name="*.dylib" />
+				<exclude name="joryx.properties" />
+			</fileset>
 		</zip>
+	</target>
+
+	<target name="run" depends="build" description="Run the client">
+		<java classname="com.joryx.JOryx" fork="true" maxmemory="512M">
+			<classpath>
+				<pathelement location="${build}" />
+				<pathelement location="${assets}" />
+				<fileset dir="${lib}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+			<arg line="-XX:+UseConcMarkSweepGC" />
+		</java>
 	</target>
 
 	<target name="clean" description="Clean the build and dist directories">

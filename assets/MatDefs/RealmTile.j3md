@@ -1,0 +1,19 @@
+MaterialDef Realm Tile {
+ 
+    MaterialParameters {
+        Texture2D ColorMap
+	}
+ 
+    Technique {
+        VertexShader GLSL100:   MatDefs/RealmTile.vert
+        FragmentShader GLSL100: MatDefs/RealmTile.frag
+ 
+        WorldParameters {
+            WorldViewProjectionMatrix
+        }
+    }
+    
+    Technique FixedFunc {
+    	
+    }
+}

@@ -1,22 +1,92 @@
-# Oryx Hates Java
+# jOryx
 
-**Version 0.1**
+Created by Furyhunter <furyhunter600@gmail.com>
 
-An API for programming a client for Realm of the Mad God. _API is not finalized
-and subject to major changes, especially after client updates._
+A Realm of the Mad God client. For client version 122.3.2.
 
-## How to use
+Please visit my twitter, @Furyhunter and my tumblr furyhunter.tumblr.com for
+updates pertaining to the project! Special thanks goes to /r/RotMG on reddit
+and my friends in My Little Godslayers for giving me the support to make this
+a reality.
 
-Compile the code into some usable form.
+## Requirements
 
-Start a new thread with a new Client object to connect to a server. Use
-ClientListeners to hook certain packets and react on the client where needed.
+Please note that these requirements are not exact; no extensive testing has
+been done to ensure that the program operates across several configurations.
+
+ * Dual Core processor
+ * 512MiB free memory
+ * Hardware-accelerated OpenGL 1.1 support (mandatory)
+ * Sun Java Standard Edition 6
+
+## How to use (player)
+
+Simply run the Windows executable or Linux shell script depending on your OS.
+If you're on OSX, just click the jar file (this does not have the same run
+parameters as the launchers, so you will probably experience stuttering and
+memory problems).
+
+## How to use (developer)
+
+If you're not a developer, please download a distribution package from
+https://github.com/Furyhunter/jOryx/downloads instead of pulling the source.
+
+Simple run the following command in a terminal if you are compiling outside of
+Eclipse:
+
+  ant build
+
+Use the following for more information from the build script:
+
+  ant -projecthelp
+
+You need the Java Development Kit installed and on the PATH, and Ant available
+on the path, in order to build without Eclipse.
+
+If using Eclipse, import the project using the project import wizard in Eclipse.
+Open the Ant view (Window -> Show View -> Ant) and drag the build.xml into the
+view. Make a run configuration that starts com.joryx.JOryx with the JVM param
+-XX:UseConcMarkSweepGC. Optionally, attach jme-src.zip to each of the jME3-*.jar
+files for javadoc lookup in the code.
+
+Non-client specific code (from oryx-hates-java) is still found in the same
+package, however the two projects have merged into a single entity as they were
+converging paths in development anyway.
+
+## Change log
+
+Version 0.3.0 (in progress):
+
+ * Now available under GPLv3 license. Please contribute!
+ * Update to retail client 122.3.2
+ * Unlocked access to world portals.
+ * Sound effects have been added.
+ * Image handling has been rewritten but has not been extensively tested on
+   systems without non-power of 2 texture support.
+ * Work in progress...
+
+Version 0.2.0:
+
+ * OpenGL 1.1 support (consequently breaking OpenGL 2, 1.1 is forced for all
+   devices for now until a later version)
+ * Dropped animation shaders in favor of UV-map system
+ * Redesigned chat UI to be less intrusive.
+ * You may now mouse over any object to read its health, type number and name
+ * Portals to other realms work, but combat areas are disabled until projectile
+   implementation is complete. (They work for the most part!)
+ * Stuttering largely eliminated for multicore systems. Please add the argument
+   -XX:+UseConcMarkSweepGC if running the jar directly (Linux, OSX)
+ * You can now relogin correctly after being disconnected.
+
+Version Alpha 1:
+
+ * Initial public release
 
 ## Licenses
 
-oryx-hates-java (GPLv3):
+jOryx (GPLv3):
 
-> oryx-hates-java
+> jOryx - A Realm of the Mad God client.
 > Copyright (C) 2011-2012 Furyhunter <furyhunter600@gmail.com>
 >
 > This program is free software: you can redistribute it and/or modify
@@ -34,7 +104,35 @@ oryx-hates-java (GPLv3):
 
 Please see the file `LICENSE` for more information.
 
-JDOM (org.jdom), used for AppEngine XML parsing (Apache-like):
+jMonkeyEngine (BSD):
+
+> Copyright (c) 2003-2012, jMonkeyEngine
+> All rights reserved.
+> 
+> Redistribution and use in source and binary forms, with or without
+> modification, are permitted provided that the following conditions are met:
+> 
+>  * Redistributions of source code must retain the above copyright notice, this
+>    list of conditions and the following disclaimer.
+>  * Redistributions in binary form must reproduce the above copyright notice,
+>    this list of conditions and the following disclaimer in the documentation
+>    and/or other materials provided with the distribution.
+>  * Neither the name of 'jMonkeyEngine' nor the names of its contributors may be
+>    used to endorse or promote products derived from this software without 
+>    specific prior written permission.
+> 
+> THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+> ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+> WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+> DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+> FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+> DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+> SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+> CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+> OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+> OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+JDOM (org.jdom):
 
 > Copyright (C) 2000-2007 Jason Hunter & Brett McLaughlin.
 > All rights reserved.

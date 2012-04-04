@@ -1,0 +1,26 @@
+MaterialDef Realm Player {
+	MaterialParameters {
+		Texture2D ColorMap
+	}
+	
+	Technique {
+		VertexShader GLSL100: MatDefs/RealmObject.vert
+		FragmentShader GLSL100: MatDefs/RealmObject.frag
+		
+		RenderState {
+			Blend Alpha
+			AlphaTestFalloff 0.9
+		}
+		
+		WorldParameters {
+			WorldViewProjectionMatrix
+		}
+	}
+	
+	Technique FixedFunc {
+		RenderState {
+			Blend Alpha
+			AlphaTestFalloff 0.9
+		}
+	}
+}
