@@ -272,7 +272,7 @@ public class WorldState extends AbstractAppState implements ClientListener, Data
 	@Override
 	public void connected(Client client) {
 		HelloPacket hp = new HelloPacket();
-		hp.buildVersion = "122.3.2";
+		hp.buildVersion = "Trapped";
 		hp.gameId = gameId;
 		hp.guid = GUID.encrypt(SettingsState.getSingleton().username);
 		hp.password = GUID.encrypt(SettingsState.getSingleton().password);

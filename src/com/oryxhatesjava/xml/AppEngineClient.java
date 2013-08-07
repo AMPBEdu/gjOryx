@@ -71,7 +71,7 @@ public class AppEngineClient {
 	 * servers.
 	 */
 	public AppEngineClient() {
-		this("http://realmofthemadgod.appspot.com");
+		this("http://localhost");
 	}
 	
 	/**

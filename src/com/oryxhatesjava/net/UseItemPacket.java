@@ -21,14 +21,14 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
+import com.oryxhatesjava.net.data.Item;
 import com.oryxhatesjava.net.data.Location;
 import com.oryxhatesjava.net.data.Parsable;
 
 public class UseItemPacket extends Packet implements Parsable {
 
 	public int time; //int
-	public int objectId; //int
-	public int slotId; //unsigned byte
+	public Item MyItem ; //unsigned byte
 	public Location usePos;
 	
 	public UseItemPacket(DataInput in) {
@@ -44,24 +44,30 @@ public class UseItemPacket extends Packet implements Parsable {
 		type = Packet.USEITEM;
 	}
 	
-	@Override
+ 
+@Override
+
 	public void parseFromDataInput(DataInput in) throws IOException {
 		time = in.readInt();
-		objectId = in.readInt();
-		slotId = in.readUnsignedByte();
-		usePos = new Location(in);
+		MyItem  = new Item(in);
+		usePos = new Location(in);		
+		
 	}
 	
-	@Override
+ 
+@Override
+
 	public void writeToDataOutput(DataOutput out) throws IOException {
 		out.writeInt(time);
-		out.writeInt(objectId);
-		out.writeByte(slotId);
-		usePos.writeToDataOutput(out);
+		MyItem.writeToDataOutput(out);
+		usePos.writeToDataOutput(out);	
+
 	}
 	
-	@Override
+ 
+@Override
+
 	public String toString() {
-		return "USEITEM " + time + " " + objectId + " " + slotId + " " + usePos;
+		return "USEITEM " + time + " " + MyItem.toString() + " " + usePos;
 	}
 }

@@ -46,6 +46,11 @@ public class HelloPacket extends Packet implements Parsable {
     public byte[] key;
     public String unkStr;
     
+    public String pk = "";
+    public String Tq = "";
+    public String H = "";
+    public String playPlatform = "";      
+    
     public HelloPacket(DataInput read) {
         try {
             parseFromDataInput(read);
@@ -59,7 +64,9 @@ public class HelloPacket extends Packet implements Parsable {
     	type = Packet.HELLO;
 	}
 
-	@Override
+ 
+@Override
+
     public void parseFromDataInput(DataInput read) throws IOException {
         this.buildVersion = read.readUTF();
         this.gameId = read.readInt();
@@ -80,15 +87,25 @@ public class HelloPacket extends Packet implements Parsable {
         	unkStr = new String(buf, Charset.forName("UTF-8"));
         }
         
+	    pk = read.readUTF();
+	    Tq = read.readUTF();
+	    H = read.readUTF();
+	    playPlatform = read.readUTF();        
+        
+        
     }
     
-    @Override
+    
+@Override
+
     public String toString() {
         return "HELLO " + buildVersion + " " + gameId + " guid=" + guid + " pw="
                 + password + " secret=" + secret + " " + keyTime + " " + Arrays.toString(key) + " " + unkStr;
     }
     
-    @Override
+    
+@Override
+
     public void writeToDataOutput(DataOutput write) throws IOException {
         write.writeUTF(buildVersion);
         write.writeInt(gameId);
@@ -111,5 +128,13 @@ public class HelloPacket extends Packet implements Parsable {
         } else {
         	write.writeInt(0);
         }
+
+        write.writeUTF(pk);
+        write.writeUTF(Tq);
+        write.writeUTF(H);
+        write.writeUTF(playPlatform);        
+        
+        
+        
     }
 }

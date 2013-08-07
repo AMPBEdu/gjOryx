@@ -39,20 +39,23 @@ public class Proxy implements Runnable {
     private Socket serverSocket = null;
     
     //86d344c1fad4baf1f5cdd103d1
-	public static byte[] CLIENTKEY = new byte[] { (byte) 0x86, (byte) 0xd3,
-			0x44, (byte) 0xc1, (byte) 0xfa, (byte) 0xd4, (byte) 0xba,
-			(byte) 0xf1, (byte) 0xf5, (byte) 0xcd, (byte) 0xd1, 0x03,
-			(byte) 0xd1 };
+	public static byte[] CLIENTKEY = fromHexString("311F80691451C71B09A13A2A6E");
 	// 10c5dc7a8cf87bb18feab6c71f
-	public static byte[] SERVERKEY = new byte[] { 0x10, (byte) 0xc5,
-			(byte) 0xdc, 0x7a, (byte) 0x8c, (byte) 0xf8, 0x7b, (byte) 0xb1,
-			(byte) 0x8f, (byte) 0xea, (byte) 0xb6, (byte) 0xc7, 0x1f };
+	public static byte[] SERVERKEY = fromHexString("72C5583CAFB6818995CBD74B80");
 
     /*
      * (non-Javadoc)
      * @see java.lang.Runnable#run()
      */
-    @Override
+    public static byte[] fromHexString(String s) {
+        int len = s.length();
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                                 + Character.digit(s.charAt(i+1), 16));
+        }
+        return data;
+    }
     public void run() {
         /*
          * An httpd server needs to be running and hosts needs to point to it in
@@ -90,7 +93,7 @@ public class Proxy implements Runnable {
                 
                 System.out.println("Connecting to USEast3 for " + ipString);
                 //serverSocket = new Socket("ec2-50-19-47-160.compute-1.amazonaws.com", 2050); // "USEast3"
-                serverSocket = new Socket("50.19.47.160", 2050); //use ip instead of host due to hosts block
+                serverSocket = new Socket("80.241.222.17", 2050); //use ip instead of host due to hosts block
                 System.out.println("Connected to USEast3 for " + ipString);
                 
                 SiphonHose clientHose = new SiphonHose(
