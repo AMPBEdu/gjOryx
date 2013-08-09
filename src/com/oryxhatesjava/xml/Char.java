@@ -65,7 +65,7 @@ public class Char {
 		currentFame = Integer.parseInt(e.getChildText("CurrentFame"));
 		equipment = new int[12];
 		Scanner scan = new Scanner(e.getChildText("Equipment"));
-		scan.useDelimiter(",");
+		scan.useDelimiter(", ");
 		for (int i = 0; i < 12; i++) {
 			equipment[i] = scan.nextInt();
 		}

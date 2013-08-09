@@ -57,7 +57,9 @@ public class Packet implements Parsable {
 	  public static final int ENEMYSHOOT = 19;
 	  public static final int NAMERESULT = 20;
 	  public static final int REQUESTTRADE = 21;
+	  
 	  public static final int SHOOTACK = 22;
+	  
 	  public static final int TRADECHANGED = 23;
 	  public static final int PLAYERHIT = 24;
 	  public static final int TEXT = 25;
@@ -72,7 +74,9 @@ public class Packet implements Parsable {
 	  public static final int CREATE = 36;
 	  public static final int CHANGETRADE = 37;
 	  public static final int PLAYERSHOOT = 38;
+	  
 	  public static final int RECONNECT = 39;
+	  
 	  public static final int CHANGEGUILDRANK = 40;
 	  public static final int DEATH = 41;
 	  public static final int ESCAPE = 42;
@@ -86,7 +90,7 @@ public class Packet implements Parsable {
 	  public static final int SQUAREHIT = 51;
 	  public static final int GOTO = 52;
 	  public static final int EDITACCOUNTLIST = 53;
-	  public static final int CLIENTSTAT_FILE = 55;
+	  //public static final int CLIENTSTAT_FILE = 55;
 	  public static final int SHOW_EFFECT = 56;
 	  public static final int ACCEPTTRADE = 57;
 	  public static final int CREATEGUILDRESULT = 58;
@@ -95,7 +99,9 @@ public class Packet implements Parsable {
 	  public static final int TRADEREQUESTED = 61;
 	  public static final int NEW_TICK = 62;
 	  public static final int NOTIFICATION = 63;
+	  
 	  public static final int GROUNDDAMAGE = 64;
+	  
 	  public static final int INVSWAP = 65;
 	  public static final int OTHERHIT = 66;
 	  public static final int TRADESTART = 67;
@@ -107,7 +113,7 @@ public class Packet implements Parsable {
 	  public static final int INVITEDTOGUILD = 77;
 	  public static final int GUILDREMOVE = 78;
 	  
-	  public static final int FILE = 900;
+	  public static final int FILE = 55;
     
     public int type;
     

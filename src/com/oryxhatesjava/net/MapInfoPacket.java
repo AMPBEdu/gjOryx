@@ -56,8 +56,9 @@ public class MapInfoPacket extends Packet implements Parsable {
 		width = in.readInt();
 		height = in.readInt();
 		name = in.readUTF();
-		fp = in.readInt();
+		String seed = in.readUTF();
 		background = in.readInt();
+		
 		allowPlayerTeleport = in.readBoolean();
 		showDisplays = in.readBoolean();
 		
