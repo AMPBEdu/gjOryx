@@ -39,9 +39,9 @@ public class Proxy implements Runnable {
     private Socket serverSocket = null;
     
     //86d344c1fad4baf1f5cdd103d1
-	public static byte[] CLIENTKEY = fromHexString("311F80691451C71B09A13A2A6E");
+	public static byte[] CLIENTKEY = fromHexString("311f80691451c71b09a13a2a6e");
 	// 10c5dc7a8cf87bb18feab6c71f
-	public static byte[] SERVERKEY = fromHexString("72C5583CAFB6818995CBD74B80");
+	public static byte[] SERVERKEY = fromHexString("72c5583cafb6818995cbd74b80");
 
     /*
      * (non-Javadoc)

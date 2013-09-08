@@ -41,7 +41,7 @@ public class Char {
 	public int wis;
 	public String pcStats;
 	public boolean dead;
-	public int pet;
+	public Pet pet;
 	
 	public String accountName;
 	
@@ -65,7 +65,7 @@ public class Char {
 		currentFame = Integer.parseInt(e.getChildText("CurrentFame"));
 		equipment = new int[12];
 		Scanner scan = new Scanner(e.getChildText("Equipment"));
-		scan.useDelimiter(", ");
+		scan.useDelimiter(",");
 		for (int i = 0; i < 12; i++) {
 			equipment[i] = scan.nextInt();
 		}
@@ -81,7 +81,7 @@ public class Char {
 		wis = Integer.parseInt(e.getChildText("MpRegen"));
 		pcStats = e.getChildText("PCStats");
 		dead = Boolean.parseBoolean(e.getChildText("Dead"));
-		pet = Integer.parseInt(e.getChildText("Pet"));
+		pet = new Pet(e.getChild("Pet"));
 		
 		// opt
 		if (e.getChild("Account") != null) {

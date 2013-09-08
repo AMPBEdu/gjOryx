@@ -60,6 +60,8 @@ public class CharsScreen extends AbstractAppState implements ScreenController {
 		
 		@Override
 		public String toString() {
+			try
+			{
 			if (c != null) {
 				return "Level " + c.level + " " + DatabaseState.getSingleton().getObjectType(c.objectType).id;
 			} else if (newChar) {
@@ -67,6 +69,8 @@ public class CharsScreen extends AbstractAppState implements ScreenController {
 			} else {
 				return "Buy Character Slot";
 			}
+			}
+			catch(Exception e){ return ""; }
 		}
 	}
 	

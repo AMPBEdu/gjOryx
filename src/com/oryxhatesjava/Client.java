@@ -260,7 +260,7 @@ public class Client {
     	pkt.writeToDataOutput(b);
     	byte[] buf = b.getArray();
     	write.writeInt(buf.length+5);
-    	write.writeByte(pkt.type);
+    	write.writeByte((byte)pkt.type);
     	write.write(cipherOut.rc4(buf));
     }
     
