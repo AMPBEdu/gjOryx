@@ -30,7 +30,8 @@ public class Account {
 	
 	public int credits;
 	public int nextSlotPrice;
-	public int accountId;
+	//public int accountId; Changed this to a string, some reason couldn't read int and was preventing login. Was a pain in the ass to track down.
+	public String accountId;
 	public boolean verifiedEmail;
 	public List<Integer> starredAccounts;
 	public List<Integer> ignoredAccounts;
@@ -93,7 +94,8 @@ public class Account {
 		
 		credits = Integer.parseInt(accountRoot.getChildText("Credits"));
 		nextSlotPrice = Integer.parseInt(accountRoot.getChildText("NextCharSlotPrice"));
-		accountId = Integer.parseInt(accountRoot.getChildText("AccountId"));
+		//accountId = Integer.parseInt(accountRoot.getChildText("AccountId")); Parse string instead
+		accountId = accountRoot.getChildText("AccountId");
 		if (accountRoot.getChild("VerifiedEmail") != null) {
 			verifiedEmail = true;
 		} else {
