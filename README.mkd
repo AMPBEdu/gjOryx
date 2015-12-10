@@ -1,6 +1,15 @@
-# jOryx
+# gjOryx
 
-Created by Furyhunter <furyhunter600@gmail.com>
+A fork of jOryx to continue development, mainly for educational purposes.
+Currently in a non-usable state for RotMG 27.7.4.
+
+The MPGH thread for this project can be found here : <http://www.mpgh.net/forum/showthread.php?t=1060531&p=11216413#post11216413>
+
+The inspiration and end goals for this project can be found here: <http://www.mpgh.net/forum/showthread.php?t=1060486>
+
+Original project created by Furyhunter <furyhunter600@gmail.com>
+
+##Original Author's Notes
 
 A Realm of the Mad God client. For client version 122.3.2.
 
