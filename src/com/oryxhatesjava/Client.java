@@ -130,7 +130,8 @@ public class Client {
     		l.connected(this);
     	}
     	
-    	while (running) {
+    	//TODO: Tries to read a null packet???
+    	/*while (running) {
     		Packet pkt = null;
     		try {
     			int length = read.readInt(); //actually the socket closes for no reason
@@ -156,7 +157,7 @@ public class Client {
     				running = false;
     			}
     		}
-    	}
+    	}*/
     	
     	try {
     		write.close();

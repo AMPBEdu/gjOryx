@@ -105,12 +105,16 @@ public class WorldState extends AbstractAppState implements ClientListener, Data
 	private List<Spatial> projectilesToAdd = new LinkedList<Spatial>();
 	
 	public WorldState(String address) {
-		serverHost = address;
+		//Temporarily autoconnecting to usmidwest, server selector does not work
+		//serverHost = address;
+		serverHost = "ec2-54-80-67-112.compute-1.amazonaws.com";
 	}
 	
 	public WorldState(String name, String address, int port, int gameId, int keyTime, byte[] key) {
-		serverName = name;
-		serverHost = address;
+		//serverName = name;
+		//serverHost = address;
+		serverName = "UsMidWest";
+		serverHost = "ec2-54-80-67-112.compute-1.amazonaws.com";
 		serverPort = port;
 		this.gameId = gameId;
 		this.keyTime = keyTime;
@@ -272,12 +276,12 @@ public class WorldState extends AbstractAppState implements ClientListener, Data
 	@Override
 	public void connected(Client client) {
 		HelloPacket hp = new HelloPacket();
-		hp.buildVersion = "16.3";
+		hp.buildVersion = "27.7.0";
 		hp.gameId = gameId;
 		hp.guid = GUID.encrypt(SettingsState.getSingleton().username);
 		hp.password = GUID.encrypt(SettingsState.getSingleton().password);
 		hp.keyTime = keyTime;
-		hp.key = key;
+		hp.key = new byte[0];
 		hp.secret = ""; //unused... only for kongregate/steam
 		
 		try {
@@ -328,10 +332,11 @@ public class WorldState extends AbstractAppState implements ClientListener, Data
 			mapHeight = mip.height;
 			mapWidth = mip.width;
 			
-			map = new byte[mapWidth*mapHeight];
-			tileSpatials = new Spatial[mapWidth*mapHeight];
+			//TODO: throwing NegativeArraySizeException
+			//map = new byte[mapWidth*mapHeight];
+			//tileSpatials = new Spatial[mapWidth*mapHeight];
 			
-			Arrays.fill(map, (byte)0xB4);
+			//Arrays.fill(map, (byte)0xB4);
 			
 			try {
 				client.sendSyncPacket(lp);

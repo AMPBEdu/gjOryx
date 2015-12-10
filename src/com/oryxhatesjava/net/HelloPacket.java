@@ -20,7 +20,6 @@ package com.oryxhatesjava.net;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 
 import com.oryxhatesjava.net.data.Parsable;
@@ -37,19 +36,23 @@ import com.oryxhatesjava.net.data.Parsable;
  */
 public class HelloPacket extends Packet implements Parsable {
     
-    public String buildVersion;
-    public int gameId; //int
-    public String guid;
-    public String password;
-    public String secret;
-    public int keyTime; //int
-    public byte[] key;
-    public String unkStr;
-    
-    public String pk = "";
-    public String Tq = "";
-    public String H = "";
-    public String playPlatform = "";      
+	public int Random1 = 0;
+	public int Random2 = 0;
+	public String buildVersion = "";
+	//public int obf0;
+	public int gameId = 0;
+	public String guid = "";
+	public String password = "";
+	public String secret = "";
+	public int keyTime;
+	public byte[] key = new byte[0];
+	public byte[] obf1 = new byte[0];
+	public String obf2 = "";
+	public String obf3 = "";
+	public String obf4 = "";
+	public String obf5 = "";
+	public String obf6 = "";
+	public int obf7 = 0;
     
     public HelloPacket(DataInput read) {
         try {
@@ -64,77 +67,54 @@ public class HelloPacket extends Packet implements Parsable {
     	type = Packet.HELLO;
 	}
 
- 
-@Override
-
+	@Override
     public void parseFromDataInput(DataInput read) throws IOException {
-        this.buildVersion = read.readUTF();
-        this.gameId = read.readInt();
-        this.guid = read.readUTF();
-        this.password = read.readUTF();
-        secret = read.readUTF();
-        keyTime = read.readInt();
-        int size = read.readUnsignedShort();
-        if (size > 0) {
-        	key = new byte[size];
-        	read.readFully(key);
-        }
-        
-        size = read.readInt();
-        if (size > 0) {
-        	byte[] buf = new byte[size];
-        	read.readFully(buf);
-        	unkStr = new String(buf, Charset.forName("UTF-8"));
-        }
-        
-	    pk = read.readUTF();
-	    Tq = read.readUTF();
-	    H = read.readUTF();
-	    playPlatform = read.readUTF();        
-        
+		this.buildVersion = read.readUTF();
+		this.gameId = read.readInt();
+		this.guid = read.readUTF();
+		this.Random1 = read.readInt();
+		this.password = read.readUTF();
+		this.Random2 = read.readInt();
+		this.secret = read.readUTF();
+		this.keyTime = read.readInt();
+		this.key = new byte[read.readShort()];
+		read.readFully(this.key);
+		this.obf1 = new byte[read.readInt()];
+		read.readFully(this.obf1);
+		this.obf2 = read.readUTF();
+		this.obf3 = read.readUTF();
+		this.obf4 = read.readUTF();
+		this.obf5 = read.readUTF();
+		this.obf6 = read.readUTF();
         
     }
     
-    
-@Override
-
+    @Override
     public String toString() {
         return "HELLO " + buildVersion + " " + gameId + " guid=" + guid + " pw="
-                + password + " secret=" + secret + " " + keyTime + " " + Arrays.toString(key) + " " + unkStr;
+                + password + " secret=" + secret + " " + keyTime + " " + Arrays.toString(key);
     }
     
-    
-@Override
-
+    @Override
     public void writeToDataOutput(DataOutput write) throws IOException {
-        write.writeUTF(buildVersion);
-        write.writeInt(gameId);
-        write.writeUTF(guid);
-        write.writeUTF(password);
-        write.writeUTF(secret);
-        write.writeInt(keyTime);
-        
-        if (key != null) {
-            write.writeShort(key.length);
-            write.write(key);
-        } else {
-        	write.writeShort(0);
-        }
-        
-        if (unkStr != null) {
-        	byte[] buf = unkStr.getBytes("UTF-8");
-        	write.writeInt(buf.length);
-        	write.write(buf);
-        } else {
-        	write.writeInt(0);
-        }
-
-        write.writeUTF(pk);
-        write.writeUTF(Tq);
-        write.writeUTF(H);
-        write.writeUTF(playPlatform);        
-        
-        
-        
+    	write.writeUTF(this.buildVersion);
+		//write.writeInt(this.obf0);
+		write.writeInt(this.gameId);
+		write.writeUTF(this.guid);
+		write.writeInt(Random1);
+		write.writeUTF(this.password);
+		write.writeInt(Random2);
+		write.writeUTF(this.secret);
+		write.writeInt(this.keyTime);
+		write.writeShort(this.key.length);
+		write.write(this.key);
+		write.writeInt(this.obf1.length);
+		write.write(this.obf1);
+		write.writeUTF(this.obf2);
+		write.writeUTF(this.obf3);
+		write.writeUTF(this.obf4);
+		write.writeUTF(this.obf5);
+		write.writeUTF(this.obf6);
     }
 }
+

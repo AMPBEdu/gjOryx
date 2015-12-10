@@ -39,7 +39,7 @@ public class Proxy implements Runnable {
     private Socket serverSocket = null;
     
     //86d344c1fad4baf1f5cdd103d1
-	public static byte[] CLIENTKEY = fromHexString("311f80691451c71b09a13a2a6e");
+	public static byte[] CLIENTKEY = fromHexString("311f80691451c71d09a13a2a6e");
 	// 10c5dc7a8cf87bb18feab6c71f
 	public static byte[] SERVERKEY = fromHexString("72c5583cafb6818995cbd74b80");
 
@@ -91,9 +91,9 @@ public class Proxy implements Runnable {
                         .getHostAddress();
                 System.out.println("Client connected to proxy: " + ipString);
                 
-                System.out.println("Connecting to USEast3 for " + ipString);
-                //serverSocket = new Socket("ec2-50-19-47-160.compute-1.amazonaws.com", 2050); // "USEast3"
-                serverSocket = new Socket("80.241.222.17", 2050); //use ip instead of host due to hosts block
+                System.out.println("Connecting to USMidwest for " + ipString);
+                serverSocket = new Socket("ec2-54-80-67-112.compute-1.amazonaws.com", 2050); // "USEast3"
+                //serverSocket = new Socket("80.241.222.17", 2050); //use ip instead of host due to hosts block
                 System.out.println("Connected to USEast3 for " + ipString);
                 
                 SiphonHose clientHose = new SiphonHose(
