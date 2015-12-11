@@ -42,55 +42,55 @@ import de.lessvoid.nifty.screen.ScreenController;
 public class LoginScreen extends AbstractAppState implements ScreenController {
 
 	private static LoginScreen singleton = new LoginScreen();
-	
+
 	public static LoginScreen getSingleton() {
 		return singleton;
 	}
-	
+
 	class ResolutionEntry {
 		public int width;
 		public int height;
-		
+
 		public ResolutionEntry(int width, int height) {
 			this.width = width;
 			this.height = height;
 		}
-		
+
 		@Override
 		public String toString() {
 			return width + "x" + height;
 		}
 	}
-	
+
 	private Logger log = Logger.getLogger(getClass().getName());
 	private Nifty nifty;
 	private Screen screen;
 	private Application app;
-	
+
 	private Element popupError;
 	private Element popupLoading;
 	private Element popupSettings;
-	
+
 	private boolean loginSuccess;
 	private boolean loginFail;
 	private String errorString;
-	
+
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
 		this.app = app;
 	}
-	
+
 	@Override
 	public void bind(Nifty nifty, Screen screen) {
 		this.nifty = nifty;
 		this.screen = screen;
 	}
-	
+
 	@Override
 	public void update(float tpf) {
 		super.update(tpf);
-		
+
 		if (loginSuccess) {
 			loginSuccess = false;
 			log.info("Login success");
@@ -99,7 +99,7 @@ public class LoginScreen extends AbstractAppState implements ScreenController {
 			app.getStateManager().detach(this);
 			app.getStateManager().attach(CharsScreen.getSingleton());
 		}
-		
+
 		if (loginFail) {
 			loginFail = false;
 			log.severe("Login failed");
@@ -111,20 +111,21 @@ public class LoginScreen extends AbstractAppState implements ScreenController {
 
 	@Override
 	public void onEndScreen() {
-		
+
 	}
 
 	@Override
 	public void onStartScreen() {
 		TextField email = screen.findNiftyControl("emailField", TextField.class);
 		email.setText(SettingsState.getSingleton().username);
+		//email.setText("");
 		if (email.getText().length() > 0) {
 			screen.getFocusHandler().setKeyFocus(screen.findNiftyControl("passwordField", TextField.class).getElement());
 		}
 		TextField password = screen.findNiftyControl("passwordField", TextField.class);
-		password.setText("");
+		//password.setText("");
 	}
-	
+
 	@NiftyEventSubscriber(id="buttonLogin")
 	public void login(String id, ButtonClickedEvent event) {
 		TextField email = screen.findNiftyControl("emailField", TextField.class);
@@ -141,7 +142,7 @@ public class LoginScreen extends AbstractAppState implements ScreenController {
 				SettingsState.getSingleton().chars = chars;
 				loginSuccess = true;
 			}
-			
+
 			@Override
 			public void requestFailed(String fullRequest, String reason) {
 				loginFail = true;
@@ -149,12 +150,12 @@ public class LoginScreen extends AbstractAppState implements ScreenController {
 			}
 		});
 	}
-	
+
 	@NiftyEventSubscriber(id="rememberMeCheckbox")
 	public void onRememberMeCheck(String id, CheckBoxStateChangedEvent event) {
 		SettingsState.getSingleton().saveUsername = event.isChecked();
 	}
-	
+
 	public void showLoadingPopup(String text) {
 		popupLoading = nifty.createPopup("popupLoading");
 		Label loading = popupLoading.findNiftyControl("labelLoading", Label.class);
@@ -162,14 +163,14 @@ public class LoginScreen extends AbstractAppState implements ScreenController {
 		loading.setWidth(null);
 		nifty.showPopup(screen, popupLoading.getId(), null);
 	}
-	
+
 	public void closeLoadingPopup() {
 		if (popupLoading != null) {
 			screen.closePopup(popupLoading, null);
 			popupLoading = null;
 		}
 	}
-	
+
 	public void showErrorPopup(String text) {
 		popupError = nifty.createPopup("popupError");
 		Label error = popupError.findNiftyControl("labelError", Label.class);
@@ -177,18 +178,18 @@ public class LoginScreen extends AbstractAppState implements ScreenController {
 		error.setWidth(null);
 		nifty.showPopup(screen, popupError.getId(), null);
 	}
-	
+
 	public void closeErrorPopup() {
 		if (popupError != null) {
 			screen.closePopup(popupError, null);
 			popupError = null;
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void showSettingsPopup() {
 		popupSettings = nifty.createPopup("popupSettings");
-		
+
 		// build the dropdown for resolutions
 		DropDown<ResolutionEntry> dropdown = popupSettings.findNiftyControl("popupSettings_dropdownResolution", DropDown.class);
 		dropdown.addItem(new ResolutionEntry(640, 480));
@@ -201,10 +202,10 @@ public class LoginScreen extends AbstractAppState implements ScreenController {
 		dropdown.addItem(new ResolutionEntry(1680, 1050));
 		dropdown.addItem(new ResolutionEntry(1920, 1080));
 		dropdown.addItem(new ResolutionEntry(1920, 1200));
-		
+
 		nifty.showPopup(screen, popupSettings.getId(), null);
 	}
-	
+
 	public void closeSettingsPopup(boolean save) {
 		if (popupSettings != null) {
 			screen.closePopup(popupSettings, null);
@@ -214,7 +215,7 @@ public class LoginScreen extends AbstractAppState implements ScreenController {
 			popupSettings = null;
 		}
 	}
-	
+
 	public Element getElement(String id) {
 		return screen.findElementByName(id);
 	}
@@ -223,29 +224,29 @@ public class LoginScreen extends AbstractAppState implements ScreenController {
 	public void errorOkay(String next, ButtonClickedEvent event) {
 		closeErrorPopup();
 	}
-	
+
 	@NiftyEventSubscriber(id="buttonSettings")
 	public void onSettingsClick(String id, ButtonClickedEvent event) {
 		showSettingsPopup();
 	}
-	
+
 	@NiftyEventSubscriber(id="popupSettings_dropdownResolution")
 	public void onResolutionSelect(String id, DropDownSelectionChangedEvent<ResolutionEntry> event) {
 		SettingsState.getSingleton().width = event.getSelection().width;
 		SettingsState.getSingleton().height = event.getSelection().height;
 	}
-	
+
 	@NiftyEventSubscriber(id="popupSettings_checkboxFullscreen")
 	public void onFullscreenCheck(String id, CheckBoxStateChangedEvent event) {
 		SettingsState.getSingleton().fullscreen = event.isChecked();
 	}
-	
+
 	@NiftyEventSubscriber(id="popupSettings_buttonSave")
 	public void onSaveClick(String id, ButtonClickedEvent event) {
 		closeSettingsPopup(true);
 		showErrorPopup("Settings will not take effect until you restart.");
 	}
-	
+
 	@NiftyEventSubscriber(id="popupSettings_buttonCancel")
 	public void onCancelClick(String id, ButtonClickedEvent event) {
 		closeSettingsPopup(false);

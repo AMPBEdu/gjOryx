@@ -20,6 +20,7 @@ package com.oryxhatesjava.net;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 
 import com.oryxhatesjava.net.data.Parsable;
@@ -115,6 +116,6 @@ public class HelloPacket extends Packet implements Parsable {
 		write.writeUTF(this.obf4);
 		write.writeUTF(this.obf5);
 		write.writeUTF(this.obf6);
+		System.out.println(write.toString());
     }
 }
-

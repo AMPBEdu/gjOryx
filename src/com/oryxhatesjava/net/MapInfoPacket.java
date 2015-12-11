@@ -27,16 +27,17 @@ import java.util.Vector;
 import com.oryxhatesjava.net.data.Parsable;
 
 public class MapInfoPacket extends Packet implements Parsable {
-
-	public int width; //int
-	public int height; //int
-	public String name; //UTF
-	public int fp; //uint
-	public int background; //int
+	public int width;
+	public int height;
+	public String name;
+	public String obf0;
+	public int fp;
+	public int background;
+	public int obf1;
 	public boolean allowPlayerTeleport;
 	public boolean showDisplays;
-	public List<String> clientXML;
-	public List<String> extraXML;
+	public String[] clientXML = new String[0];
+	public String[] extraXML = new String[0];
 	
 	public MapInfoPacket(DataInput in) {
 		try {
@@ -53,60 +54,51 @@ public class MapInfoPacket extends Packet implements Parsable {
 	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
-		width = in.readInt();
-		height = in.readInt();
-		name = in.readUTF();
-		String seed = in.readUTF();
-		background = in.readInt();
-		
-		allowPlayerTeleport = in.readBoolean();
-		showDisplays = in.readBoolean();
-		
-		int lines = in.readUnsignedShort();
-		clientXML = new Vector<String>();
-		for (int i = 0; i < lines; i++) {
-			int size = in.readInt();
-			byte[] buf = new byte[size];
-			in.readFully(buf);
-			String line = new String(buf, Charset.forName("UTF-8"));
-			clientXML.add(line);
+		this.width = in.readInt();
+		this.height = in.readInt();
+		this.name = in.readUTF();
+		this.obf0 = in.readUTF();
+		this.fp = in.readInt(); // TODO: fp is supposed to be unsigned
+		this.background = in.readInt();
+		this.obf1 = in.readInt();
+		this.allowPlayerTeleport = in.readBoolean();
+		this.showDisplays = in.readBoolean();
+		this.clientXML = new String[in.readShort()];
+		for (int i = 0; i < this.clientXML.length; i++) {
+			byte[] utf = new byte[in.readInt()];
+			in.readFully(utf);
+			this.clientXML[i] = new String(utf, "UTF-8");
 		}
-		
-		lines = in.readUnsignedShort();
-		extraXML = new Vector<String>();
-		for (int i = 0; i < lines; i++) {
-			int size = in.readInt();
-			byte[] buf = new byte[size];
-			in.readFully(buf);
-			String line = new String(buf, Charset.forName("UTF-8"));
-			extraXML.add(line);
+		this.extraXML = new String[in.readShort()];
+		for (int i = 0; i < this.extraXML.length; i++) {
+			byte[] utf = new byte[in.readInt()];
+			in.readFully(utf);
+			this.extraXML[i] = new String(utf, "UTF-8");
 		}
 	}
 	
 	@Override
 	public void writeToDataOutput(DataOutput out) throws IOException {
-		out.writeInt(width);
-		out.writeInt(height);
-		out.writeUTF(name);
-		out.writeInt(fp);
-		out.writeInt(background);
-		out.writeBoolean(allowPlayerTeleport);
-		out.writeBoolean(showDisplays);
-		
-		int size = clientXML.size();
-		out.writeShort(size);
-		for (String s : clientXML) {
-			byte[] buf = s.getBytes("UTF-8");
-			out.writeInt(buf.length);
-			out.write(buf);
+		out.writeInt(this.width);
+		out.writeInt(this.height);
+		out.writeUTF(this.name);
+		out.writeUTF(this.obf0);
+		out.writeInt(this.fp);
+		out.writeInt(this.background);
+		out.writeInt(this.obf1);
+		out.writeBoolean(this.allowPlayerTeleport);
+		out.writeBoolean(this.showDisplays);
+		out.writeShort(this.clientXML.length);
+		for (String xml: this.clientXML) {
+			byte[] utf = xml.getBytes("UTF-8");
+			out.writeInt(utf.length);
+			out.write(utf);
 		}
-		
-		size = extraXML.size();
-		out.writeShort(size);
-		for (String s : extraXML) {
-			byte[] buf = s.getBytes("UTF-8");
-			out.writeInt(buf.length);
-			out.write(buf);
+		out.writeShort(this.extraXML.length);
+		for (String xml: this.extraXML) {
+			byte[] utf = xml.getBytes("UTF-8");
+			out.writeInt(utf.length);
+			out.write(utf);
 		}
 	}
 	

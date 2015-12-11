@@ -105,19 +105,16 @@ public class WorldState extends AbstractAppState implements ClientListener, Data
 	private List<Spatial> projectilesToAdd = new LinkedList<Spatial>();
 	
 	public WorldState(String address) {
-		//Temporarily autoconnecting to usmidwest, server selector does not work
-		//serverHost = address;
-		serverHost = "ec2-54-80-67-112.compute-1.amazonaws.com";
+		serverHost = "127.0.0.1";
 	}
 	
 	public WorldState(String name, String address, int port, int gameId, int keyTime, byte[] key) {
-		//serverName = name;
-		//serverHost = address;
-		serverName = "UsMidWest";
-		serverHost = "ec2-54-80-67-112.compute-1.amazonaws.com";
-		serverPort = port;
+		serverName = "Proxy";
+		serverHost = "127.0.0.1";
+		serverPort = 2050;
 		this.gameId = gameId;
 		this.keyTime = keyTime;
+		System.out.println(key);
 		this.key = key;
 	}
 	
@@ -332,11 +329,10 @@ public class WorldState extends AbstractAppState implements ClientListener, Data
 			mapHeight = mip.height;
 			mapWidth = mip.width;
 			
-			//TODO: throwing NegativeArraySizeException
-			//map = new byte[mapWidth*mapHeight];
-			//tileSpatials = new Spatial[mapWidth*mapHeight];
+			map = new byte[mapWidth*mapHeight];
+			tileSpatials = new Spatial[mapWidth*mapHeight];
 			
-			//Arrays.fill(map, (byte)0xB4);
+			Arrays.fill(map, (byte)0xB4);
 			
 			try {
 				client.sendSyncPacket(lp);
@@ -602,7 +598,7 @@ public class WorldState extends AbstractAppState implements ClientListener, Data
 	}
 	
 	public void setTile(int x, int y, byte value) {
-		map[x + (y*mapWidth)] = value;
+		//map[x + (y*mapWidth)] = value;
 	}
 	
 	public Spatial getTileSpatial(int x, int y) {

@@ -30,10 +30,12 @@ public class GUID {
 
 	private static int counter = 0;
 	private static final String serverPublicKey = 
-			"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqccYHTj4QATbK1m4UVgcTeEYtDZwZxwdayVTFs1jAwKWzoDt/CXhYUX2cEJnA93T4h6a4ysTfUrgBFZ3Nsb4W3/4Crc2TxjOWQOoWQnhzblZEiTcAmIdwdq8AfuZWjRpGhOzHDPK9hcgySrzqD9HJAUsbG2ZzU5zrxHtEPC0nUQIDAQAB"; //base64 encoded DEM i.e. PEM
+			"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDCKFctVrhfF3m2Kes0FBL/JFeO"
+			+ "cmNg9eJz8k/hQy1kadD+XFUpluRqa//Uxp2s9W2qE0EoUCu59ugcf/p7lGuL99Uo"
+			+ "SGmQEynkBvZct+/M40L0E0rZ4BVgzLOJmIbXMp0J4PnPcb6VLZvxazGcmSfjauC7"
+			+ "F3yWYqUbZd/HCBtawwIDAQAB"; //base64 encoded DEM i.e. PEM
 	private static PublicKey key;
 	
-
 	public static String createGuestGUID() {
 		long timestamp = System.currentTimeMillis();
 		double random = Math.random() * Double.MAX_VALUE;

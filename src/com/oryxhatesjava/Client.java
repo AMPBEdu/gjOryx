@@ -17,18 +17,12 @@
 
 package com.oryxhatesjava;
 
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketAddress;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -40,7 +34,6 @@ import com.oryxhatesjava.net.ByteArrayDataOutput;
 import com.oryxhatesjava.net.CreateSuccessPacket;
 import com.oryxhatesjava.net.GotoAckPacket;
 import com.oryxhatesjava.net.GotoPacket;
-import com.oryxhatesjava.net.HelloPacket;
 import com.oryxhatesjava.net.NewTickPacket;
 import com.oryxhatesjava.net.Packet;
 import com.oryxhatesjava.net.PingPacket;
@@ -69,9 +62,7 @@ public class Client {
 	private RC4 cipherOut;
 	private RC4 cipherIn;
 	private DataOutputStream write;
-	
 	private DataInputStream read;
-	
 	private long startTime;
 	
 	private Thread clientThread;
@@ -109,11 +100,8 @@ public class Client {
     	try {
 			socket = new Socket(address, port);
     		startTime = System.currentTimeMillis();
-			OutputStream ist = socket.getOutputStream();
-			InputStream ost = socket.getInputStream();
-			write = new DataOutputStream(ist);
-			read = new DataInputStream(ost);
-			
+			write = new DataOutputStream(socket.getOutputStream());
+			read = new DataInputStream(socket.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 			for (ClientListener l : clientListeners) {
@@ -130,11 +118,10 @@ public class Client {
     		l.connected(this);
     	}
     	
-    	//TODO: Tries to read a null packet???
-    	/*while (running) {
+    	while (running) {
     		Packet pkt = null;
     		try {
-    			int length = read.readInt(); //actually the socket closes for no reason
+    			int length = read.readInt();
     			int type = read.readByte();
     			byte[] buf = new byte[length-5];
     			read.readFully(buf);
@@ -143,6 +130,7 @@ public class Client {
     				automaticHandling(pkt);
     			}
     		} catch (EOFException e) {
+    			System.out.println(pkt);
     			e.printStackTrace();
     			break;
     		} catch (IOException e) {
@@ -157,7 +145,7 @@ public class Client {
     				running = false;
     			}
     		}
-    	}*/
+    	}
     	
     	try {
     		write.close();
@@ -261,7 +249,7 @@ public class Client {
     	pkt.writeToDataOutput(b);
     	byte[] buf = b.getArray();
     	write.writeInt(buf.length+5);
-    	write.writeByte((byte)pkt.type);
+    	write.writeByte(pkt.type);
     	write.write(cipherOut.rc4(buf));
     }
     

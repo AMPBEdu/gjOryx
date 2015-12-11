@@ -43,9 +43,9 @@ public class Chars {
 	
 	@SuppressWarnings("unchecked")
 	public void parseElement(Element e) {
-		if (!e.getName().equals("Chars")) {
+		/*if (!e.getName().equals("Chars")) {
 			throw new IllegalArgumentException();
-		}
+		}*/
 		
 		nextCharId = Integer.parseInt(e.getAttributeValue("nextCharId"));
 		maxNumChars = Integer.parseInt(e.getAttributeValue("maxNumChars"));

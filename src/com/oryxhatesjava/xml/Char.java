@@ -41,7 +41,7 @@ public class Char {
 	public int wis;
 	public String pcStats;
 	public boolean dead;
-	public Pet pet;
+	public int pet;
 	
 	public String accountName;
 	
@@ -81,7 +81,8 @@ public class Char {
 		wis = Integer.parseInt(e.getChildText("MpRegen"));
 		pcStats = e.getChildText("PCStats");
 		dead = Boolean.parseBoolean(e.getChildText("Dead"));
-		pet = new Pet(e.getChild("Pet"));
+		pet = -1;
+		//pet = Integer.parseInt(e.getChildText("Pet"));
 		
 		// opt
 		if (e.getChild("Account") != null) {

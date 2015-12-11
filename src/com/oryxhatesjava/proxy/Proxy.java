@@ -38,24 +38,9 @@ public class Proxy implements Runnable {
     private Socket clientSocket = null;
     private Socket serverSocket = null;
     
-    //86d344c1fad4baf1f5cdd103d1
 	public static byte[] CLIENTKEY = fromHexString("311f80691451c71d09a13a2a6e");
-	// 10c5dc7a8cf87bb18feab6c71f
-	public static byte[] SERVERKEY = fromHexString("72c5583cafb6818995cbd74b80");
-
-    /*
-     * (non-Javadoc)
-     * @see java.lang.Runnable#run()
-     */
-    public static byte[] fromHexString(String s) {
-        int len = s.length();
-        byte[] data = new byte[len / 2];
-        for (int i = 0; i < len; i += 2) {
-            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
-                                 + Character.digit(s.charAt(i+1), 16));
-        }
-        return data;
-    }
+	public static byte[] SERVERKEY = fromHexString("72c5583cafb6818995cdd74b80");
+    @Override
     public void run() {
         /*
          * An httpd server needs to be running and hosts needs to point to it in
@@ -91,9 +76,9 @@ public class Proxy implements Runnable {
                         .getHostAddress();
                 System.out.println("Client connected to proxy: " + ipString);
                 
-                System.out.println("Connecting to USMidwest for " + ipString);
-                serverSocket = new Socket("ec2-54-80-67-112.compute-1.amazonaws.com", 2050); // "USEast3"
-                //serverSocket = new Socket("80.241.222.17", 2050); //use ip instead of host due to hosts block
+                System.out.println("Connecting to USEast3 for " + ipString);
+                //serverSocket = new Socket("ec2-50-19-47-160.compute-1.amazonaws.com", 2050); // "USEast3"
+                serverSocket = new Socket("54.226.214.216", 2050); //use ip instead of host due to hosts block
                 System.out.println("Connected to USEast3 for " + ipString);
                 
                 SiphonHose clientHose = new SiphonHose(
@@ -131,4 +116,19 @@ public class Proxy implements Runnable {
         p.run();
     }
     
+
+	private static byte[] fromHexString(final String encoded) {
+		if ((encoded.length() % 2) != 0)
+			throw new IllegalArgumentException("Input string must contain an even number of characters");
+
+		final byte result[] = new byte[encoded.length() / 2];
+		final char enc[] = encoded.toCharArray();
+		for (int i = 0; i < enc.length; i += 2) {
+			StringBuilder curr = new StringBuilder(2);
+			curr.append(enc[i]).append(enc[i + 1]);
+			int ix = Integer.parseInt(curr.toString(), 16);
+			result[i / 2] = (byte) ix;
+		}
+		return result;
+	}
 }

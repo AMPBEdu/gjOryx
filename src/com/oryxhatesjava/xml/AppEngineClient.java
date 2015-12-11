@@ -71,7 +71,7 @@ public class AppEngineClient {
 	 * servers.
 	 */
 	public AppEngineClient() {
-		this("http://realmofthemadgod.appspot.com");//80.241.222.17:8888
+		this("http://realmofthemadgod.appspot.com");
 	}
 	
 	/**
@@ -269,7 +269,7 @@ public class AppEngineClient {
 					try {
 						d = new SAXBuilder().build(r.url);
 						r.listener.accountReceived(r.fullRequest, new Account(d.getRootElement()));
-					} catch (IOException e) {
+					}catch (IOException e) {
 						r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
 					} catch (IllegalArgumentException e) {
 						r.listener.requestFailed(r.fullRequest, "Invalid credentials.");
@@ -286,7 +286,7 @@ public class AppEngineClient {
 							full.append(line+"\n");
 						}
 						r.listener.textReceived(r.fullRequest, full.toString());
-					} catch (IOException e) {
+					}catch (IOException e) {
 						r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
 					}
 					break;
@@ -294,7 +294,7 @@ public class AppEngineClient {
 					try {
 						d = new SAXBuilder().build(r.url);
 						r.listener.xmlReceived(r.fullRequest, d);
-					} catch (IOException e) {
+					}catch (IOException e) {
 						r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
 					} catch (Exception e) {
 						r.listener.requestFailed(r.fullRequest, "Bad XML");
@@ -305,10 +305,10 @@ public class AppEngineClient {
 						d = new SAXBuilder().build(r.url);
 						r.listener.charsReceived(r.fullRequest, new Chars(d.getRootElement()));
 					} catch (IOException e) {
+						System.out.println("IOException");
 						r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
-					} catch (IllegalArgumentException e) {
-						r.listener.requestFailed(r.fullRequest, "Invalid credentials.");
 					} catch (JDOMException e) {
+						System.out.println("Bad XML");
 						r.listener.requestFailed(r.fullRequest, "Bad XML");
 					}
 					break;
@@ -316,7 +316,7 @@ public class AppEngineClient {
 					try {
 						d = new SAXBuilder().build(r.url);
 						r.listener.guildMemberListReceived(r.fullRequest, new GuildMembers(d.getRootElement()));
-					} catch (IOException e) {
+					}catch (IOException e) {
 						r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
 					} catch (IllegalArgumentException e) {
 						r.listener.requestFailed(r.fullRequest, "Invalid credentials.");
@@ -328,7 +328,7 @@ public class AppEngineClient {
 					try {
 						d = new SAXBuilder().build(r.url);
 						r.listener.fameListReceived(r.fullRequest, new FameList(d.getRootElement()));
-					} catch (IOException e) {
+					}catch (IOException e) {
 						r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
 					} catch (IllegalArgumentException e) {
 						r.listener.requestFailed(r.fullRequest, "Invalid credentials.");
@@ -340,7 +340,7 @@ public class AppEngineClient {
 					try {
 						d = new SAXBuilder().build(r.url);
 						r.listener.charFameReceived(r.fullRequest, new CharFame(d.getRootElement()));
-					} catch (IOException e) {
+					}catch (IOException e) {
 						r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
 					} catch (IllegalArgumentException e) {
 						r.listener.requestFailed(r.fullRequest, "Invalid credentials.");
@@ -354,7 +354,7 @@ public class AppEngineClient {
 						boolean success = (d.getRootElement().getChild("Success") != null ? true : false);
 						r.listener.booleanReceived(r.fullRequest, success);
 						break;
-					} catch (IOException e) {
+					}catch (IOException e) {
 						r.listener.requestFailed(r.fullRequest, "Couldn't connect to account service.");
 					} catch (JDOMException e) {
 						r.listener.requestFailed(r.fullRequest, "Bad XML");

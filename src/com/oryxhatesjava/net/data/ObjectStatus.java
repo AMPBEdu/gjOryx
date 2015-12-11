@@ -54,8 +54,8 @@ public class ObjectStatus implements Parsable {
 
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
-		objectType = in.readShort();
-		data = new ObjectStatusData(in);
+		this.objectType = in.readShort();
+		this.data = new ObjectStatusData(in);
 	}
 	
 	public void update(ObjectStatus status) {
