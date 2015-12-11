@@ -30,7 +30,7 @@ public class MapInfoPacket extends Packet implements Parsable {
 	public int width;
 	public int height;
 	public String name;
-	public String obf0;
+	public String seed;
 	public int fp;
 	public int background;
 	public int obf1;
@@ -54,48 +54,48 @@ public class MapInfoPacket extends Packet implements Parsable {
 	
 	@Override
 	public void parseFromDataInput(DataInput in) throws IOException {
-		this.width = in.readInt();
-		this.height = in.readInt();
-		this.name = in.readUTF();
-		this.obf0 = in.readUTF();
-		this.fp = in.readInt(); // TODO: fp is supposed to be unsigned
-		this.background = in.readInt();
-		this.obf1 = in.readInt();
-		this.allowPlayerTeleport = in.readBoolean();
-		this.showDisplays = in.readBoolean();
-		this.clientXML = new String[in.readShort()];
-		for (int i = 0; i < this.clientXML.length; i++) {
+		width = in.readInt();
+		height = in.readInt();
+		name = in.readUTF();
+		seed = in.readUTF();
+		fp = in.readInt(); // TODO: fp is supposed to be unsigned
+		background = in.readInt();
+		obf1 = in.readInt();
+		allowPlayerTeleport = in.readBoolean();
+		showDisplays = in.readBoolean();
+		clientXML = new String[in.readShort()];
+		for (int i = 0; i < clientXML.length; i++) {
 			byte[] utf = new byte[in.readInt()];
 			in.readFully(utf);
-			this.clientXML[i] = new String(utf, "UTF-8");
+			clientXML[i] = new String(utf, "UTF-8");
 		}
-		this.extraXML = new String[in.readShort()];
-		for (int i = 0; i < this.extraXML.length; i++) {
+		extraXML = new String[in.readShort()];
+		for (int i = 0; i < extraXML.length; i++) {
 			byte[] utf = new byte[in.readInt()];
 			in.readFully(utf);
-			this.extraXML[i] = new String(utf, "UTF-8");
+			extraXML[i] = new String(utf, "UTF-8");
 		}
 	}
 	
 	@Override
 	public void writeToDataOutput(DataOutput out) throws IOException {
-		out.writeInt(this.width);
-		out.writeInt(this.height);
-		out.writeUTF(this.name);
-		out.writeUTF(this.obf0);
-		out.writeInt(this.fp);
-		out.writeInt(this.background);
-		out.writeInt(this.obf1);
-		out.writeBoolean(this.allowPlayerTeleport);
-		out.writeBoolean(this.showDisplays);
-		out.writeShort(this.clientXML.length);
-		for (String xml: this.clientXML) {
+		out.writeInt(width);
+		out.writeInt(height);
+		out.writeUTF(name);
+		out.writeUTF(seed);
+		out.writeInt(fp);
+		out.writeInt(background);
+		out.writeInt(obf1);
+		out.writeBoolean(allowPlayerTeleport);
+		out.writeBoolean(showDisplays);
+		out.writeShort(clientXML.length);
+		for (String xml: clientXML) {
 			byte[] utf = xml.getBytes("UTF-8");
 			out.writeInt(utf.length);
 			out.write(utf);
 		}
-		out.writeShort(this.extraXML.length);
-		for (String xml: this.extraXML) {
+		out.writeShort(extraXML.length);
+		for (String xml: extraXML) {
 			byte[] utf = xml.getBytes("UTF-8");
 			out.writeInt(utf.length);
 			out.write(utf);

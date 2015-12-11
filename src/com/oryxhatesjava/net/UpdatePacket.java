@@ -51,24 +51,7 @@ public class UpdatePacket extends Packet implements Parsable {
 	@Override
 	public void writeToDataOutput(DataOutput out) throws IOException {
 		
-		out.writeShort(this.tiles.size());
-		//System.out.print(this.tiles.size());
-		for (Tile tile: this.tiles) {
-			tile.writeToDataOutput(out);
-		}
-		out.writeShort(this.newobjs.size());
-		//System.out.print(this.newobjs.size());
-		for (ObjectStatus obj: this.newobjs) {
-			obj.writeToDataOutput(out);
-		}
-		out.writeShort(this.drops.length);
-		//System.out.print(this.drops.length);
-		for (int drop: this.drops) {
-			out.writeInt(drop);
-		}
-		
-		
-/*		if (tiles != null && tiles.size() > 0) {
+		if (tiles != null && tiles.size() > 0) {
 			Serializer.writeArray(out, tiles.toArray(new Parsable[tiles.size()]));
 		} else {
 			out.writeShort(0);
@@ -84,7 +67,7 @@ public class UpdatePacket extends Packet implements Parsable {
 			Serializer.writeArray(out, drops, Serializer.AS_INT);
 		} else {
 			out.writeShort(0);
-		}*/
+		}
 	}
 
 	@Override
@@ -93,25 +76,8 @@ public class UpdatePacket extends Packet implements Parsable {
 		System.out.println(size);
 		System.out.println("Tiles in size: " + size);
 		tiles = new Vector<Tile>(size);
-		for(int i=0; i < size; i++){
-			tiles.add(new Tile(in));
-		}
-		size = in.readShort();
-		System.out.println(size);
-		newobjs = new Vector<ObjectStatus>(size);
-		System.out.println("New Objects in size: " + size);
-		for(int i=0; i < size; i++){
-			newobjs.add(new ObjectStatus(in));
-		}
-		size = in.readShort();
-		System.out.println(size);
-		drops = new int[size];
-		System.out.println("Drops in size: " + size);
-		for(int i=0; i < size; i++){
-			drops[i] = in.readInt();
-		}
 		
-/*		if (size > 0) {
+		if (size > 0) {
 			tiles = new Vector<Tile>();
 			for (int i = 0; i < size; i++) {
 				tiles.add(new Tile(in));
@@ -138,7 +104,7 @@ public class UpdatePacket extends Packet implements Parsable {
 			}
 		} else {
 			drops = null;
-		}*/
+		}
 	}
 	
 	@Override

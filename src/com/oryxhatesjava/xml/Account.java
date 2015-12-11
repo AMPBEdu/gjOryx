@@ -154,7 +154,7 @@ public class Account {
 		Element guildElement = accountRoot.getChild("Guild");
 		
 		if (guildElement != null) {
-			guildId = Integer.parseInt(guildElement.getAttributeValue("id"));
+			//TODO: Causes error guildId = Integer.parseInt(guildElement.getAttributeValue("id"));
 			guildName = guildElement.getChildText("Name");
 			guildRank = Integer.parseInt(guildElement.getChildText("Rank"));
 		}

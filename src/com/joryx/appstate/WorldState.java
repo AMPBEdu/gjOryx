@@ -346,11 +346,15 @@ public class WorldState extends AbstractAppState implements ClientListener, Data
 			NewTickPacket ntp = (NewTickPacket)pkt;
 			MovePacket mp = new MovePacket();
 			Location nl = new Location();
+			try{
 			nl.x = playerControl.getSpatial().getLocalTranslation().x;
 			nl.y = mapHeight-playerControl.getSpatial().getLocalTranslation().y;
 			mp.newPosition = nl;
 			mp.tickId = ntp.tickId;
 			mp.time = client.getTime();
+			}catch(NullPointerException e){
+				
+			}
 			
 			try {
 				client.sendSyncPacket(mp);
@@ -584,11 +588,11 @@ public class WorldState extends AbstractAppState implements ClientListener, Data
 			return WallControl.create(app.getAssetManager(), type, status, mapWidth, mapHeight);
 		} else if (type.className.equals("ConnectedWall")) {
 			return WallControl.create(app.getAssetManager(), type, status, mapWidth, mapHeight); // TODO connected wall
-		} else if (type.className.equals("Portal")) {
+		}/* else if (type.className.equals("Portal")) {
 			return PortalControl.create(app.getAssetManager(), type, status, mapWidth, mapHeight, playerControl.getSpatial());
 		} else if (type.className.equals("GuildHallPortal")) {
 			return PortalControl.create(app.getAssetManager(), type, status, mapWidth, mapHeight, playerControl.getSpatial());
-		} else {
+		}*/ else {
 			return ObjectControl.create(app.getAssetManager(), type, status, mapWidth, mapHeight);
 		}
 	}
